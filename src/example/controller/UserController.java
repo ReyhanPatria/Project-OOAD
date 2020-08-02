@@ -16,6 +16,15 @@ public class UserController {
 		this.userModel = new User();
 	}
 	
+	public void login(String username, String password) {
+		UUID returnedID = userModel.validateLogin(username, password);
+		if(returnedID == null) {
+			throw new IllegalArgumentException("Username or Password is wrong!");
+		}
+		
+		this.currentUserId = returnedID;
+	}
+	
 	public List<User> getAllUser() {
 		return userModel.getAll();
 	}
