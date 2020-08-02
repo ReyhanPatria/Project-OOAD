@@ -3,6 +3,7 @@ package example;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import example.controller.UserController;
 import example.view.UserView;
 
 public class Main extends JFrame {
@@ -14,7 +15,7 @@ public class Main extends JFrame {
 	private JPanel viewPanel;
 	
 	public Main() {
-		this.viewPanel = new UserView(WIDTH, HEIGHT);
+		this.viewPanel = new UserView(WIDTH, HEIGHT, new UserController());
 		
 		this.setSize(WIDTH, HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

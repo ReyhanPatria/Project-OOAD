@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import example.controller.UserController;
+
 public class UserView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
@@ -19,7 +21,7 @@ public class UserView extends JPanel {
 	
 	private JButton submitButton = new JButton("Login");
 
-	public UserView(int width, int height) {
+	public UserView(int width, int height, UserController userController) {
 		this.setSize(width, height);
 		
 		System.out.println(passwordTextField.getText());
@@ -33,7 +35,14 @@ public class UserView extends JPanel {
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(usernameTextField.getText());
+				try {
+					userController.login(usernameTextField.getText(), passwordTextField.getText());
+					
+					System.out.println("Login Successful");
+				}
+				catch(IllegalArgumentException e1) {
+					System.out.println(e1.getMessage());
+				}
 			}
 		});
 		
