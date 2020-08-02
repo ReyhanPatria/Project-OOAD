@@ -23,6 +23,7 @@ public class User {
 	private PreparedStatement getAllStatement;
 	private PreparedStatement getUserByRoleStatement;
 	private PreparedStatement getStatement;
+	private PreparedStatement validateLoginStatement;
 	
 	private PreparedStatement updateStatement;
 	private PreparedStatement saveStatement;
@@ -35,6 +36,8 @@ public class User {
 			this.getAllStatement = con.prepareStatement("SELECT * FROM `users`");
 			this.getUserByRoleStatement = con.prepareStatement("SELECT * FROM `users` WHERE `role`=?");
 			this.getStatement = con.prepareStatement("SELECT * FROM `users` WHERE `id`=?");
+			this.validateLoginStatement = con.prepareStatement("SELECT id from `users`" + 
+					"WHERE `username`=? AND `password`=?");
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -66,6 +69,26 @@ public class User {
 		}
 	}
 
+	public UUID validateLogin(String username, String password) {
+		ResultSet userIDTable;
+		
+		try {
+			validateLoginStatement.setString(1, username);
+			validateLoginStatement.setString(2, password);
+			
+			userIDTable = validateLoginStatement.executeQuery();
+			
+			if(userIDTable.next()) {
+				return UUID.fromString(userIDTable.getString("id"));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public List<User> getAll() {
 		ResultSet userTable;
 		List<User> userList = new ArrayList<User>();
