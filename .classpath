@@ -9,5 +9,6 @@
 	<classpathentry excluding="src/|libraries/" kind="src" path=""/>
 	<classpathentry kind="src" path="libraries"/>
 	<classpathentry kind="lib" path="libraries/mysql-connector.jar"/>
+	<classpathentry kind="lib" path="libraries/mysql-connector-java-5.1.49-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -18,8 +18,7 @@ public class User {
 	private String address;
 	private Date DOB;
 	private String telp;
-
-	private Connection con;
+	
 	private PreparedStatement getAllStatement;
 	private PreparedStatement getUserByRoleStatement;
 	private PreparedStatement getStatement;
@@ -30,13 +29,11 @@ public class User {
 	private PreparedStatement deleteStatement;
 	
 	public User() {
-		this.con = new Connection();
-		
 		try {
-			this.getAllStatement = con.prepareStatement("SELECT * FROM `users`");
-			this.getUserByRoleStatement = con.prepareStatement("SELECT * FROM `users` WHERE `role`=?");
-			this.getStatement = con.prepareStatement("SELECT * FROM `users` WHERE `id`=?");
-			this.validateLoginStatement = con.prepareStatement("SELECT id from `users`" + 
+			this.getAllStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users`");
+			this.getUserByRoleStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `role`=?");
+			this.getStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `id`=?");
+			this.validateLoginStatement = Connection.getConnection().prepareStatement("SELECT id from `users`" + 
 					"WHERE `username`=? AND `password`=?");
 		}
 		catch(SQLException e) {
@@ -54,15 +51,14 @@ public class User {
 		this.DOB = DOB;
 		this.telp = telp;
 		
-		this.con = new Connection();
 		try {
-			this.updateStatement = con.prepareStatement("UPDATE `users` SET " + 
+			this.updateStatement = Connection.getConnection().prepareStatement("UPDATE `users` SET " + 
 					"`username`=?, `password`=?, `address`=?, `DOB`=?, `telp`=?" + 
 					"WHERE `id`=?");
-			this.saveStatement = con.prepareStatement("INSERT INTO `users`" + 
+			this.saveStatement = Connection.getConnection().prepareStatement("INSERT INTO `users`" + 
 					"(`id`, `username`, `password`, `role`, `address`, `DOB`, `telp`)" + 
 					"VALUES (?, ?, ?, ?, ?, ?, ?)");
-			this.deleteStatement = con.prepareStatement("DELETE FROM `users` WHERE `id`=?");
+			this.deleteStatement = Connection.getConnection().prepareStatement("DELETE FROM `users` WHERE `id`=?");
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
