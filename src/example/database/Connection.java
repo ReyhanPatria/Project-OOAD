@@ -21,16 +21,4 @@ public class Connection {
 		
 		return con;
 	}
-	
-//	public ResultSet executeQuery(String query) throws SQLException {
-//		return st.executeQuery(query);
-//	}
-//	
-//	public void executeUpdate(String query) throws SQLException {
-//		st.executeUpdate(query);
-//	}
-//	
-//	public PreparedStatement prepareStatement(String sql) throws SQLException {
-//		return (PreparedStatement) con.prepareStatement(sql);
-//	}
 }
