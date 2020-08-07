@@ -7,17 +7,16 @@ import java.util.UUID;
 import example.model.User;
 
 public class UserController {
-	private User userModel;
 	private UUID currentUserId;
 	
 	private String[] roleList = {"admin", "supervisor", "worker"};
 
 	public UserController() {
-		this.userModel = new User();
+		
 	}
 	
 	public void login(String username, String password) {
-		UUID returnedID = userModel.validateLogin(username, password);
+		UUID returnedID = User.validateLogin(username, password);
 		if(returnedID == null) {
 			throw new IllegalArgumentException("Username or Password is wrong!");
 		}
@@ -26,13 +25,13 @@ public class UserController {
 	}
 	
 	public List<User> getAllUser() {
-		return userModel.getAll();
+		return User.getAll();
 	}
 	
 	public List<User> getUserByRole(String role) throws IllegalArgumentException {
 		for(String r: roleList) {
 			if(role.equalsIgnoreCase(r)) {
-				return userModel.getUserByRole(role);
+				return User.getUserByRole(role);
 			}
 		}
 		
@@ -40,7 +39,7 @@ public class UserController {
 	}
 	
 	public User getUser(UUID userID) throws IllegalArgumentException {
-		User u = userModel.get(userID);
+		User u = User.get(userID);
 		
 		if(u == null) {
 			throw new IllegalArgumentException("userID is not valid");

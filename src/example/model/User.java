@@ -19,27 +19,9 @@ public class User {
 	private Date DOB;
 	private String telp;
 	
-	private PreparedStatement getAllStatement;
-	private PreparedStatement getUserByRoleStatement;
-	private PreparedStatement getStatement;
-	private PreparedStatement validateLoginStatement;
-	
 	private PreparedStatement updateStatement;
 	private PreparedStatement saveStatement;
 	private PreparedStatement deleteStatement;
-	
-	public User() {
-		try {
-			this.getAllStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users`");
-			this.getUserByRoleStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `role`=?");
-			this.getStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `id`=?");
-			this.validateLoginStatement = Connection.getConnection().prepareStatement("SELECT id from `users`" + 
-					"WHERE `username`=? AND `password`=?");
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public User(String username, String password, String role, String address, Date DOB, String telp) {
 		super();
@@ -65,10 +47,13 @@ public class User {
 		}
 	}
 
-	public UUID validateLogin(String username, String password) {
+	public static UUID validateLogin(String username, String password) {
 		ResultSet userIDTable;
 		
 		try {
+			PreparedStatement validateLoginStatement = Connection.getConnection().prepareStatement("SELECT id from `users`" + 
+					"WHERE `username`=? AND `password`=?");
+			
 			validateLoginStatement.setString(1, username);
 			validateLoginStatement.setString(2, password);
 			
@@ -85,11 +70,13 @@ public class User {
 		return null;
 	}
 	
-	public List<User> getAll() {
+	public static List<User> getAll() {
 		ResultSet userTable;
 		List<User> userList = new ArrayList<User>();
 		
 		try {
+			PreparedStatement getAllStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users`");
+			
 			userTable = getAllStatement.executeQuery();
 			
 			while(userTable.next()) {
@@ -99,8 +86,6 @@ public class User {
 				String address = userTable.getString("address");
 				Date DOB = userTable.getDate("DOB");
 				String telp = userTable.getString("telp");
-				
-//				System.out.println(String.format("%s %s %s %s %s %s", username, password, role, address, DOB.toString(), telp));
 				
 				User u = new User(username, password, role, address, DOB, telp);
 				userList.add(u);
@@ -113,11 +98,13 @@ public class User {
 		return userList;
 	}
 	
-	public List<User> getUserByRole(String role) {
+	public static List<User> getUserByRole(String role) {
 		ResultSet userByRoleTable;
 		List<User> userByRoleList = new ArrayList<User>();
 		
 		try {
+			PreparedStatement getUserByRoleStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `role`=?");
+			
 			getUserByRoleStatement.setString(1, role);
 			userByRoleTable = getUserByRoleStatement.executeQuery();
 			
@@ -127,8 +114,6 @@ public class User {
 				String address = userByRoleTable.getString("address");
 				Date DOB = userByRoleTable.getDate("DOB");
 				String telp = userByRoleTable.getString("telp");
-				
-//				System.out.println(String.format("%s %s %s %s %s %s", username, password, role, address, DOB.toString(), telp));
 				
 				User u = new User(username, password, role, address, DOB, telp);
 				userByRoleList.add(u);
@@ -141,11 +126,13 @@ public class User {
 		return userByRoleList;
 	}
 	
-	public User get(UUID id) {
+	public static User get(UUID id) {
 		ResultSet getTable;
 		User u = null;
 		
 		try {
+			PreparedStatement getStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `id`=?");
+			
 			getStatement.setString(1, id.toString());
 			getTable = getStatement.executeQuery();
 			
@@ -156,8 +143,6 @@ public class User {
 				String address = getTable.getString("address");
 				Date DOB = getTable.getDate("DOB");
 				String telp = getTable.getString("telp");
-				
-//				System.out.println(String.format("%s %s %s %s %s %s", username, password, role, address, DOB.toString(), telp));
 				
 				u = new User(username, password, role, address, DOB, telp);
 			}
