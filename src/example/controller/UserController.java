@@ -1,27 +1,46 @@
 package example.controller;
 
+import java.rmi.NoSuchObjectException;
 import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
 import example.model.User;
+import example.view.UserProfilePanel;
 
 public class UserController {
 	private UUID currentUserId;
 	
-	private String[] roleList = {"admin", "supervisor", "worker"};
+	private static UserController instance;
+	private static String[] roleList = {"admin", "supervisor", "worker"};
 
-	public UserController() {
-		
+	public UserController(UUID currentUserId) {
+		this.currentUserId = currentUserId;
 	}
 	
-	public void login(String username, String password) {
-		UUID returnedID = User.validateLogin(username, password);
-		if(returnedID == null) {
+	public static void login(String username, String password) throws IllegalArgumentException {
+		UUID returnedId = User.validateLogin(username, password);
+		if(returnedId == null) {
 			throw new IllegalArgumentException("Username or Password is wrong!");
 		}
 		
-		this.currentUserId = returnedID;
+		instance = new UserController(returnedId);
+		
+		/*
+		 * Block of test code
+		 */
+		MainController.getInstance().changePanel(UserProfilePanel.getInstance());
+		/*
+		 * 
+		 */
+	}
+	
+	public static UserController getInstance() throws NoSuchObjectException {
+		if(instance == null) {
+			throw new NoSuchObjectException("User is not logged in!");
+		}
+		
+		return instance;
 	}
 	
 	public List<User> getAllUser() {
@@ -145,5 +164,9 @@ public class UserController {
 		u.update();
 		
 		return u;
+	}
+	
+	public UUID getCurrentUserId() {
+		return currentUserId;
 	}
 }
