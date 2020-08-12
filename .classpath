@@ -10,5 +10,9 @@
 	<classpathentry kind="src" path="libraries"/>
 	<classpathentry kind="lib" path="libraries/mysql-connector.jar"/>
 	<classpathentry kind="lib" path="libraries/mysql-connector-java-5.1.49-bin.jar"/>
+	<classpathentry kind="lib" path="libraries/JCalendar-1.4/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="libraries/JCalendar-1.4/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="libraries/JCalendar-1.4/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="libraries/JCalendar-1.4/junit-4.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
