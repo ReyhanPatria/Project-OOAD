@@ -28,6 +28,14 @@ public class UserProfilePanel extends JPanel {
 			System.out.println(e.getMessage());
 		}
 		
+		/*
+		 * Set panel's preferred size
+		 */
+		this.setPreferredSize(MainFrame.PREFERRED_SIZE);
+		
+		/*
+		 * Create GridBagLayout on panel
+		 */
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 100, 73, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
