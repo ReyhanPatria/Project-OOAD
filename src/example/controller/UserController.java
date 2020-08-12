@@ -12,7 +12,9 @@ public class UserController {
 	private UUID currentUserId;
 	
 	private static UserController instance;
-	private static String[] roleList = {"admin", "supervisor", "worker"};
+	
+	private static String[] allRoleList = {"admin", "supervisor", "worker"};
+	public static String[] selectableRoleList = {"supervisor", "worker"};
 
 	public UserController(UUID currentUserId) {
 		this.currentUserId = currentUserId;
@@ -27,7 +29,7 @@ public class UserController {
 		instance = new UserController(returnedId);
 		
 		/*
-		 * Block of test code
+		 * Test Code
 		 */
 		MainController.getInstance().changePanel(UserProfilePanel.getInstance());
 		/*
@@ -48,7 +50,7 @@ public class UserController {
 	}
 	
 	public List<User> getUserByRole(String role) throws IllegalArgumentException {
-		for(String r: roleList) {
+		for(String r: allRoleList) {
 			if(role.equalsIgnoreCase(r)) {
 				return User.getUserByRole(role);
 			}
@@ -83,7 +85,7 @@ public class UserController {
 		}
 		else {
 			Boolean validRole = false;
-			for(String r: roleList) {
+			for(String r: allRoleList) {
 				if(role.equalsIgnoreCase(r)) {
 					validRole = true;
 					break;
