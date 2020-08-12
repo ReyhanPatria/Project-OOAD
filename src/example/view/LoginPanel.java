@@ -114,7 +114,7 @@ public class LoginPanel extends JPanel {
 		gbc_signupLabel.gridy = 9;
 		add(signupLabel, gbc_signupLabel);
 		
-		JButton signupButton = new JButton("Signup");
+		JButton signupButton = new JButton("Sign up");
 		signupButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
