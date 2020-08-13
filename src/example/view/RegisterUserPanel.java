@@ -208,13 +208,13 @@ public class RegisterUserPanel extends JPanel {
 				String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
 				String role = roleComboBox.getSelectedItem().toString();
 				String address = addressTextField.getText();
-				Date dob = (Date) dobDateChooser.getDate();
-				String telp = telpLabel.getText();
+				Date DOB = new Date(dobDateChooser.getDateEditor().getDate().getTime());
+				String telp = telpTextField.getText();
 				
 				try {
-					UserController.registerUser(username, password, confirmPassword, role, address, dob, telp);
+					UserController.registerUser(username, password, confirmPassword, role, address, DOB, telp);
+					UserController.login(username, password);
 				} catch (Exception e1) {
-					System.out.println(e1.getMessage());
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
 			}
