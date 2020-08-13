@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import example.controller.UserController;
 import example.database.Connection;
 
 public class User {
@@ -25,13 +26,14 @@ public class User {
 
 	public User(String username, String password, String role, String address, Date DOB, String telp) {
 		super();
-		this.id = UUID.randomUUID();
-		this.username = username;
-		this.password = password;
-		this.role = role;
-		this.address = address;
-		this.DOB = DOB;
-		this.telp = telp;
+		
+		this.setId(UUID.randomUUID());
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setRole(role);
+		this.setAddress(address);
+		this.setDOB(DOB);
+		this.setTelp(telp);
 		
 		try {
 			this.updateStatement = Connection.getConnection().prepareStatement("UPDATE `users` SET " + 
@@ -211,6 +213,86 @@ public class User {
 	}
 
 	/*
+	 * Validates username's length and availability
+	 */
+	public static boolean validateUsername(String username) throws IllegalArgumentException {
+		if(username.length() < 5 || username.length() > 15) {
+			throw new IllegalArgumentException("Username length must be 5-15 characters");
+		}
+		
+		try {
+			PreparedStatement getUsernameStatement = Connection.getConnection().prepareStatement(
+					"SELECT `username` FROM `users` WHERE username=?");
+			getUsernameStatement.setString(1, username);
+			
+			ResultSet result = getUsernameStatement.executeQuery();
+			if(result.next()) {
+				if(result.getString("username").length() > 0) {
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/*
+	 * Validates password's length
+	 */
+	public static boolean validatePassword(String password) {
+		if(password.length() < 8 || password.length() > 15) {
+			return false;
+		}
+		return true;
+	}
+	
+	/*
+	 * Validate that Date of Birth is less than current date
+	 */
+	public static boolean validateDOB(Date DOB) {
+		if(new java.util.Date().compareTo(DOB) <= 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	/*
+	 * Validates address length
+	 */
+	public static boolean validateAddress(String address) {
+		if(address.length() < 10 || address.length() > 100) {
+			return false;
+		}
+		return true;
+	}
+	
+	/*
+	 * Validates role to all available role
+	 */
+	public static boolean validateRole(String role) {
+		for(String r: UserController.allRoleList) {
+			if(role.equalsIgnoreCase(r)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/*
+	 * Validate that telp is all digits
+	 */
+	public static boolean validateTelp(String telp) {
+		for(int i = 0; i < telp.length(); i++) {
+			if(Character.isDigit(telp.charAt(i)) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/*
 	 * Setter and Getters for attributes
 	 */
 	public UUID getId() {
@@ -225,15 +307,23 @@ public class User {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(String username) throws IllegalArgumentException {
+		if(validateUsername(username) == false) {
+			throw new IllegalArgumentException("Username has been taken");
+		}
+		
 		this.username = username;
 	}
 
-	public String getPassword() {
+	public String getPassword(){
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(String password) throws IllegalArgumentException {
+		if(validatePassword(password) == false) {
+			throw new IllegalArgumentException("Password length must be 8-15 characters");
+		}
+		
 		this.password = password;
 	}
 
@@ -241,7 +331,11 @@ public class User {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(String role) throws IllegalArgumentException {
+		if(validateRole(role) == false) {
+			throw new IllegalArgumentException("Invalid role");
+		}
+		
 		this.role = role;
 	}
 
@@ -249,7 +343,11 @@ public class User {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(String address) throws IllegalArgumentException {
+		if(validateAddress(address) == false) {
+			throw new IllegalArgumentException("Address length must be between 10-100 characters");
+		}
+		
 		this.address = address;
 	}
 
@@ -257,7 +355,11 @@ public class User {
 		return DOB;
 	}
 
-	public void setDOB(Date DOB) {
+	public void setDOB(Date DOB) throws IllegalArgumentException {
+		if(validateDOB(DOB) == false) {
+			throw new IllegalArgumentException("Invalid Date of Birth");
+		}
+		
 		this.DOB = DOB;
 	}
 
@@ -265,7 +367,11 @@ public class User {
 		return telp;
 	}
 
-	public void setTelp(String telp) {
+	public void setTelp(String telp) throws IllegalArgumentException {
+		if(validateTelp(telp) == false) {
+			throw new IllegalArgumentException("Invalid telp");
+		}
+		
 		this.telp = telp;
 	}
 }
