@@ -42,10 +42,18 @@ public class UserController {
 	
 	/*
 	 * Register user function
+	 * Returns new user object
 	 */
-	public static void registerUser(String username, String password, String confirmPassword, String role,
-			String address, Date dob, String telp) throws IllegalArgumentException {
+	public static User registerUser(String username, String password, String confirmPassword, String role,
+			String address, Date DOB, String telp) throws IllegalArgumentException {
+		if(password.equals(confirmPassword) == false) {
+			throw new IllegalArgumentException("Password does not match!");
+		}
 		
+		User newUser = new User(username, confirmPassword, role, address, DOB, telp);
+		newUser.save();
+		
+		return newUser;
 	}
 	
 	/*
