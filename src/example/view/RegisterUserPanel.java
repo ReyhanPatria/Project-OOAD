@@ -6,10 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -198,6 +200,25 @@ public class RegisterUserPanel extends JPanel {
 		 * Adding Register Button
 		 */
 		JButton registerButton = new JButton("Register");
+		registerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String username = usernameTextField.getText();
+				String password = String.valueOf(passwordField.getPassword());
+				String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
+				String role = roleComboBox.getSelectedItem().toString();
+				String address = addressTextField.getText();
+				Date dob = (Date) dobDateChooser.getDate();
+				String telp = telpLabel.getText();
+				
+				try {
+					UserController.registerUser(username, password, confirmPassword, role, address, dob, telp);
+				} catch (Exception e1) {
+					System.out.println(e1.getMessage());
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
+			}
+		});
 		GridBagConstraints gbc_registerButton = new GridBagConstraints();
 		gbc_registerButton.gridwidth = 2;
 		gbc_registerButton.insets = new Insets(0, 0, 5, 5);
