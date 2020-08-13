@@ -3,8 +3,11 @@ package example.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.UUID;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,9 +42,9 @@ public class UserProfilePanel extends JPanel {
 		 */
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 100, 73, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		/*
@@ -176,6 +179,24 @@ public class UserProfilePanel extends JPanel {
 		gbc_telpValueLabel.gridx = 2;
 		gbc_telpValueLabel.gridy = 7;
 		add(telpValueLabel, gbc_telpValueLabel);
+		
+		/*
+		 * Logout button
+		 */
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				instance = null;
+				UserController.logout();
+			}
+		});
+		GridBagConstraints gbc_logoutButton = new GridBagConstraints();
+		gbc_logoutButton.gridwidth = 2;
+		gbc_logoutButton.insets = new Insets(0, 0, 5, 5);
+		gbc_logoutButton.gridx = 1;
+		gbc_logoutButton.gridy = 9;
+		add(logoutButton, gbc_logoutButton);
 	}
 	
 	public static UserProfilePanel getInstance() {
