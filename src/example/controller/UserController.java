@@ -20,6 +20,9 @@ public class UserController {
 		this.currentUserId = currentUserId;
 	}
 	
+	/*
+	 * Login function
+	 */
 	public static void login(String username, String password) throws IllegalArgumentException {
 		UUID returnedId = User.validateLogin(username, password);
 		if(returnedId == null) {
@@ -37,6 +40,17 @@ public class UserController {
 		 */
 	}
 	
+	/*
+	 * Register user function
+	 */
+	public static void registerUser(String username, String password, String confirmPassword, String role,
+			String address, Date dob, String telp) throws IllegalArgumentException {
+		
+	}
+	
+	/*
+	 * Get UserController instance
+	 */
 	public static UserController getInstance() throws NoSuchObjectException {
 		if(instance == null) {
 			throw new NoSuchObjectException("User is not logged in!");
@@ -45,10 +59,16 @@ public class UserController {
 		return instance;
 	}
 	
+	/*
+	 * Get a list of all user
+	 */
 	public List<User> getAllUser() {
 		return User.getAll();
 	}
 	
+	/*
+	 * Get a list of all user based on a role
+	 */
 	public List<User> getUserByRole(String role) throws IllegalArgumentException {
 		for(String r: allRoleList) {
 			if(role.equalsIgnoreCase(r)) {
@@ -59,6 +79,9 @@ public class UserController {
 		throw new IllegalArgumentException("Role invalid. Valid roles are Admin, Supervisor, Worker");
 	}
 	
+	/*
+	 * Get a specific user based on their ID
+	 */
 	public User getUser(UUID userID) throws IllegalArgumentException {
 		User u = User.get(userID);
 		
@@ -69,6 +92,10 @@ public class UserController {
 		return u;
 	}
 	
+	/*
+	 * Creating a new User object and stores it in the Database.
+	 * Returns a newly created User object
+	 */
 	public User createUser(String username, String password, String role, 
 			Date DOB, String address, String telp) throws IllegalArgumentException {
 		if(username.length() < 5 || username.length() > 15) {
@@ -108,6 +135,10 @@ public class UserController {
 		return newUser;
 	}
 	
+	/*
+	 * Update the attributes of an existing user
+	 * Return newly updated User object
+	 */
 	public User updateProfile(String username, Date DOB, String address,
 			String telp) throws IllegalArgumentException {
 		User currentUser = getUser(currentUserId);
@@ -138,11 +169,17 @@ public class UserController {
 		return currentUser;
 	}
 	
+	/*
+	 * Delete user based on their ID
+	 */
 	public void deleteUser(UUID userID) throws IllegalArgumentException {
 		User u = getUser(userID);
 		u.delete();
 	}
 	
+	/*
+	 * Changes currently logged in User password
+	 */
 	public User changePassword(String oldPassword, String newPassword) throws IllegalArgumentException {
 		User currentUser = getUser(currentUserId);
 		
@@ -159,6 +196,9 @@ public class UserController {
 		return currentUser;
 	}
 	
+	/*
+	 * Resets of a user based on their ID
+	 */
 	public User resetPassword(UUID userID) throws IllegalArgumentException {
 		User u = getUser(userID);
 		
@@ -168,6 +208,9 @@ public class UserController {
 		return u;
 	}
 	
+	/*
+	 * Gets currently logged in userID
+	 */
 	public UUID getCurrentUserId() {
 		return currentUserId;
 	}
