@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import example.model.User;
+import example.view.LoginPanel;
 import example.view.UserProfilePanel;
 
 public class UserController {
@@ -54,6 +55,11 @@ public class UserController {
 		newUser.save();
 		
 		return newUser;
+	}
+	
+	public static void logout() {
+		instance = null;
+		MainController.getInstance().changePanel(new LoginPanel());
 	}
 	
 	/*
