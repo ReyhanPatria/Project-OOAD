@@ -56,7 +56,7 @@ public class UserProfilePanel extends JPanel {
 		
 		JLabel userIdValueLabel = new JLabel(user.getId().toString());
 		GridBagConstraints gbc_userIdValueLabel = new GridBagConstraints();
-		gbc_userIdValueLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_userIdValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_userIdValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_userIdValueLabel.gridx = 2;
 		gbc_userIdValueLabel.gridy = 1;
@@ -75,7 +75,7 @@ public class UserProfilePanel extends JPanel {
 		
 		JLabel usernameValueLabel = new JLabel(user.getUsername());
 		GridBagConstraints gbc_usernameValueLabel = new GridBagConstraints();
-		gbc_usernameValueLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_usernameValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_usernameValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_usernameValueLabel.gridx = 2;
 		gbc_usernameValueLabel.gridy = 2;
@@ -94,7 +94,7 @@ public class UserProfilePanel extends JPanel {
 		
 		JLabel passwordValueLabel = new JLabel(user.getPassword());
 		GridBagConstraints gbc_passwordValueLabel = new GridBagConstraints();
-		gbc_passwordValueLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_passwordValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_passwordValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_passwordValueLabel.gridx = 2;
 		gbc_passwordValueLabel.gridy = 3;
@@ -113,7 +113,7 @@ public class UserProfilePanel extends JPanel {
 		
 		JLabel roleValueLabel = new JLabel(user.getRole());
 		GridBagConstraints gbc_roleValueLabel = new GridBagConstraints();
-		gbc_roleValueLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_roleValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_roleValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_roleValueLabel.gridx = 2;
 		gbc_roleValueLabel.gridy = 4;
@@ -130,9 +130,9 @@ public class UserProfilePanel extends JPanel {
 		gbc_addressLabel.gridy = 5;
 		add(addressLabel, gbc_addressLabel);
 		
-		JLabel addressValueLabel = new JLabel(user.getAddress());
+		JLabel addressValueLabel = new JLabel(String.format("<html>%s</html>", user.getAddress()));
 		GridBagConstraints gbc_addressValueLabel = new GridBagConstraints();
-		gbc_addressValueLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_addressValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_addressValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_addressValueLabel.gridx = 2;
 		gbc_addressValueLabel.gridy = 5;
@@ -151,7 +151,7 @@ public class UserProfilePanel extends JPanel {
 		
 		JLabel DOBValueLabel = new JLabel(user.getDOB().toString());
 		GridBagConstraints gbc_DOBValueLabel = new GridBagConstraints();
-		gbc_DOBValueLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_DOBValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_DOBValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_DOBValueLabel.gridx = 2;
 		gbc_DOBValueLabel.gridy = 6;
@@ -170,7 +170,7 @@ public class UserProfilePanel extends JPanel {
 		
 		JLabel telpValueLabel = new JLabel(user.getTelp());
 		GridBagConstraints gbc_telpValueLabel = new GridBagConstraints();
-		gbc_telpValueLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_telpValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_telpValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_telpValueLabel.gridx = 2;
 		gbc_telpValueLabel.gridy = 7;
