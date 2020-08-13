@@ -27,13 +27,13 @@ public class User {
 	public User(String username, String password, String role, String address, Date DOB, String telp) {
 		super();
 		
-		this.setId(UUID.randomUUID());
-		this.setUsername(username);
-		this.setPassword(password);
-		this.setRole(role);
-		this.setAddress(address);
-		this.setDOB(DOB);
-		this.setTelp(telp);
+		this.id = UUID.randomUUID();
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.address = address;
+		this.DOB = DOB;
+		this.telp = telp;
 		
 		try {
 			this.updateStatement = Connection.getConnection().prepareStatement("UPDATE `users` SET " + 
@@ -227,23 +227,21 @@ public class User {
 			
 			ResultSet result = getUsernameStatement.executeQuery();
 			if(result.next()) {
-				if(result.getString("username").length() > 0) {
-					return true;
-				}
+				throw new IllegalArgumentException("Username has been taken");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return true;
 	}
 	
 	/*
 	 * Validates password's length
 	 */
-	public static boolean validatePassword(String password) {
+	public static boolean validatePassword(String password) throws IllegalArgumentException {
 		if(password.length() < 8 || password.length() > 15) {
-			return false;
+			throw new IllegalArgumentException("Password length must be 8-15 characters");
 		}
 		return true;
 	}
@@ -251,9 +249,9 @@ public class User {
 	/*
 	 * Validate that Date of Birth is less than current date
 	 */
-	public static boolean validateDOB(Date DOB) {
+	public static boolean validateDOB(Date DOB) throws IllegalArgumentException {
 		if(new java.util.Date().compareTo(DOB) <= 0) {
-			return false;
+			throw new IllegalArgumentException("Invalid date of birth");
 		}
 		return true;
 	}
@@ -261,9 +259,9 @@ public class User {
 	/*
 	 * Validates address length
 	 */
-	public static boolean validateAddress(String address) {
+	public static boolean validateAddress(String address) throws IllegalArgumentException {
 		if(address.length() < 10 || address.length() > 100) {
-			return false;
+			throw new IllegalArgumentException("Address length must be 10-100 characters");
 		}
 		return true;
 	}
@@ -277,16 +275,16 @@ public class User {
 				return true;
 			}
 		}
-		return false;
+		throw new IllegalArgumentException("Invalid role");
 	}
 	
 	/*
 	 * Validate that telp is all digits
 	 */
-	public static boolean validateTelp(String telp) {
+	public static boolean validateTelp(String telp) throws IllegalArgumentException {
 		for(int i = 0; i < telp.length(); i++) {
 			if(Character.isDigit(telp.charAt(i)) == false) {
-				return false;
+				throw new IllegalArgumentException("Invalid telp");
 			}
 		}
 		return true;
@@ -308,10 +306,7 @@ public class User {
 	}
 
 	public void setUsername(String username) throws IllegalArgumentException {
-		if(validateUsername(username) == false) {
-			throw new IllegalArgumentException("Username has been taken");
-		}
-		
+		validateUsername(username);
 		this.username = username;
 	}
 
@@ -320,10 +315,7 @@ public class User {
 	}
 
 	public void setPassword(String password) throws IllegalArgumentException {
-		if(validatePassword(password) == false) {
-			throw new IllegalArgumentException("Password length must be 8-15 characters");
-		}
-		
+		validatePassword(password);
 		this.password = password;
 	}
 
@@ -332,10 +324,7 @@ public class User {
 	}
 
 	public void setRole(String role) throws IllegalArgumentException {
-		if(validateRole(role) == false) {
-			throw new IllegalArgumentException("Invalid role");
-		}
-		
+		validateRole(role);
 		this.role = role;
 	}
 
@@ -344,10 +333,7 @@ public class User {
 	}
 
 	public void setAddress(String address) throws IllegalArgumentException {
-		if(validateAddress(address) == false) {
-			throw new IllegalArgumentException("Address length must be between 10-100 characters");
-		}
-		
+		validateAddress(address);
 		this.address = address;
 	}
 
@@ -356,10 +342,7 @@ public class User {
 	}
 
 	public void setDOB(Date DOB) throws IllegalArgumentException {
-		if(validateDOB(DOB) == false) {
-			throw new IllegalArgumentException("Invalid Date of Birth");
-		}
-		
+		validateDOB(DOB);
 		this.DOB = DOB;
 	}
 
@@ -368,10 +351,7 @@ public class User {
 	}
 
 	public void setTelp(String telp) throws IllegalArgumentException {
-		if(validateTelp(telp) == false) {
-			throw new IllegalArgumentException("Invalid telp");
-		}
-		
+		validateTelp(telp);
 		this.telp = telp;
 	}
 }
