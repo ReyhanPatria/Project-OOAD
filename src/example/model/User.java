@@ -111,6 +111,7 @@ public class User {
 			userByRoleTable = getUserByRoleStatement.executeQuery();
 			
 			while(userByRoleTable.next()) {
+				UUID id = UUID.fromString(userByRoleTable.getString("id"));
 				String username = userByRoleTable.getString("username");
 				String password = userByRoleTable.getString("password");
 				String address = userByRoleTable.getString("address");
@@ -118,6 +119,7 @@ public class User {
 				String telp = userByRoleTable.getString("telp");
 				
 				User u = new User(username, password, role, address, DOB, telp);
+				u.setId(id);
 				userByRoleList.add(u);
 			}
 		}
@@ -147,6 +149,7 @@ public class User {
 				String telp = getTable.getString("telp");
 				
 				u = new User(username, password, role, address, DOB, telp);
+				u.setId(id);
 			}
 		}
 		catch(SQLException e) {
@@ -156,8 +159,15 @@ public class User {
 		return u;
 	}
 	
-	public User update() {
+	public User update() throws IllegalArgumentException {
 		try {
+			validateUsername(username);
+			validatePassword(password);
+			validateAddress(role);
+			validateAddress(address);
+			validateDOB(DOB);
+			validateTelp(telp);
+			
 			updateStatement.setString(1, username);
 			updateStatement.setString(2, password);
 			updateStatement.setString(3, address);
@@ -176,8 +186,15 @@ public class User {
 		return this;
 	}
 	
-	public User save() {
+	public User save() throws IllegalArgumentException {
 		try {
+			validateUsername(username);
+			validatePassword(password);
+			validateAddress(role);
+			validateAddress(address);
+			validateDOB(DOB);
+			validateTelp(telp);
+			
 			saveStatement.setString(1, id.toString());
 			saveStatement.setString(2, username);
 			saveStatement.setString(3, password);
@@ -282,6 +299,10 @@ public class User {
 	 * Validate that telp is all digits
 	 */
 	public static boolean validateTelp(String telp) throws IllegalArgumentException {
+		if(telp.length() <= 0) {
+			throw new IllegalArgumentException("Telp cannot be empty");
+		}
+		
 		for(int i = 0; i < telp.length(); i++) {
 			if(Character.isDigit(telp.charAt(i)) == false) {
 				throw new IllegalArgumentException("Invalid telp");
