@@ -16,8 +16,6 @@ import example.model.User;
 
 public class UserProfilePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
-	private static UserProfilePanel instance;
 
 	public UserProfilePanel() {
 		UUID id;
@@ -187,7 +185,6 @@ public class UserProfilePanel extends JPanel {
 		logoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				instance = null;
 				UserController.logout();
 			}
 		});
@@ -197,12 +194,5 @@ public class UserProfilePanel extends JPanel {
 		gbc_logoutButton.gridx = 1;
 		gbc_logoutButton.gridy = 9;
 		add(logoutButton, gbc_logoutButton);
-	}
-	
-	public static UserProfilePanel getInstance() {
-		if(instance == null) {
-			instance = new UserProfilePanel();
-		}
-		return instance;
 	}
 }
