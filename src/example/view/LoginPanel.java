@@ -105,6 +105,7 @@ public class LoginPanel extends JPanel {
 				catch(Exception e1) {
 					System.out.println(e1.getMessage());
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+					e1.printStackTrace();
 				}
 			}
 		});
