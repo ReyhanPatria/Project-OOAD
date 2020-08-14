@@ -166,7 +166,7 @@ public class RegisterUserPanel extends JPanel {
 		gbc_dobLabel.gridy = 8;
 		add(dobLabel, gbc_dobLabel);
 		
-		JDateChooser dobDateChooser = new JDateChooser();
+		JDateChooser dobDateChooser = new JDateChooser(new java.util.Date());
 		dobLabel.setLabelFor(dobDateChooser);
 		GridBagConstraints gbc_dobDateChooser = new GridBagConstraints();
 		gbc_dobDateChooser.insets = new Insets(0, 0, 5, 5);
