@@ -32,13 +32,7 @@ public class UserController {
 		
 		instance = new UserController(returnedId);
 		
-		/*
-		 * Test Code
-		 */
-		MainController.getInstance().changePanel(UserProfilePanel.getInstance());
-		/*
-		 * 
-		 */
+		MainController.getInstance().changePanel(new UserProfilePanel());
 	}
 	
 	/*
