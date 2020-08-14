@@ -7,7 +7,8 @@ public class Connection {
 	
 	public Connection() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost/taskmanager_db", "root", "");
+			con = DriverManager.getConnection(String.format("jdbc:%s://localhost/%s", Environment.db_product, Environment.db_name), 
+					Environment.auth_username, Environment.auth_password);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
