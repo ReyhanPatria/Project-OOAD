@@ -203,13 +203,13 @@ public class RegisterUserPanel extends JPanel {
 		registerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String username = usernameTextField.getText();
-				String password = String.valueOf(passwordField.getPassword());
-				String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
-				String role = roleComboBox.getSelectedItem().toString();
-				String address = addressTextField.getText();
-				Date DOB = new Date(dobDateChooser.getDateEditor().getDate().getTime());
-				String telp = telpTextField.getText();
+				String 	username 		= 	usernameTextField.getText();
+				String 	password 		= 	String.valueOf(passwordField.getPassword());
+				String 	confirmPassword = 	String.valueOf(confirmPasswordField.getPassword());
+				String 	role 			= 	roleComboBox.getSelectedItem().toString();
+				String 	address 		= 	addressTextField.getText();
+				Date 	DOB 			= 	new Date(dobDateChooser.getDateEditor().getDate().getTime());
+				String 	telp 			= 	telpTextField.getText();
 				
 				try {
 					UserController.registerUser(username, password, confirmPassword, role, address, DOB, telp);
