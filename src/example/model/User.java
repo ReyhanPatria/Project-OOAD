@@ -1,5 +1,6 @@
 package example.model;
 
+import java.io.InvalidObjectException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,48 +13,160 @@ import example.controller.UserController;
 import example.database.Connection;
 
 public class User {
-	private UUID id;
-	private String username;
-	private String password;
-	private String role;
-	private String address;
-	private Date DOB;
-	private String telp;
-	
-	private PreparedStatement updateStatement;
-	private PreparedStatement saveStatement;
-	private PreparedStatement deleteStatement;
+	// NON-STATIC ATTRIBUTES ----------------------------------------------------
+	private UUID 	id;
+	private String 	username;
+	private String 	password;
+	private String	role;
+	private String 	address;
+	private Date 	DOB;
+	private String 	telp;
 
-	public User(String username, String password, String role, String address, Date DOB, String telp) {
+	
+	
+	// STATIC ATTRIBUTES
+	public static String[] allRoleList = {"admin", "supervisor", "worker"};
+	
+	
+	// NON-STATIC FUNCTIONS ----------------------------------------------------
+	// Constructor
+	public User(UUID id, String username, String password, String role, String address, Date DOB, String telp) {
 		super();
-		
-		this.id = UUID.randomUUID();
-		this.username = username;
-		this.password = password;
-		this.role = role;
-		this.address = address;
-		this.DOB = DOB;
-		this.telp = telp;
+		this.id 		= id;
+		this.username 	= username;
+		this.password 	= password;
+		this.role 		= role;
+		this.address 	= address;
+		this.DOB 		= DOB;
+		this.telp 		= telp;
+	}
+	
+	// Updates User object attributes in database
+	public User update() throws InvalidObjectException {
+		if(validateUsername(this.username) == false) {
+			if(UserController.getUser(this.id).getUsername().equals(this.username) == false) {
+				throw new InvalidObjectException("Username has been taken");
+			}
+		}
+		else if(validateUsernameLength(this.username) == false) {
+			throw new InvalidObjectException("Username has to be 5-15 characters");
+		}
+		else if(validateRole(this.role) == false) {
+			throw new InvalidObjectException("Invalid role");
+		}
+		else if(validateAddressLength(this.address) == false) {
+			throw new InvalidObjectException("Address has to be 10-100 characters");
+		}
+		else if(validateDOB(this.DOB) == false) {
+			throw new InvalidObjectException("Date of birth has to be in the past");
+		}
+		else if(validateTelp(this.telp) == false) {
+			throw new InvalidObjectException("Telp has to be all digits");
+		}
 		
 		try {
-			this.updateStatement = Connection.getConnection().prepareStatement("UPDATE `users` SET " + 
-					"`username`=?, `password`=?, `address`=?, `DOB`=?, `telp`=?" + 
+			PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
+					"UPDATE `users` " + 
+					"SET `username`=?, `password`=?, `address`=?, `DOB`=?, `telp`=? " + 
 					"WHERE `id`=?");
-			this.saveStatement = Connection.getConnection().prepareStatement("INSERT INTO `users`" + 
-					"(`id`, `username`, `password`, `role`, `address`, `DOB`, `telp`)" + 
-					"VALUES (?, ?, ?, ?, ?, ?, ?)");
-			this.deleteStatement = Connection.getConnection().prepareStatement("DELETE FROM `users` WHERE `id`=?");
+			
+			updateStatement.setString	(1, this.username		);
+			updateStatement.setString	(2, this.password		);
+			updateStatement.setString	(3, this.address		);
+			updateStatement.setDate		(4, this.DOB			);
+			updateStatement.setString	(5, this.telp			);
+			updateStatement.setString	(6, this.id.toString()	);
+			
+			if(updateStatement.executeUpdate() == 0) {
+				return null;
+			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return this;
 	}
-
+	
+	// Inserts new User object into database
+	public User save() throws InvalidObjectException {
+		if(validateID(this.id) == false) {
+			throw new InvalidObjectException("ID has been taken");
+		}
+		else if(validateUsername(this.username) == false) {
+			throw new InvalidObjectException("Username has been taken");
+		}
+		else if(validateUsernameLength(this.username) == false) {
+			throw new InvalidObjectException("Username has to be 5-15 characters");
+		}
+		else if(validateRole(this.role) == false) {
+			throw new InvalidObjectException("Invalid role");
+		}
+		else if(validateAddressLength(this.address) == false) {
+			throw new InvalidObjectException("Address has to be 10-100 characters");
+		}
+		else if(validateDOB(this.DOB) == false) {
+			throw new InvalidObjectException("Date of birth has to be in the past");
+		}
+		else if(validateTelp(this.telp) == false) {
+			throw new InvalidObjectException("Telp has to be all digits");
+		}
+		
+		try {
+			PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
+					"INSERT INTO `users` " + 
+					"(`id`, `username`, `password`, `role`, `address`, `DOB`, `telp`) " + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?)");
+			
+			saveStatement.setString	(1, id.toString()	);
+			saveStatement.setString	(2, username)		;
+			saveStatement.setString	(3, password		);
+			saveStatement.setString	(4, role			);
+			saveStatement.setString	(5, address			);
+			saveStatement.setDate	(6, DOB				);
+			saveStatement.setString	(7, telp			);
+			
+			if(saveStatement.executeUpdate() == 0) {
+				return null;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return this;
+	}
+	
+	// Deletes User object from database
+	public UUID delete() {
+		try {
+			PreparedStatement deleteStatement = Connection.getConnection().prepareStatement(
+					"DELETE FROM `users` WHERE `id`=?");
+			
+			deleteStatement.setString(1, id.toString());
+			
+			if(deleteStatement.executeUpdate() == 0) {
+				return null;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
+	
+	
+	
+	// STATIC FUNCTIONS ----------------------------------------------------
+	// Validate a login attempt
+	// Searches for a matching username and password in database to validate a login
 	public static UUID validateLogin(String username, String password) {
 		ResultSet userIDTable;
 		
 		try {
-			PreparedStatement validateLoginStatement = Connection.getConnection().prepareStatement("SELECT id from `users`" + 
+			PreparedStatement validateLoginStatement = Connection.getConnection().prepareStatement(
+					"SELECT id from `users`" + 
 					"WHERE `username`=? AND `password`=?");
 			
 			validateLoginStatement.setString(1, username);
@@ -72,24 +185,25 @@ public class User {
 		return null;
 	}
 	
+	// Gets a list of all User from the database
 	public static List<User> getAll() {
 		ResultSet userTable;
 		List<User> userList = new ArrayList<User>();
 		
 		try {
 			PreparedStatement getAllStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users`");
-			
 			userTable = getAllStatement.executeQuery();
 			
 			while(userTable.next()) {
-				String username = userTable.getString("username");
-				String password = userTable.getString("password");
-				String role = userTable.getString("role");
-				String address = userTable.getString("address");
-				Date DOB = userTable.getDate("DOB");
-				String telp = userTable.getString("telp");
+				UUID id 			= 	UUID.fromString(userTable.getString("id"));
+				String username 	= 	userTable.getString	("username"	);
+				String password 	= 	userTable.getString	("password"	);
+				String role 		= 	userTable.getString	("role"		);
+				String address 		= 	userTable.getString	("address"	);
+				Date DOB 			= 	userTable.getDate	("DOB"		);
+				String telp 		= 	userTable.getString	("telp"		);
 				
-				User u = new User(username, password, role, address, DOB, telp);
+				User u = new User(id, username, password, role, address, DOB, telp);
 				userList.add(u);
 			}
 		}
@@ -100,6 +214,7 @@ public class User {
 		return userList;
 	}
 	
+	// Gets a list of User filtered by role from the database
 	public static List<User> getUserByRole(String role) {
 		ResultSet userByRoleTable;
 		List<User> userByRoleList = new ArrayList<User>();
@@ -111,15 +226,14 @@ public class User {
 			userByRoleTable = getUserByRoleStatement.executeQuery();
 			
 			while(userByRoleTable.next()) {
-				UUID id = UUID.fromString(userByRoleTable.getString("id"));
-				String username = userByRoleTable.getString("username");
-				String password = userByRoleTable.getString("password");
-				String address = userByRoleTable.getString("address");
-				Date DOB = userByRoleTable.getDate("DOB");
-				String telp = userByRoleTable.getString("telp");
+				UUID id 			= 	UUID.fromString(userByRoleTable.getString("id"));
+				String username 	= 	userByRoleTable.getString	("username"	);
+				String password 	= 	userByRoleTable.getString	("password"	);
+				String address 		= 	userByRoleTable.getString	("address"	);
+				Date DOB 			= 	userByRoleTable.getDate	("DOB"		);
+				String telp 		= 	userByRoleTable.getString	("telp"		);
 				
-				User u = new User(username, password, role, address, DOB, telp);
-				u.setId(id);
+				User u = new User(id, username, password, role, address, DOB, telp);
 				userByRoleList.add(u);
 			}
 		}
@@ -130,6 +244,7 @@ public class User {
 		return userByRoleList;
 	}
 	
+	// Gets a User from database
 	public static User get(UUID id) {
 		ResultSet getTable;
 		User u = null;
@@ -140,16 +255,15 @@ public class User {
 			getStatement.setString(1, id.toString());
 			getTable = getStatement.executeQuery();
 			
-			while(getTable.next()) {
-				String username = getTable.getString("username");
-				String password = getTable.getString("password");
-				String role = getTable.getString("role");
-				String address = getTable.getString("address");
-				Date DOB = getTable.getDate("DOB");
-				String telp = getTable.getString("telp");
+			if(getTable.next()) {
+				String username 	= 	getTable.getString	("username"	);
+				String password 	= 	getTable.getString	("password"	);
+				String role			= 	getTable.getString	("role"		);
+				String address 		= 	getTable.getString	("address"	);
+				Date DOB 			= 	getTable.getDate	("DOB"		);
+				String telp 		= 	getTable.getString	("telp"		);
 				
-				u = new User(username, password, role, address, DOB, telp);
-				u.setId(id);
+				u = new User(id, username, password, role, address, DOB, telp);
 			}
 		}
 		catch(SQLException e) {
@@ -159,161 +273,96 @@ public class User {
 		return u;
 	}
 	
-	public User update() throws IllegalArgumentException {
+	
+	
+	// VALIDATORS ----------------------------------------------------
+	// Checks if id has been taken. TRUE if not taken, FALSE if taken
+	public static Boolean validateID(UUID id) {
 		try {
-			validateUsername(username);
-			validatePassword(password);
-			validateAddress(role);
-			validateAddress(address);
-			validateDOB(DOB);
-			validateTelp(telp);
+			PreparedStatement validateIDStatement = Connection.getConnection().prepareStatement(
+					"SELECT `id` FROM `users` WHERE `id`=?");
 			
-			updateStatement.setString(1, username);
-			updateStatement.setString(2, password);
-			updateStatement.setString(3, address);
-			updateStatement.setDate(4, DOB);
-			updateStatement.setString(5, telp);
-			updateStatement.setString(6, id.toString());
+			validateIDStatement.setString(1, id.toString());
+			ResultSet idTable = validateIDStatement.executeQuery();
 			
-			if(updateStatement.executeUpdate() == 0) {
-				return null;
+			if(idTable.next()) {
+				return false;
 			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return this;
+		return true;
 	}
 	
-	public User save() throws IllegalArgumentException {
+	// Checks if username has been taken. TRUE if not taken, FALSE if taken
+	public static Boolean validateUsername(String username) {
 		try {
-			validateUsername(username);
-			validatePassword(password);
-			validateAddress(role);
-			validateAddress(address);
-			validateDOB(DOB);
-			validateTelp(telp);
+			PreparedStatement validateIDStatement = Connection.getConnection().prepareStatement(
+					"SELECT `id` FROM `users` WHERE `username`=?");
 			
-			saveStatement.setString(1, id.toString());
-			saveStatement.setString(2, username);
-			saveStatement.setString(3, password);
-			saveStatement.setString(4, role);
-			saveStatement.setString(5, address);
-			saveStatement.setDate(6, DOB);
-			saveStatement.setString(7, telp);
+			validateIDStatement.setString(1, username);
+			ResultSet usernameTable = validateIDStatement.executeQuery();
 			
-			if(saveStatement.executeUpdate() == 0) {
-				return null;
+			if(usernameTable.next()) {
+				return false;
 			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return this;
+		return true;
 	}
 	
-	public UUID delete() {
-		try {
-			deleteStatement.setString(1, id.toString());
-			
-			if(deleteStatement.executeUpdate() == 0) {
-				return null;
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return id;
-	}
-
-	/*
-	 * Validates username's length and availability
-	 */
-	public static boolean validateUsername(String username) throws IllegalArgumentException {
+	// Checks if username's length is correct. 5-15 characters
+	public static Boolean validateUsernameLength(String username) {
 		if(username.length() < 5 || username.length() > 15) {
-			throw new IllegalArgumentException("Username length must be 5-15 characters");
-		}
-		
-		try {
-			PreparedStatement getUsernameStatement = Connection.getConnection().prepareStatement(
-					"SELECT `username` FROM `users` WHERE username=?");
-			getUsernameStatement.setString(1, username);
-			
-			ResultSet result = getUsernameStatement.executeQuery();
-			if(result.next()) {
-				throw new IllegalArgumentException("Username has been taken");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return true;
-	}
-	
-	/*
-	 * Validates password's length
-	 */
-	public static boolean validatePassword(String password) throws IllegalArgumentException {
-		if(password.length() < 8 || password.length() > 15) {
-			throw new IllegalArgumentException("Password length must be 8-15 characters");
+			return false;
 		}
 		return true;
 	}
 	
-	/*
-	 * Validate that Date of Birth is less than current date
-	 */
-	public static boolean validateDOB(Date DOB) throws IllegalArgumentException {
-		if(new java.util.Date().compareTo(DOB) <= 0) {
-			throw new IllegalArgumentException("Invalid date of birth");
-		}
-		return true;
-	}
-	
-	/*
-	 * Validates address length
-	 */
-	public static boolean validateAddress(String address) throws IllegalArgumentException {
-		if(address.length() < 10 || address.length() > 100) {
-			throw new IllegalArgumentException("Address length must be 10-100 characters");
-		}
-		return true;
-	}
-	
-	/*
-	 * Validates role to all available role
-	 */
-	public static boolean validateRole(String role) {
-		for(String r: UserController.allRoleList) {
+	// Checks if role is a valid role
+	public static Boolean validateRole(String role) {
+		for(String r: allRoleList) {
 			if(role.equalsIgnoreCase(r)) {
 				return true;
 			}
 		}
-		throw new IllegalArgumentException("Invalid role");
+		return false;
 	}
 	
-	/*
-	 * Validate that telp is all digits
-	 */
-	public static boolean validateTelp(String telp) throws IllegalArgumentException {
-		if(telp.length() <= 0) {
-			throw new IllegalArgumentException("Telp cannot be empty");
+	// Checks if address length is valid. 10-100 characters
+	public static Boolean validateAddressLength(String address) {
+		if(address.length() < 10 || address.length() > 100) {
+			return false;
 		}
-		
-		for(int i = 0; i < telp.length(); i++) {
+		return true;
+	}
+	
+	// Checks if DOB date is in the past
+	public static Boolean validateDOB(Date DOB) {
+		if(DOB.compareTo(new java.util.Date()) < 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	// Checks if telp is all numbers
+	public static Boolean validateTelp(String telp) {
+		for(Integer i = 0; i < telp.length(); i++) {
 			if(Character.isDigit(telp.charAt(i)) == false) {
-				throw new IllegalArgumentException("Invalid telp");
+				return false;
 			}
 		}
 		return true;
 	}
 	
-	/*
-	 * Setter and Getters for attributes
-	 */
+	
+	
+	// SETTER | GETTERS ----------------------------------------------------
 	public UUID getId() {
 		return id;
 	}
@@ -327,7 +376,6 @@ public class User {
 	}
 
 	public void setUsername(String username) throws IllegalArgumentException {
-		validateUsername(username);
 		this.username = username;
 	}
 
@@ -336,7 +384,6 @@ public class User {
 	}
 
 	public void setPassword(String password) throws IllegalArgumentException {
-		validatePassword(password);
 		this.password = password;
 	}
 
@@ -345,7 +392,6 @@ public class User {
 	}
 
 	public void setRole(String role) throws IllegalArgumentException {
-		validateRole(role);
 		this.role = role;
 	}
 
@@ -354,7 +400,6 @@ public class User {
 	}
 
 	public void setAddress(String address) throws IllegalArgumentException {
-		validateAddress(address);
 		this.address = address;
 	}
 
@@ -363,7 +408,6 @@ public class User {
 	}
 
 	public void setDOB(Date DOB) throws IllegalArgumentException {
-		validateDOB(DOB);
 		this.DOB = DOB;
 	}
 
@@ -372,7 +416,6 @@ public class User {
 	}
 
 	public void setTelp(String telp) throws IllegalArgumentException {
-		validateTelp(telp);
 		this.telp = telp;
 	}
 }

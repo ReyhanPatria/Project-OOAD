@@ -23,7 +23,7 @@ public class UserProfilePanel extends JPanel {
 		
 		try {
 			id = UserController.getInstance().getCurrentUserId();
-			user = UserController.getInstance().getUser(id);
+			user = UserController.getUser(id);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
