@@ -1,5 +1,6 @@
 package example.controller;
 
+import java.io.InvalidObjectException;
 import java.rmi.NoSuchObjectException;
 import java.sql.Date;
 import java.util.List;
@@ -18,7 +19,6 @@ public class UserController {
 	// STATIC ATTRIBUTES ----------------------------------------------------
 	private static UserController instance;
 	
-	public static String[] allRoleList = {"admin", "supervisor", "worker"};
 	public static String[] selectableRoleList = {"supervisor", "worker"};
 	
 	
@@ -31,7 +31,7 @@ public class UserController {
 	
 	// Save updates on currently logged in User’s attributes to database
 	public User updateProfile(String username, Date DOB, String address,
-			String telp) throws IllegalArgumentException {
+			String telp) throws IllegalArgumentException, InvalidObjectException {
 		User currentUser = getUser(currentUserId);
 		
 		currentUser.setUsername	(username	);
@@ -44,7 +44,8 @@ public class UserController {
 	}
 	
 	// Changes currently logged in User password to a new password
-	public User changePassword(String oldPassword, String newPassword) throws IllegalArgumentException {
+	public User changePassword(String oldPassword, String newPassword) 
+			throws IllegalArgumentException, InvalidObjectException {
 		User currentUser = getUser(currentUserId);
 		
 		if(oldPassword.equals(currentUser.getPassword()) == false) {
@@ -82,7 +83,7 @@ public class UserController {
 	
 	// Registers new User
 	public static User registerUser(String username, String password, String confirmPassword, String role,
-			String address, Date DOB, String telp) throws IllegalArgumentException {
+			String address, Date DOB, String telp) throws IllegalArgumentException, InvalidObjectException {
 		if(password.equals(confirmPassword) == false) {
 			throw new IllegalArgumentException("Password does not match!");
 		}
@@ -115,10 +116,8 @@ public class UserController {
 	
 	// Get a list of all user based on a role
 	public static List<User> getUserByRole(String role) throws IllegalArgumentException {
-		for(String r: allRoleList) {
-			if(role.equalsIgnoreCase(r)) {
-				return User.getUserByRole(role);
-			}
+		if(User.validateRole(role)) {
+			return User.getUserByRole(role);
 		}
 		
 		throw new IllegalArgumentException("Role invalid. Valid roles are Admin, Supervisor, Worker");
@@ -137,7 +136,7 @@ public class UserController {
 	
 	// Creating a new User object and stores it in the Database.
 	public static User createUser(String username, String password, String role, 
-			Date DOB, String address, String telp) throws IllegalArgumentException {
+			Date DOB, String address, String telp) throws IllegalArgumentException, InvalidObjectException {
 		User newUser = new User(UUID.randomUUID(), username, password, role, address, DOB, telp);
 		newUser.save();
 		
@@ -151,7 +150,8 @@ public class UserController {
 	}
 	
 	// Resets of a user based on their ID
-	public static User resetPassword(UUID userID) throws IllegalArgumentException {
+	public static User resetPassword(UUID userID) 
+			throws IllegalArgumentException, InvalidObjectException {
 		User u = getUser(userID);
 		
 		u.setPassword(u.getDOB().toString());
