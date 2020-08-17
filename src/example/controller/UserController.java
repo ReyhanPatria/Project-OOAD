@@ -16,10 +16,14 @@ public class UserController {
 	
 	
 	
+	
+	
 	// STATIC ATTRIBUTES ----------------------------------------------------
 	private static UserController instance;
 	
 	public static String[] selectableRoleList = {"supervisor", "worker"};
+	
+	
 	
 	
 	
@@ -65,6 +69,8 @@ public class UserController {
 	public UUID getCurrentUserId() {
 		return currentUserId;
 	}
+	
+	
 	
 	
 	
