@@ -9,7 +9,7 @@ import java.util.UUID;
 import example.model.Notification;
 
 public class NotificationController {
-	// START OF STATIC FUNCTIONS
+	// STATIC FUNCTIONS -----------------------------------------------------
 	// Gets all notification of currently logged in user
 	public static List<Notification> getAllNotification() throws NoSuchObjectException {
 		UUID currentUserID = UserController.getInstance().getCurrentUserId();
