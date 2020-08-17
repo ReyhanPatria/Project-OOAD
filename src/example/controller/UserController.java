@@ -31,7 +31,7 @@ public class UserController {
 	
 	// Save updates on currently logged in User’s attributes to database
 	public User updateProfile(String username, Date DOB, String address,
-			String telp) throws IllegalArgumentException, InvalidObjectException {
+			String telp) throws InvalidObjectException {
 		User currentUser = getUser(currentUserId);
 		
 		currentUser.setUsername	(username	);
@@ -45,7 +45,7 @@ public class UserController {
 	
 	// Changes currently logged in User password to a new password
 	public User changePassword(String oldPassword, String newPassword) 
-			throws IllegalArgumentException, InvalidObjectException {
+			throws InvalidObjectException {
 		User currentUser = getUser(currentUserId);
 		
 		if(oldPassword.equals(currentUser.getPassword()) == false) {
@@ -136,9 +136,15 @@ public class UserController {
 	
 	// Creating a new User object and stores it in the Database.
 	public static User createUser(String username, String password, String role, 
-			Date DOB, String address, String telp) throws IllegalArgumentException, InvalidObjectException {
+			Date DOB, String address, String telp) throws IllegalArgumentException {
 		User newUser = new User(UUID.randomUUID(), username, password, role, address, DOB, telp);
-		newUser.save();
+		try {
+			newUser.save();
+		}
+		catch(InvalidObjectException e) {
+			throw new IllegalArgumentException(e.getMessage());
+//			e.printStackTrace();
+		}
 		
 		return newUser;
 	}
@@ -151,7 +157,7 @@ public class UserController {
 	
 	// Resets of a user based on their ID
 	public static User resetPassword(UUID userID) 
-			throws IllegalArgumentException, InvalidObjectException {
+			throws InvalidObjectException {
 		User u = getUser(userID);
 		
 		u.setPassword(u.getDOB().toString());
