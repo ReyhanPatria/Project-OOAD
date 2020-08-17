@@ -1,9 +1,8 @@
 
 public class Main {
-
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("tes123");
+		mainmenu frame = new mainmenu();
+		frame.setUndecorated(true);
+		frame.setVisible(true);
 	}
-
 }
