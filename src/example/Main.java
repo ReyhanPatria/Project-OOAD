@@ -5,7 +5,7 @@ import example.view.LoginPanel;
 
 public class Main {
 	public Main() {
-		MainController.getInstance().changePanel(new LoginPanel());
+		MainController.changePanel(new LoginPanel());
 	}
 	
 	public static void main(String[] args) {

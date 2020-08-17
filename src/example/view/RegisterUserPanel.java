@@ -241,7 +241,7 @@ public class RegisterUserPanel extends JPanel {
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.getInstance().changePanel(new LoginPanel());
+				MainController.changePanel(new LoginPanel());
 			}
 		});
 		GridBagConstraints gbc_loginButton = new GridBagConstraints();

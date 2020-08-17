@@ -1,6 +1,5 @@
 package example.model;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,150 +11,141 @@ import java.util.UUID;
 import example.database.Connection;
 
 public class Notification {
-	private UUID id;
-	private UUID userID;
-	private String message;
-	private Timestamp readAt;
+	// NON-STATIC ATTRIBUTES -----------------------------------------------------
+	private UUID		id;
+	private UUID		userID;
+	private String		message;
+	private Timestamp	readAt;
 	
-	/*
-	 * Constructor
-	 */
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS -----------------------------------------------------
+	// Constructor
 	public Notification(UUID id, UUID userID, String message, Timestamp readAt) {
 		super();
-		this.id = id;
-		this.userID = userID;
-		this.message = message;
-		this.readAt = readAt;
+		this.id			=	id;
+		this.userID		=	userID;
+		this.message	=	message;
+		this.readAt		=	readAt;
 	}
 	
-	/*
-	 * Gets all notifications
-	 */
+	// Inserts new Notification object into database
+	public Notification save() {
+		try {
+			PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
+					"INSERT INTO `notifications`(`id`, `user_id`, `message`, `read_at`)" + 
+					"VALUES (?, ?, ?, ?)");
+			
+			saveStatement.setString		(1, this.id.toString()		);
+			saveStatement.setString		(2, this.userID.toString()	);
+			saveStatement.setString		(3, this.message			);
+			saveStatement.setTimestamp	(4, this.readAt				);
+			
+			saveStatement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return this;
+	}
+	
+	// Updates Notification in database based on id
+	public Notification update() {
+		try {
+			PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
+					"UPDATE `notifications`" + 
+					"SET `user_id`=?, `message`=?, `read_at`=?" + 
+					"WHERE `id`=?");
+			
+			updateStatement.setString		(1, this.userID.toString()	);
+			updateStatement.setString		(2, this.message			);
+			updateStatement.setTimestamp	(3, this.readAt				);
+			updateStatement.setString		(4, this.id.toString()		);
+		
+			updateStatement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return this;
+	}
+	
+	
+	
+	
+	
+	// STATIC FUNCTIONS -----------------------------------------------------
+	// Gets all notification of a user based on userID
 	public static List<Notification> getAll(UUID userID) {
-		ArrayList<Notification> notificationList = new ArrayList<Notification>();
+		ArrayList<Notification> allNotificationList = new ArrayList<Notification>();
 		
 		try {
 			PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
 					"SELECT * FROM `notifications` WHERE `user_id`=?");
 			
 			getAllStatement.setString(1, userID.toString());
-			ResultSet notificationsTable = getAllStatement.executeQuery();
 			
-			while(notificationsTable.next()) {
-				UUID id = UUID.fromString(notificationsTable.getString("id"));
-				String message = notificationsTable.getString("message");
-				Timestamp readAt = null;
-				if(notificationsTable.getDate("read_at") != null) {
-					readAt = new Timestamp(notificationsTable.getDate("read_at").getTime());
-				}
+			ResultSet allNotificationTable = getAllStatement.executeQuery();
+			while(allNotificationTable.next()) {
+				UUID		id		=	UUID.fromString(allNotificationTable.getString("id"));
+				String		message	=	allNotificationTable.getString("message");
+				Timestamp	readAt	=	allNotificationTable.getTimestamp("read_at");
 				
-				Notification newNotification = new Notification(id, userID, message, readAt);
-				notificationList.add(newNotification);
+				Notification n = new Notification(id, userID, message, readAt);
+				allNotificationList.add(n);
 			}
-		} catch (SQLException e) {
+		}
+		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return notificationList;
+		return allNotificationList;
 	}
 	
-	/*
-	 * Gets all unread notifications / notifications with null timestamp
-	 */
+	// Gets all unread (readAt is null) notification of a user based on userID
 	public static List<Notification> getAllUnread(UUID userID) {
-		ArrayList<Notification> unreadNotificationList = new ArrayList<Notification>();
+		ArrayList<Notification> allUnreadNotificationList = new ArrayList<Notification>();
 		
 		try {
 			PreparedStatement getAllUnreadStatement = Connection.getConnection().prepareStatement(
 					"SELECT * FROM `notifications` WHERE `user_id`=? AND `read_at` IS NULL");
 			
 			getAllUnreadStatement.setString(1, userID.toString());
-			ResultSet unreadNotificationsTable = getAllUnreadStatement.executeQuery();
 			
-			while(unreadNotificationsTable.next()) {
-				UUID id = UUID.fromString(unreadNotificationsTable.getString("id"));
-				String message = unreadNotificationsTable.getString("message");
-				Timestamp readAt = null;
+			ResultSet allUnreadNotificationTable = getAllUnreadStatement.executeQuery();
+			while(allUnreadNotificationTable.next()) {
+				UUID		id		=	UUID.fromString(allUnreadNotificationTable.getString("id"));
+				String		message	=	allUnreadNotificationTable.getString("message");
+				Timestamp	readAt	=	allUnreadNotificationTable.getTimestamp("read_at");
 				
-				Notification newNotification = new Notification(id, userID, message, readAt);
-				unreadNotificationList.add(newNotification);
+				Notification n = new Notification(id, userID, message, readAt);
+				allUnreadNotificationList.add(n);
 			}
-		} 
-		catch (SQLException e) {
+		}
+		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return unreadNotificationList;
+		return allUnreadNotificationList;
 	}
 	
-	/*
-	 * Insert new notification into database
-	 */
-	public Notification save() {
-		try {
-			PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
-					"INSERT INTO `notifications`(`id`, `user_id`, `message`, `read_at`)" + 
-					"VALUES(?, ?, ?, ?)");
-			
-			saveStatement.setString(1, this.id.toString());
-			saveStatement.setString(2, this.userID.toString());
-			saveStatement.setString(3, this.message);
-			if(this.readAt != null) {
-				saveStatement.setDate(4, new Date(readAt.getTime()));
-			}
-			else {
-				saveStatement.setDate(4, null);
-			}
-			
-			saveStatement.executeUpdate();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return this;
-	}
 	
-	/*
-	 * Update existing notification in database
-	 */
-	public Notification update() {
-		try {
-			PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
-					"UPDATE `notifications` " + 
-					"SET `user_id`=?, `message`=?, `read_at`=? " + 
-					"WHERE `id`=?");
-			
-			updateStatement.setString(1, this.userID.toString());
-			updateStatement.setString(2, this.message);
-			if(this.readAt != null) {
-				updateStatement.setDate(3, new Date(this.readAt.getTime()));
-			}
-			else {
-				updateStatement.setDate(3, null);
-			}
-			updateStatement.setString(4, this.id.toString());
-			
-			updateStatement.executeUpdate();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return this;
-	}
-
-	/*
-	 * Setter and Getters
-	 */
-	public UUID getID() {
+	
+	
+	
+	// SETTER | GETTER -----------------------------------------------------
+	public UUID getId() {
 		return id;
 	}
 
-	public void setID(UUID id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
-	
+
 	public UUID getUserID() {
 		return userID;
 	}

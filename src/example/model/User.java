@@ -24,8 +24,13 @@ public class User {
 
 	
 	
+	
+	
 	// STATIC ATTRIBUTES
 	public static String[] allRoleList = {"admin", "supervisor", "worker"};
+	
+	
+	
 	
 	
 	// NON-STATIC FUNCTIONS ----------------------------------------------------
@@ -158,6 +163,8 @@ public class User {
 	
 	
 	
+	
+	
 	// STATIC FUNCTIONS ----------------------------------------------------
 	// Validate a login attempt
 	// Searches for a matching username and password in database to validate a login
@@ -275,6 +282,8 @@ public class User {
 	
 	
 	
+	
+	
 	// VALIDATORS ----------------------------------------------------
 	// Checks if id has been taken. TRUE if not taken, FALSE if taken
 	public static Boolean validateID(UUID id) {
@@ -359,6 +368,8 @@ public class User {
 		}
 		return true;
 	}
+	
+	
 	
 	
 	
