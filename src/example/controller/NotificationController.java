@@ -9,6 +9,8 @@ import java.util.UUID;
 import example.model.Notification;
 
 public class NotificationController {
+	// START OF STATIC FUNCTIONS
+	// Gets all notification of currently logged in user
 	public static List<Notification> getAllNotification() throws NoSuchObjectException {
 		UUID currentUserID = UserController.getInstance().getCurrentUserId();
 		List<Notification> allNotificationList = Notification.getAll(currentUserID);
@@ -16,6 +18,7 @@ public class NotificationController {
 		return allNotificationList;
 	}
 	
+	// Creates a new notification for a user based on userID
 	public static Notification createNotification(UUID userID, String message) {
 		Notification newNotification = new Notification(UUID.randomUUID(), userID, message, null);
 		newNotification.save();
@@ -23,6 +26,7 @@ public class NotificationController {
 		return newNotification;
 	}
 	
+	// Updates readAt timestamp for all unread notification for a user based in userID 
 	public static void realAllNotification(UUID userID) {
 		List<Notification> allNotificationList = Notification.getAllUnread(userID);
 		for(Notification n: allNotificationList) {
