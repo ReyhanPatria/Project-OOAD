@@ -78,7 +78,7 @@ public class UserController {
 		
 		instance = new UserController(returnedId);
 		
-		MainController.getInstance().changePanel(new UserProfilePanel());
+		MainController.changePanel(new UserProfilePanel());
 	}
 	
 	// Registers new User
@@ -97,7 +97,7 @@ public class UserController {
 	public static void logout() {
 		instance = null;
 		
-		MainController.getInstance().changePanel(new LoginPanel());
+		MainController.changePanel(new LoginPanel());
 	}
 	
 	// Get UserController instance
