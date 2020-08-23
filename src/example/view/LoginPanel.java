@@ -26,7 +26,7 @@ public class LoginPanel extends JPanel {
 		/*
 		 * Set panel's preferred size
 		 */
-		this.setPreferredSize(MainFrame.PREFERRED_SIZE);
+//		this.setPreferredSize(MainFrame.PREFERRED_SIZE);
 		
 		/*
 		 * Initialize GridBagLayout on panel
@@ -41,13 +41,13 @@ public class LoginPanel extends JPanel {
 		/*
 		 * Panel title label
 		 */
-		JLabel panelTitleLabel = new JLabel("Login");
-		GridBagConstraints gbc_panelTitleLabel = new GridBagConstraints();
-		gbc_panelTitleLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_panelTitleLabel.gridx = 1;
-		gbc_panelTitleLabel.gridy = 1;
-		add(panelTitleLabel, gbc_panelTitleLabel);
-		
+//		JLabel panelTitleLabel = new JLabel("Login");
+//		GridBagConstraints gbc_panelTitleLabel = new GridBagConstraints();
+//		gbc_panelTitleLabel.insets = new Insets(0, 0, 5, 5);
+//		gbc_panelTitleLabel.gridx = 1;
+//		gbc_panelTitleLabel.gridy = 1;
+//		add(panelTitleLabel, gbc_panelTitleLabel);
+//		
 		/*
 		 * Adding Username TextField and Label
 		 */
@@ -115,27 +115,29 @@ public class LoginPanel extends JPanel {
 		gbc_loginButton.gridy = 9;
 		add(loginButton, gbc_loginButton);
 		
-		/*
-		 * Added signup label and button
-		 */
-		JLabel signupLabel = new JLabel("Don't have an account?");
-		GridBagConstraints gbc_signupLabel = new GridBagConstraints();
-		gbc_signupLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_signupLabel.gridx = 1;
-		gbc_signupLabel.gridy = 11;
-		add(signupLabel, gbc_signupLabel);
+//		/*
+//		 * Added signup label and button
+//		 */
+//		JLabel signupLabel = new JLabel("Don't have an account?");
+//		GridBagConstraints gbc_signupLabel = new GridBagConstraints();
+//		gbc_signupLabel.insets = new Insets(0, 0, 5, 5);
+//		gbc_signupLabel.gridx = 1;
+//		gbc_signupLabel.gridy = 11;
+//		add(signupLabel, gbc_signupLabel);
+//		
+//		JButton signupButton = new JButton("Sign up");
+//		signupButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				MainController.changePanel(new RegisterUserPanel());
+//			}
+//		});
+//		GridBagConstraints gbc_signupButton = new GridBagConstraints();
+//		gbc_signupButton.insets = new Insets(0, 0, 5, 5);
+//		gbc_signupButton.gridx = 1;
+//		gbc_signupButton.gridy = 12;
+//		add(signupButton, gbc_signupButton);
 		
-		JButton signupButton = new JButton("Sign up");
-		signupButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new RegisterUserPanel());
-			}
-		});
-		GridBagConstraints gbc_signupButton = new GridBagConstraints();
-		gbc_signupButton.insets = new Insets(0, 0, 5, 5);
-		gbc_signupButton.gridx = 1;
-		gbc_signupButton.gridy = 12;
-		add(signupButton, gbc_signupButton);
+		
 	}
 }
