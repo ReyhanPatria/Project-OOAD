@@ -1,6 +1,5 @@
 package example.controller;
 
-import java.io.InvalidObjectException;
 import java.rmi.NoSuchObjectException;
 import java.sql.Date;
 import java.util.List;
@@ -35,7 +34,26 @@ public class UserController {
 	}
 	
 	// Save updates on currently logged in User’s attributes to database
-	public User updateProfile(String username, Date DOB, String address, String telp) {
+	public User updateProfile(String username, Date DOB, String address, String telp) 
+			throws IllegalArgumentException {
+		// Validate parameters
+		if(validateUsername(username) == false) {
+			throw new IllegalArgumentException("Username has been taken");
+		}
+		else if(validateUsernameLength(username) == false) {
+			throw new IllegalArgumentException("Username length has to be 5-15 characters");
+		}
+		else if(validateDOB(DOB) == false) {
+			throw new IllegalArgumentException("Date of Birth must be in the past");
+		}
+		else if(validateAddressLength(address) == false) {
+			throw new IllegalArgumentException("Address length must be 10-100 characters");
+		}
+		else if(validateTelp(telp) == false) {
+			throw new IllegalArgumentException("Telp must be all digits");
+		}
+		
+		
 		User currentUser = getUser(currentUserId);
 		
 		currentUser.setUsername	(username	);
@@ -49,14 +67,14 @@ public class UserController {
 	
 	// Changes currently logged in User password to a new password
 	public User changePassword(String oldPassword, String newPassword) 
-			throws InvalidObjectException {
+			throws IllegalArgumentException {
 		User currentUser = getUser(currentUserId);
 		
 		if(oldPassword.equals(currentUser.getPassword()) == false) {
 			throw new IllegalArgumentException("Incorrect old password");
 		}
 		else if(newPassword.length() <= 0) {
-			throw new IllegalAccessError("New password cannot be empty");
+			throw new IllegalArgumentException("New password cannot be empty");
 		}
 		
 		currentUser.setPassword(newPassword);
@@ -89,7 +107,7 @@ public class UserController {
 	
 	// Registers new User
 	public static User registerUser(String username, String password, String confirmPassword, String role,
-			String address, Date DOB, String telp) throws IllegalArgumentException, InvalidObjectException {
+			String address, Date DOB, String telp) throws IllegalArgumentException {
 		if(password.equals(confirmPassword) == false) {
 			throw new IllegalArgumentException("Password does not match!");
 		}
@@ -143,6 +161,25 @@ public class UserController {
 	// Creating a new User object and stores it in the Database.
 	public static User createUser(String username, String password, String role, 
 			Date DOB, String address, String telp) throws IllegalArgumentException {
+		if(validateUsername(username) == false) {
+			throw new IllegalArgumentException("Username has been taken");
+		}
+		else if(validateUsernameLength(username) == false) {
+			throw new IllegalArgumentException("Username length has to be 5-15 characters");
+		}
+		else if(validateRole(role) == false) {
+			throw new IllegalArgumentException("Invalid role");
+		}
+		else if(validateDOB(DOB) == false) {
+			throw new IllegalArgumentException("Date of Birth must be in the past");
+		}
+		else if(validateAddressLength(address) == false) {
+			throw new IllegalArgumentException("Address length must be 10-100 characters");
+		}
+		else if(validateTelp(telp) == false) {
+			throw new IllegalArgumentException("Telp must be all digits");
+		}
+		
 		User newUser = new User(UUID.randomUUID(), username, password, role, address, DOB, telp);
 		newUser.save();
 		
@@ -156,8 +193,7 @@ public class UserController {
 	}
 	
 	// Resets of a user based on their ID
-	public static User resetPassword(UUID userID) 
-			throws InvalidObjectException {
+	public static User resetPassword(UUID userID) {
 		User u = getUser(userID);
 		
 		u.setPassword(u.getDOB().toString());
@@ -195,6 +231,7 @@ public class UserController {
 	
 	// Checks if username's length is correct. 5-15 characters
 	public static Boolean validateUsernameLength(String username) {
+		username = username.replace(" ", "");
 		if(username.length() < 5 || username.length() > 15) {
 			return false;
 		}
@@ -213,6 +250,7 @@ public class UserController {
 	
 	// Checks if address length is valid. 10-100 characters
 	public static Boolean validateAddressLength(String address) {
+		address = address.replace(" ", "");
 		if(address.length() < 10 || address.length() > 100) {
 			return false;
 		}
@@ -229,6 +267,9 @@ public class UserController {
 	
 	// Checks if telp is all numbers
 	public static Boolean validateTelp(String telp) {
+		if(telp.length() <= 0) {
+			return false;
+		}
 		for(Integer i = 0; i < telp.length(); i++) {
 			if(Character.isDigit(telp.charAt(i)) == false) {
 				return false;
