@@ -1,11 +1,11 @@
 package example;
 
 import example.controller.MainController;
-import example.view.LoginPanel;
+import example.view.FirstPage;
 
 public class Main {
 	public Main() {
-		MainController.changePanel(new LoginPanel());
+		MainController.changePanel(new FirstPage());
 	}
 	
 	public static void main(String[] args) {

@@ -40,24 +40,28 @@ import java.awt.Font;
 
 	public class LoginPanel extends JPanel {
 
-		private JPanel contentPane;
-		private JPanel panel;
 		private JTextField usernameTextField;
 		private JPasswordField passwordTextField;
-		private JLabel close;
 		private JLabel lbl_Invalid;
-		private JLabel back;
 		private JLabel loginButton;
 		private JLabel lblBackground;
 		private JLabel lbl_loginScreen;
-		private JButton btnNewButton;
-		private JButton btnNewButton_1;
 	
 	public LoginPanel() {
 		/*
 		 * Set panel's preferred size
 		 */
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
+				setLayout(null);
+		
+		// Label invalid (Untuk menunjukkan bahwa username atau password invalid)
+				lbl_Invalid = new JLabel("Invalid username or password");
+				lbl_Invalid.setForeground(Color.RED);
+				lbl_Invalid.setFont(new Font("Segoe Print", Font.PLAIN, 24));
+				lbl_Invalid.setHorizontalAlignment(SwingConstants.CENTER);
+				lbl_Invalid.setBounds(17, 253, 366, 44);
+				this.add(lbl_Invalid);
+		lbl_Invalid.setVisible(false);
 		
 		/*
 		 * Initialize GridBagLayout on panel
@@ -82,12 +86,7 @@ import java.awt.Font;
 		/*
 		 * Adding Username TextField and Label
 		 */
-		setLayout(null);
 		
-		btnNewButton_1 = new JButton("Login");
-		btnNewButton_1.setBounds(673, 496, 89, 23);
-		add(btnNewButton_1);
-				
 //		JButton loginButton = new JButton("Login");
 //		loginButton.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
@@ -125,7 +124,7 @@ import java.awt.Font;
 		usernameTextField = new JTextField("Input your username");
 		usernameTextField.setFont(new Font("Segoe Print", Font.PLAIN, 12));
 		usernameTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		usernameTextField.setBounds(643, 163, 149, 29);
+		usernameTextField.setBounds(460, 339, 520, 50);
 		this.add(usernameTextField);
 		usernameTextField.setColumns(10);
 		usernameTextField.addFocusListener(new FocusListener() {
@@ -174,8 +173,8 @@ import java.awt.Font;
 				//					}
 				//				});
 				//				
-								loginButton.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\log.jpg"));
-								loginButton.setBounds(507, 50, -112, -31);
+								loginButton.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\LogMeIn.png"));
+								loginButton.setBounds(582, 543, 276, 62);
 								this.add(loginButton);
 //		JLabel passwordLabel = new JLabel("Password");
 //		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
@@ -199,8 +198,16 @@ import java.awt.Font;
 		passwordTextField = new JPasswordField();
 		passwordTextField.setToolTipText("Input your password");
 		passwordTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		passwordTextField.setBounds(643, 434, 149, 21);
+		passwordTextField.setBounds(460, 467, 520, 50);
 		this.add(passwordTextField);
+		
+		
+		// Label gambar background 
+		lblBackground = new JLabel("");
+		lblBackground.setToolTipText("");
+		lblBackground.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\LoginPage.png"));
+		lblBackground.setBounds(0, 0, 1365, 735);
+		this.add(lblBackground);
 
 		
 		/*
@@ -260,26 +267,6 @@ import java.awt.Font;
 //		close.setBounds(1323, 0, 27, 37);
 //		this.add(close);
 		
-		// Label invalid (Untuk menunjukkan bahwa username atau password invalid)
-		lbl_Invalid = new JLabel("Invalid username or password");
-		lbl_Invalid.setForeground(Color.RED);
-		lbl_Invalid.setFont(new Font("Segoe Print", Font.PLAIN, 24));
-		lbl_Invalid.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_Invalid.setBounds(536, 220, 380, 44);
-		this.add(lbl_Invalid);
-		
-//		back.setHorizontalAlignment(SwingConstants.CENTER);
-//		back.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\cancel.jpg"));
-//		back.setBounds(956, 547, 209, 53);
-//		this.add(back);
-		
-		// Label gambar background 
-		lblBackground = new JLabel("");
-		lblBackground.setToolTipText("");
-		lblBackground.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\loginuser.png"));
-		lblBackground.setBounds(0, 0, 960, 540);
-		this.add(lblBackground);
-		lbl_Invalid.setVisible(false);
 		
 		
 	}
