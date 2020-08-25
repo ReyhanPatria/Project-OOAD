@@ -1,34 +1,19 @@
 package example.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
-import example.controller.MainController;
-import example.controller.UserController;
-import javax.swing.JPasswordField;
-
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import java.awt.Font;
+import example.Main;
 
 //public class LoginPanel extends JPanel {
 //	private static final long serialVersionUID = 1L;
@@ -38,14 +23,15 @@ import java.awt.Font;
 //	private JTextField usernameTextField;
 //	private JPasswordField passwordTextField;
 
-	public class LoginPanel extends JPanel {
-
-		private JTextField usernameTextField;
-		private JPasswordField passwordTextField;
-		private JLabel lbl_Invalid;
-		private JLabel loginButton;
-		private JLabel lblBackground;
-		private JLabel lbl_loginScreen;
+public class LoginPanel extends JPanel implements ViewPanel {
+	private static final long serialVersionUID = 1L;
+	
+	private JTextField usernameTextField;
+	private JPasswordField passwordTextField;
+	private JLabel lbl_Invalid;
+	private JLabel loginButton;
+	private JLabel lblBackground;
+	private JLabel lbl_loginScreen;
 	
 	public LoginPanel() {
 		/*
@@ -55,12 +41,12 @@ import java.awt.Font;
 				setLayout(null);
 		
 		// Label invalid (Untuk menunjukkan bahwa username atau password invalid)
-				lbl_Invalid = new JLabel("Invalid username or password");
-				lbl_Invalid.setForeground(Color.RED);
-				lbl_Invalid.setFont(new Font("Segoe Print", Font.PLAIN, 24));
-				lbl_Invalid.setHorizontalAlignment(SwingConstants.CENTER);
-				lbl_Invalid.setBounds(17, 253, 366, 44);
-				this.add(lbl_Invalid);
+		lbl_Invalid = new JLabel("Invalid username or password");
+		lbl_Invalid.setForeground(Color.RED);
+		lbl_Invalid.setFont(new Font("Segoe Print", Font.PLAIN, 24));
+		lbl_Invalid.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_Invalid.setBounds(17, 253, 366, 44);
+		this.add(lbl_Invalid);
 		lbl_Invalid.setVisible(false);
 		
 		/*
@@ -154,7 +140,7 @@ import java.awt.Font;
 		 * Adding Password TextField and Label
 		 */
 		
-				loginButton = new JLabel("");
+		loginButton = new JLabel("");
 				//				loginButton.addMouseListener(new MouseAdapter() {
 				//					@Override
 				//					public void mouseClicked(MouseEvent e) {
@@ -173,9 +159,9 @@ import java.awt.Font;
 				//					}
 				//				});
 				//				
-								loginButton.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\LogMeIn.png"));
-								loginButton.setBounds(582, 543, 276, 62);
-								this.add(loginButton);
+		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LogMeIn.png"));
+		loginButton.setBounds(582, 543, 276, 62);
+		this.add(loginButton);
 //		JLabel passwordLabel = new JLabel("Password");
 //		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
 //		gbc_passwordLabel.anchor = GridBagConstraints.WEST;
@@ -205,7 +191,7 @@ import java.awt.Font;
 		// Label gambar background 
 		lblBackground = new JLabel("");
 		lblBackground.setToolTipText("");
-		lblBackground.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\LoginPage.png"));
+		lblBackground.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LoginPage.png"));
 		lblBackground.setBounds(0, 0, 1365, 735);
 		this.add(lblBackground);
 
