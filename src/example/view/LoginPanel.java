@@ -23,11 +23,8 @@ import example.Main;
 //	private JTextField usernameTextField;
 //	private JPasswordField passwordTextField;
 
-public class LoginPanel extends JPanel {
+public class LoginPanel extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
-	
-	private final File src = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceAll("%20", " "));
-	private final String srcFilePath = src.getAbsolutePath();
 	
 	private JTextField usernameTextField;
 	private JPasswordField passwordTextField;

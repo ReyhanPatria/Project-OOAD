@@ -14,11 +14,8 @@ import javax.swing.JPanel;
 import example.Main;
 import example.controller.MainController;
 
-public class FirstPage extends JPanel {
+public class FirstPage extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
-
-	private final File src = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceAll("%20", " "));
-	private final String srcFilePath = src.getAbsolutePath();
 	
 	private JLabel background;
 	
