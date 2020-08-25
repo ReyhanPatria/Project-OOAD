@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
+import java.awt.Frame;
 
 public class MainFrame extends JFrame {
 	// START OF STATIC ATTRIBUTES
@@ -32,13 +33,15 @@ public class MainFrame extends JFrame {
 	// START OF NON-STATIC FUNCTIONS
 	// Constructor
 	public MainFrame() {
-		this.setSize(PREFERRED_SIZE);
-		this.setMinimumSize(MINIMUM_SIZE);
-		this.setPreferredSize(PREFERRED_SIZE);
-		this.setMaximumSize(SCREEN_SIZE);
+//		this.setSize(PREFERRED_SIZE);
+//		this.setMinimumSize(MINIMUM_SIZE);
+//		this.setPreferredSize(PREFERRED_SIZE);
+//		this.setMaximumSize(SCREEN_SIZE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		
+		this.setExtendedState(Frame.MAXIMIZED_BOTH); // Jadi fullscreen
+		getContentPane().setLayout(null);
+//		this.setBounds(100, 100, 1443, 900);
 		this.setVisible(true);
 	}
 	
@@ -55,3 +58,4 @@ public class MainFrame extends JFrame {
 		return instance;
 	}
 }
+
