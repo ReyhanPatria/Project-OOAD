@@ -21,6 +21,7 @@ public class UserController {
 	// STATIC ATTRIBUTES ----------------------------------------------------
 	private static UserController instance;
 	
+	public static String[] allRoleList = {"admin", "supervisor", "worker"};
 	public static String[] selectableRoleList = {"supervisor", "worker"};
 	
 	
@@ -34,8 +35,7 @@ public class UserController {
 	}
 	
 	// Save updates on currently logged in User’s attributes to database
-	public User updateProfile(String username, Date DOB, String address,
-			String telp) throws InvalidObjectException {
+	public User updateProfile(String username, Date DOB, String address, String telp) {
 		User currentUser = getUser(currentUserId);
 		
 		currentUser.setUsername	(username	);
@@ -122,7 +122,7 @@ public class UserController {
 	
 	// Get a list of all user based on a role
 	public static List<User> getUserByRole(String role) throws IllegalArgumentException {
-		if(User.validateRole(role)) {
+		if(validateRole(role)) {
 			return User.getUserByRole(role);
 		}
 		
@@ -144,13 +144,7 @@ public class UserController {
 	public static User createUser(String username, String password, String role, 
 			Date DOB, String address, String telp) throws IllegalArgumentException {
 		User newUser = new User(UUID.randomUUID(), username, password, role, address, DOB, telp);
-		try {
-			newUser.save();
-		}
-		catch(InvalidObjectException e) {
-			throw new IllegalArgumentException(e.getMessage());
-//			e.printStackTrace();
-		}
+		newUser.save();
 		
 		return newUser;
 	}
@@ -170,5 +164,76 @@ public class UserController {
 		u.update();
 		
 		return u;
+	}
+	
+	
+	
+	
+	
+	// VALIDATORS ----------------------------------------------------
+	// Checks if id has been taken. TRUE if not taken, FALSE if taken
+	public static Boolean validateID(UUID id) {
+		List<User> userList = getAllUser();
+		for(User u: userList) {
+			if(id.toString().equals(u.getId().toString())) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	// Checks if username has been taken. TRUE if not taken, FALSE if taken
+	public static Boolean validateUsername(String username) {
+		List<User> userList = getAllUser();
+		for(User u: userList) {
+			if(username.equals(u.getUsername())) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	// Checks if username's length is correct. 5-15 characters
+	public static Boolean validateUsernameLength(String username) {
+		if(username.length() < 5 || username.length() > 15) {
+			return false;
+		}
+		return true;
+	}
+	
+	// Checks if role is a valid role
+	public static Boolean validateRole(String role) {
+		for(String r: allRoleList) {
+			if(role.equalsIgnoreCase(r)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	// Checks if address length is valid. 10-100 characters
+	public static Boolean validateAddressLength(String address) {
+		if(address.length() < 10 || address.length() > 100) {
+			return false;
+		}
+		return true;
+	}
+	
+	// Checks if DOB date is in the past
+	public static Boolean validateDOB(Date DOB) {
+		if(DOB.compareTo(new java.util.Date()) < 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	// Checks if telp is all numbers
+	public static Boolean validateTelp(String telp) {
+		for(Integer i = 0; i < telp.length(); i++) {
+			if(Character.isDigit(telp.charAt(i)) == false) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
