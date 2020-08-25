@@ -19,13 +19,6 @@ public class User {
 	private String 	address;
 	private Date 	DOB;
 	private String 	telp;
-
-	
-	
-	
-	
-	// STATIC ATTRIBUTES
-	public static String[] allRoleList = {"admin", "supervisor", "worker"};
 	
 	
 	
