@@ -1,6 +1,5 @@
 package example.model;
 
-import java.io.InvalidObjectException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import example.controller.UserController;
 import example.database.Connection;
 
 public class User {
@@ -47,28 +45,7 @@ public class User {
 	}
 	
 	// Updates User object attributes in database
-	public User update() throws InvalidObjectException {
-		if(validateUsername(this.username) == false) {
-			if(UserController.getUser(this.id).getUsername().equals(this.username) == false) {
-				throw new InvalidObjectException("Username has been taken");
-			}
-		}
-		else if(validateUsernameLength(this.username) == false) {
-			throw new InvalidObjectException("Username has to be 5-15 characters");
-		}
-		else if(validateRole(this.role) == false) {
-			throw new InvalidObjectException("Invalid role");
-		}
-		else if(validateAddressLength(this.address) == false) {
-			throw new InvalidObjectException("Address has to be 10-100 characters");
-		}
-		else if(validateDOB(this.DOB) == false) {
-			throw new InvalidObjectException("Date of birth has to be in the past");
-		}
-		else if(validateTelp(this.telp) == false) {
-			throw new InvalidObjectException("Telp has to be all digits");
-		}
-		
+	public User update() {
 		try {
 			PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
 					"UPDATE `users` " + 
@@ -94,29 +71,7 @@ public class User {
 	}
 	
 	// Inserts new User object into database
-	public User save() throws InvalidObjectException {
-		if(validateID(this.id) == false) {
-			throw new InvalidObjectException("ID has been taken");
-		}
-		else if(validateUsername(this.username) == false) {
-			throw new InvalidObjectException("Username has been taken");
-		}
-		else if(validateUsernameLength(this.username) == false) {
-			throw new InvalidObjectException("Username has to be 5-15 characters");
-		}
-		else if(validateRole(this.role) == false) {
-			throw new InvalidObjectException("Invalid role");
-		}
-		else if(validateAddressLength(this.address) == false) {
-			throw new InvalidObjectException("Address has to be 10-100 characters");
-		}
-		else if(validateDOB(this.DOB) == false) {
-			throw new InvalidObjectException("Date of birth has to be in the past");
-		}
-		else if(validateTelp(this.telp) == false) {
-			throw new InvalidObjectException("Telp has to be all digits");
-		}
-		
+	public User save() {
 		try {
 			PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
 					"INSERT INTO `users` " + 
@@ -279,96 +234,7 @@ public class User {
 		
 		return u;
 	}
-	
-	
-	
-	
-	
-	// VALIDATORS ----------------------------------------------------
-	// Checks if id has been taken. TRUE if not taken, FALSE if taken
-	public static Boolean validateID(UUID id) {
-		try {
-			PreparedStatement validateIDStatement = Connection.getConnection().prepareStatement(
-					"SELECT `id` FROM `users` WHERE `id`=?");
-			
-			validateIDStatement.setString(1, id.toString());
-			ResultSet idTable = validateIDStatement.executeQuery();
-			
-			if(idTable.next()) {
-				return false;
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return true;
-	}
-	
-	// Checks if username has been taken. TRUE if not taken, FALSE if taken
-	public static Boolean validateUsername(String username) {
-		try {
-			PreparedStatement validateIDStatement = Connection.getConnection().prepareStatement(
-					"SELECT `id` FROM `users` WHERE `username`=?");
-			
-			validateIDStatement.setString(1, username);
-			ResultSet usernameTable = validateIDStatement.executeQuery();
-			
-			if(usernameTable.next()) {
-				return false;
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return true;
-	}
-	
-	// Checks if username's length is correct. 5-15 characters
-	public static Boolean validateUsernameLength(String username) {
-		if(username.length() < 5 || username.length() > 15) {
-			return false;
-		}
-		return true;
-	}
-	
-	// Checks if role is a valid role
-	public static Boolean validateRole(String role) {
-		for(String r: allRoleList) {
-			if(role.equalsIgnoreCase(r)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	// Checks if address length is valid. 10-100 characters
-	public static Boolean validateAddressLength(String address) {
-		if(address.length() < 10 || address.length() > 100) {
-			return false;
-		}
-		return true;
-	}
-	
-	// Checks if DOB date is in the past
-	public static Boolean validateDOB(Date DOB) {
-		if(DOB.compareTo(new java.util.Date()) < 0) {
-			return true;
-		}
-		return false;
-	}
-	
-	// Checks if telp is all numbers
-	public static Boolean validateTelp(String telp) {
-		for(Integer i = 0; i < telp.length(); i++) {
-			if(Character.isDigit(telp.charAt(i)) == false) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
+
 	
 	
 	
