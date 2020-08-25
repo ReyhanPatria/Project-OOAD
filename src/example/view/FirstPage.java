@@ -1,28 +1,27 @@
 package example.view;
 
-import java.awt.Color;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import example.controller.MainController;
-
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import example.Main;
+import example.controller.MainController;
 
 public class FirstPage extends JPanel {
+	private static final long serialVersionUID = 1L;
+
+	private final File src = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceAll("%20", " "));
+	private final String srcFilePath = src.getAbsolutePath();
 	
 	private JLabel background;
-
+	
 	public FirstPage() {
 		
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
@@ -30,7 +29,7 @@ public class FirstPage extends JPanel {
 		
 		//Login Button
 		JButton loginButton = new JButton("");
-		loginButton.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\Loginbutton.png"));
+		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Loginbutton.png"));
 		loginButton.setBounds(984, 417, 230, 80);
 		loginButton.addActionListener(new ActionListener() {
 			@Override
@@ -46,7 +45,7 @@ public class FirstPage extends JPanel {
 		
 		background = new JLabel("background");
 		background.setToolTipText("");
-		background.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project\\Project-OOAD\\src\\example\\IMAGE\\LandingPage.png"));
+		background.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LandingPage.png"));
 		background.setBounds(0, 0, 1350, 700);
 		this.add(background);
 	
