@@ -116,7 +116,7 @@ public class User {
 	// STATIC FUNCTIONS ----------------------------------------------------
 	// Validate a login attempt
 	// Searches for a matching username and password in database to validate a login
-	public static UUID validateLogin(String username, String password) {
+	public static User validateLogin(String username, String password) {
 		ResultSet userIDTable;
 		
 		try {
@@ -130,7 +130,10 @@ public class User {
 			userIDTable = validateLoginStatement.executeQuery();
 			
 			if(userIDTable.next()) {
-				return UUID.fromString(userIDTable.getString("id"));
+				UUID id = UUID.fromString(userIDTable.getString("id"));
+				User user = get(id);
+				
+				return user;
 			}
 		}
 		catch(SQLException e) {
