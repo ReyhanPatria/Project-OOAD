@@ -7,13 +7,15 @@ import java.util.List;
 import java.util.UUID;
 
 import example.model.Notification;
+import example.model.User;
+import example.session.Session;
 
 public class NotificationController {
 	// STATIC FUNCTIONS -----------------------------------------------------
 	// Gets all notification of currently logged in user
 	public static List<Notification> getAllNotification() throws NoSuchObjectException {
-		UUID currentUserID = UserController.getInstance().getCurrentUserId();
-		List<Notification> allNotificationList = Notification.getAll(currentUserID);
+		User currentUser = Session.getInstance().getCurrentUser();
+		List<Notification> allNotificationList = Notification.getAll(currentUser.getId());
 		
 		return allNotificationList;
 	}
