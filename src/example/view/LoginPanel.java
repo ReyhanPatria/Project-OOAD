@@ -2,11 +2,14 @@ package example.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -14,14 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import example.Main;
-
-//public class LoginPanel extends JPanel {
-//	private static final long serialVersionUID = 1L;
-//
-//	private static final String MAXIMIZED_BOTH = null;
-//	
-//	private JTextField usernameTextField;
-//	private JPasswordField passwordTextField;
+import example.controller.MainController;
 
 public class LoginPanel extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
@@ -43,9 +39,9 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		// Label invalid (Untuk menunjukkan bahwa username atau password invalid)
 		lbl_Invalid = new JLabel("Invalid username or password");
 		lbl_Invalid.setForeground(Color.RED);
-		lbl_Invalid.setFont(new Font("Segoe Print", Font.PLAIN, 24));
+		lbl_Invalid.setFont(new Font("Segoe Print", Font.PLAIN, 12));
 		lbl_Invalid.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_Invalid.setBounds(17, 253, 366, 44);
+		lbl_Invalid.setBounds(460, 388, 197, 23);
 		this.add(lbl_Invalid);
 		lbl_Invalid.setVisible(false);
 		
@@ -140,7 +136,7 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		 * Adding Password TextField and Label
 		 */
 		
-		loginButton = new JLabel("");
+		JButton loginButton = new JButton("");
 				//				loginButton.addMouseListener(new MouseAdapter() {
 				//					@Override
 				//					public void mouseClicked(MouseEvent e) {
@@ -161,24 +157,11 @@ public class LoginPanel extends JPanel implements ViewPanel {
 				//				
 		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LogMeIn.png"));
 		loginButton.setBounds(582, 543, 276, 62);
+		loginButton.setBorderPainted(false);
+		loginButton.setOpaque(false);
+		loginButton.setContentAreaFilled(false);
+		loginButton.setFocusable(false);
 		this.add(loginButton);
-//		JLabel passwordLabel = new JLabel("Password");
-//		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
-//		gbc_passwordLabel.anchor = GridBagConstraints.WEST;
-//		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
-//		gbc_passwordLabel.gridx = 1;
-//		gbc_passwordLabel.gridy = 6;
-//		add(passwordLabel, gbc_passwordLabel);
-//		
-//		passwordTextField = new JPasswordField();
-//		passwordLabel.setLabelFor(passwordTextField);
-//		GridBagConstraints gbc_passwordTextField = new GridBagConstraints();
-//		gbc_passwordTextField.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_passwordTextField.insets = new Insets(0, 0, 5, 5);
-//		gbc_passwordTextField.gridx = 1;
-//		gbc_passwordTextField.gridy = 7;
-//		add(passwordTextField, gbc_passwordTextField);
-//		passwordTextField.setColumns(10);
 		
 		// Password field untuk isi password
 		passwordTextField = new JPasswordField();
@@ -186,6 +169,17 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		passwordTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		passwordTextField.setBounds(460, 467, 520, 50);
 		this.add(passwordTextField);
+		
+		//Back Button
+		JButton backButton = new JButton("Cancel");
+		backButton.setBounds(1238, 681, 89, 23);
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.changePanel(new FirstPage());
+			}
+		});
+		this.add(backButton);
 		
 		
 		// Label gambar background 
@@ -195,65 +189,6 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		lblBackground.setBounds(0, 0, 1365, 735);
 		this.add(lblBackground);
 
-		
-		/*
-		 * Adding Login Button
-		 */
-		
-//		/*
-//		 * Added signup label and button
-//		 */
-//		JLabel signupLabel = new JLabel("Don't have an account?");
-//		GridBagConstraints gbc_signupLabel = new GridBagConstraints();
-//		gbc_signupLabel.insets = new Insets(0, 0, 5, 5);
-//		gbc_signupLabel.gridx = 1;
-//		gbc_signupLabel.gridy = 11;
-//		add(signupLabel, gbc_signupLabel);
-//		
-//		JButton signupButton = new JButton("Sign up");
-//		signupButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				MainController.changePanel(new RegisterUserPanel());
-//			}
-//		});
-//		GridBagConstraints gbc_signupButton = new GridBagConstraints();
-//		gbc_signupButton.insets = new Insets(0, 0, 5, 5);
-//		gbc_signupButton.gridx = 1;
-//		gbc_signupButton.gridy = 12;
-//		add(signupButton, gbc_signupButton);
-		
-
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-//		
-//		// Panel Utama | Panel Background (Login Screen)
-//		contentPane = new JPanel();
-//		this.setBackground(Color.WHITE);
-//		this.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		setContentPane(contentPane);
-		
-		// Panel Background (Atasnya Panel Utama)
-//		panel = new JPanel();
-//		panel.setBounds(0, 0, 0, 0);
-//		panel.setBackground(Color.WHITE);
-//		this.add(panel);
-//		this.setLayout(null);
-//		
-		// Logo silang untuk quit
-//		close = new JLabel("X");
-//		close.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				System.exit(0); // Exit Program
-//			}
-//		});
-//		close.setForeground(Color.BLACK);
-//		close.setFont(new Font("Nova Square", Font.BOLD, 24));
-//		close.setBounds(1323, 0, 27, 37);
-//		this.add(close);
-		
-		
 		
 	}
 }

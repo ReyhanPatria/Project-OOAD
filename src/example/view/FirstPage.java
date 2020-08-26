@@ -28,6 +28,11 @@ public class FirstPage extends JPanel implements ViewPanel {
 		JButton loginButton = new JButton("");
 		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Loginbutton.png"));
 		loginButton.setBounds(984, 417, 230, 80);
+		loginButton.setBorderPainted(false);
+		loginButton.setOpaque(false);
+		loginButton.setContentAreaFilled(false);
+		loginButton.setFocusable(false);
+//		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

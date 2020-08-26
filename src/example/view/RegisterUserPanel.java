@@ -60,65 +60,27 @@ public class RegisterUserPanel extends JPanel {
 		/*
 		 * Username text field and label
 		 */
+		
+		/*
+		 * Role combo box and label
+		 */
 		JLabel usernameLabel = new JLabel("Username");
 		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
 		gbc_usernameLabel.anchor = GridBagConstraints.WEST;
 		gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_usernameLabel.gridx = 1;
-		gbc_usernameLabel.gridy = 3;
+		gbc_usernameLabel.gridy = 5;
 		add(usernameLabel, gbc_usernameLabel);
-		usernameLabel.setLabelFor(usernameTextField);
 		
 		usernameTextField = new JTextField();
 		GridBagConstraints gbc_usernameTextField = new GridBagConstraints();
 		gbc_usernameTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_usernameTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_usernameTextField.gridx = 2;
-		gbc_usernameTextField.gridy = 3;
+		gbc_usernameTextField.gridy = 5;
 		add(usernameTextField, gbc_usernameTextField);
 		usernameTextField.setColumns(10);
-		
-		/*
-		 * Password field and label
-		 */
-		JLabel passwordLabel = new JLabel("Password");
-		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
-		gbc_passwordLabel.anchor = GridBagConstraints.WEST;
-		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordLabel.gridx = 1;
-		gbc_passwordLabel.gridy = 4;
-		add(passwordLabel, gbc_passwordLabel);
-		
-		passwordField = new JPasswordField();
-		GridBagConstraints gbc_passwordField = new GridBagConstraints();
-		gbc_passwordField.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordField.gridx = 2;
-		gbc_passwordField.gridy = 4;
-		add(passwordField, gbc_passwordField);
-		
-		/*
-		 * Confirm Password field and label
-		 */
-		JLabel confirmPasswordLabel = new JLabel("Confim Password");
-		GridBagConstraints gbc_confirmPasswordLabel = new GridBagConstraints();
-		gbc_confirmPasswordLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_confirmPasswordLabel.anchor = GridBagConstraints.WEST;
-		gbc_confirmPasswordLabel.gridx = 1;
-		gbc_confirmPasswordLabel.gridy = 5;
-		add(confirmPasswordLabel, gbc_confirmPasswordLabel);
-		
-		confirmPasswordField = new JPasswordField();
-		GridBagConstraints gbc_confirmPasswordField = new GridBagConstraints();
-		gbc_confirmPasswordField.insets = new Insets(0, 0, 5, 5);
-		gbc_confirmPasswordField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_confirmPasswordField.gridx = 2;
-		gbc_confirmPasswordField.gridy = 5;
-		add(confirmPasswordField, gbc_confirmPasswordField);
-		
-		/*
-		 * Role combo box and label
-		 */
+		usernameLabel.setLabelFor(usernameTextField);
 		JLabel roleLabel = new JLabel("Role");
 		GridBagConstraints gbc_roleLabel = new GridBagConstraints();
 		gbc_roleLabel.anchor = GridBagConstraints.WEST;
@@ -199,6 +161,10 @@ public class RegisterUserPanel extends JPanel {
 		/*
 		 * Adding Register Button
 		 */
+		
+		/*
+		 * cancel button
+		 */
 		JButton registerButton = new JButton("Register");
 		registerButton.addActionListener(new ActionListener() {
 			@Override
@@ -220,35 +186,21 @@ public class RegisterUserPanel extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_registerButton = new GridBagConstraints();
-		gbc_registerButton.gridwidth = 2;
 		gbc_registerButton.insets = new Insets(0, 0, 5, 5);
-		gbc_registerButton.gridx = 1;
-		gbc_registerButton.gridy = 10;
-		add(registerButton, gbc_registerButton);
-		
-		/*
-		 * Login label and button
-		 */
-		JLabel loginLabel = new JLabel("Already have an account?");
-		GridBagConstraints gbc_loginLabel = new GridBagConstraints();
-		gbc_loginLabel.gridwidth = 2;
-		gbc_loginLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_loginLabel.gridx = 1;
-		gbc_loginLabel.gridy = 12;
-		add(loginLabel, gbc_loginLabel);
-		
-		JButton loginButton = new JButton("Login");
-		loginButton.addActionListener(new ActionListener() {
+		gbc_registerButton.gridx = 2;
+		gbc_registerButton.gridy = 11;
+		this.add(registerButton, gbc_registerButton);
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new LoginPanel());
+				MainController.changePanel(new MenuAdminView());
 			}
 		});
-		GridBagConstraints gbc_loginButton = new GridBagConstraints();
-		gbc_loginButton.gridwidth = 2;
-		gbc_loginButton.insets = new Insets(0, 0, 5, 5);
-		gbc_loginButton.gridx = 1;
-		gbc_loginButton.gridy = 13;
-		add(loginButton, gbc_loginButton);
+		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
+		gbc_cancelButton.insets = new Insets(0, 0, 5, 0);
+		gbc_cancelButton.gridx = 3;
+		gbc_cancelButton.gridy = 11;
+		this.add(cancelButton, gbc_cancelButton);
 	}
 }
