@@ -6,20 +6,12 @@ import java.util.List;
 import java.util.UUID;
 
 import example.model.User;
+import example.session.Session;
 import example.view.LoginPanel;
 import example.view.UserProfilePanel;
 
 public class UserController {
-	// NON-STATIC ATTRIBUTES ----------------------------------------------------
-	private UUID currentUserId;
-	
-	
-	
-	
-	
 	// STATIC ATTRIBUTES ----------------------------------------------------
-	private static UserController instance;
-	
 	public static String[] allRoleList = {"admin", "supervisor", "worker"};
 	public static String[] selectableRoleList = {"supervisor", "worker"};
 	
@@ -27,15 +19,10 @@ public class UserController {
 	
 	
 	
-	// NON-STATIC FUNCTIONS ----------------------------------------------------
-	// Constructor
-	public UserController(UUID currentUserId) {
-		this.currentUserId = currentUserId;
-	}
-	
+	// STATIC FUNCTIONS ----------------------------------------------------
 	// Save updates on currently logged in User’s attributes to database
-	public User updateProfile(String username, Date DOB, String address, String telp) 
-			throws IllegalArgumentException {
+	public static User updateProfile(String username, Date DOB, String address, String telp) 
+			throws IllegalArgumentException, NoSuchObjectException {
 		// Validate parameters
 		if(validateUsername(username) == false) {
 			throw new IllegalArgumentException("Username has been taken");
@@ -53,8 +40,7 @@ public class UserController {
 			throw new IllegalArgumentException("Telp must be all digits");
 		}
 		
-		
-		User currentUser = getUser(currentUserId);
+		User currentUser = Session.getInstance().getCurrentUser();
 		
 		currentUser.setUsername	(username	);
 		currentUser.setDOB		(DOB		);
@@ -66,9 +52,9 @@ public class UserController {
 	}
 	
 	// Changes currently logged in User password to a new password
-	public User changePassword(String oldPassword, String newPassword) 
-			throws IllegalArgumentException {
-		User currentUser = getUser(currentUserId);
+	public static User changePassword(String oldPassword, String newPassword) 
+			throws IllegalArgumentException, NoSuchObjectException {
+		User currentUser = Session.getInstance().getCurrentUser();
 		
 		if(oldPassword.equals(currentUser.getPassword()) == false) {
 			throw new IllegalArgumentException("Incorrect old password");
@@ -83,24 +69,14 @@ public class UserController {
 		return currentUser;
 	}
 	
-	// Gets currently logged in userID
-	public UUID getCurrentUserId() {
-		return currentUserId;
-	}
-	
-	
-	
-	
-	
-	// STATIC FUNCTIONS ----------------------------------------------------
 	// Instantiate UserController instance
 	public static void login(String username, String password) throws IllegalArgumentException {
-		UUID returnedId = User.validateLogin(username, password);
-		if(returnedId == null) {
+		User returnedUser = User.validateLogin(username, password);
+		if(returnedUser == null) {
 			throw new IllegalArgumentException("Username or Password is wrong!");
 		}
 		
-		instance = new UserController(returnedId);
+		Session.createSession(returnedUser);
 		
 		MainController.changePanel(new UserProfilePanel());
 	}
@@ -119,18 +95,9 @@ public class UserController {
 	
 	// Log out current user (make instance variable null)
 	public static void logout() {
-		instance = null;
+		Session.endSession();
 		
 		MainController.changePanel(new LoginPanel());
-	}
-	
-	// Get UserController instance
-	public static UserController getInstance() throws NoSuchObjectException {
-		if(instance == null) {
-			throw new NoSuchObjectException("User is not logged in!");
-		}
-		
-		return instance;
 	}
 	
 	// Get a list of all user

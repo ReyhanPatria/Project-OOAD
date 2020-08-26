@@ -161,10 +161,6 @@ public class RegisterUserPanel extends JPanel {
 		/*
 		 * Adding Register Button
 		 */
-		
-		/*
-		 * cancel button
-		 */
 		JButton registerButton = new JButton("Register");
 		registerButton.addActionListener(new ActionListener() {
 			@Override
@@ -190,6 +186,10 @@ public class RegisterUserPanel extends JPanel {
 		gbc_registerButton.gridx = 2;
 		gbc_registerButton.gridy = 11;
 		this.add(registerButton, gbc_registerButton);
+		
+		/*
+		 * cancel button
+		 */
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			@Override

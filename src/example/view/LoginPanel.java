@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,7 +15,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import example.Main;
 import example.controller.MainController;
 
 public class LoginPanel extends JPanel implements ViewPanel {
@@ -25,14 +23,10 @@ public class LoginPanel extends JPanel implements ViewPanel {
 	private JTextField usernameTextField;
 	private JPasswordField passwordTextField;
 	private JLabel lbl_Invalid;
-	private JLabel loginButton;
 	private JLabel lblBackground;
-	private JLabel lbl_loginScreen;
 	
 	public LoginPanel() {
-		/*
-		 * Set panel's preferred size
-		 */
+		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 				setLayout(null);
 		
@@ -45,63 +39,6 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		this.add(lbl_Invalid);
 		lbl_Invalid.setVisible(false);
 		
-		/*
-		 * Initialize GridBagLayout on panel
-		 */
-//		GridBagLayout gridBagLayout = new GridBagLayout();
-//		gridBagLayout.columnWidths = new int[]{0, 118, 0, 0};
-//		gridBagLayout.rowHeights = new int[]{0, 0, 30, 0, 0, 30, 0, 0, 30, 0, 30, 0, 0, 0, 0};
-//		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-//		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-//		setLayout(gridBagLayout);
-		
-		/*
-		 * Panel title label
-		 */
-//		JLabel panelTitleLabel = new JLabel("Login");
-//		GridBagConstraints gbc_panelTitleLabel = new GridBagConstraints();
-//		gbc_panelTitleLabel.insets = new Insets(0, 0, 5, 5);
-//		gbc_panelTitleLabel.gridx = 1;
-//		gbc_panelTitleLabel.gridy = 1;
-//		add(panelTitleLabel, gbc_panelTitleLabel);
-//		
-		/*
-		 * Adding Username TextField and Label
-		 */
-		
-//		JButton loginButton = new JButton("Login");
-//		loginButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				String username = usernameTextField.getText();
-//				String password = String.valueOf(passwordTextField.getPassword());
-//				
-//				try {
-//					UserController.login(username, password);
-//				}
-//				catch(Exception e1) {
-//					System.out.println(e1.getMessage());
-//					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
-//					e1.printStackTrace();
-//				}
-//			}
-//		});
-				
-//		GridBagConstraints gbc_loginButton = new GridBagConstraints();
-//		gbc_loginButton.insets = new Insets(0, 0, 5, 5);
-//		gbc_loginButton.gridx = 1;
-//		gbc_loginButton.gridy = 9;
-//		add(loginButton, gbc_loginButton);
-//				
-//				loginButton.setHorizontalAlignment(SwingConstants.CENTER);
-				
-//		JLabel usernameLabel = new JLabel("Username");
-//		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
-//		gbc_usernameLabel.anchor = GridBagConstraints.WEST;
-//		gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
-//		gbc_usernameLabel.gridx = 1;
-//		gbc_usernameLabel.gridy = 3;
-//		add(usernameLabel, gbc_usernameLabel);
-//		
 		// Text Field untuk isi username
 		usernameTextField = new JTextField("Input your username");
 		usernameTextField.setFont(new Font("Segoe Print", Font.PLAIN, 12));
@@ -120,41 +57,9 @@ public class LoginPanel extends JPanel implements ViewPanel {
 				usernameTextField.setText("");
 			}
 		});
-
 		
-//		usernameTextField = new JTextField();
-//		usernameLabel.setLabelFor(usernameTextField);
-//		GridBagConstraints gbc_usernameTextField = new GridBagConstraints();
-//		gbc_usernameTextField.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_usernameTextField.insets = new Insets(0, 0, 5, 5);
-//		gbc_usernameTextField.gridx = 1;
-//		gbc_usernameTextField.gridy = 4;
-//		add(usernameTextField, gbc_usernameTextField);
-//		usernameTextField.setColumns(10);
-		
-		/*
-		 * Adding Password TextField and Label
-		 */
-		
-		JButton loginButton = new JButton("");
-				//				loginButton.addMouseListener(new MouseAdapter() {
-				//					@Override
-				//					public void mouseClicked(MouseEvent e) {
-				//						// Validasi
-				//						String username = usernameTextField.getText();
-				//				String password = String.valueOf(passwordTextField.getPassword());
-				//				
-				//				try {
-				//					UserController.login(username, password);
-				//				}
-				//				catch(Exception e1) {
-				//					System.out.println(e1.getMessage());
-				//					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
-				//					e1.printStackTrace();
-				//				}
-				//					}
-				//				});
-				//				
+		// Login button
+		JButton loginButton = new JButton("");	
 		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LogMeIn.png"));
 		loginButton.setBounds(582, 543, 276, 62);
 		loginButton.setBorderPainted(false);
@@ -180,7 +85,6 @@ public class LoginPanel extends JPanel implements ViewPanel {
 			}
 		});
 		this.add(backButton);
-		
 		
 		// Label gambar background 
 		lblBackground = new JLabel("");

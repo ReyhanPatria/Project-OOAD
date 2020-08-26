@@ -1,17 +1,16 @@
 package example.view;
 
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import example.Main;
 import example.controller.MainController;
 
 public class FirstPage extends JPanel implements ViewPanel {
@@ -20,7 +19,7 @@ public class FirstPage extends JPanel implements ViewPanel {
 	private JLabel background;
 	
 	public FirstPage() {
-		
+		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		setLayout(null);
 		
@@ -32,7 +31,7 @@ public class FirstPage extends JPanel implements ViewPanel {
 		loginButton.setOpaque(false);
 		loginButton.setContentAreaFilled(false);
 		loginButton.setFocusable(false);
-//		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -45,6 +44,7 @@ public class FirstPage extends JPanel implements ViewPanel {
 		gbc_loginButton.gridy = 12;
 		add(loginButton);
 		
+		// Background image
 		background = new JLabel("background");
 		background.setToolTipText("");
 		background.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LandingPage.png"));
