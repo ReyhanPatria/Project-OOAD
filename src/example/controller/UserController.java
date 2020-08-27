@@ -8,7 +8,6 @@ import java.util.UUID;
 import example.model.User;
 import example.session.Session;
 import example.view.LoginPanel;
-import example.view.UserProfilePanel;
 
 public class UserController {
 	// STATIC ATTRIBUTES ----------------------------------------------------
@@ -77,8 +76,6 @@ public class UserController {
 		}
 		
 		Session.createSession(returnedUser);
-		
-		MainController.changePanel(new UserProfilePanel());
 	}
 	
 	// Registers new User
@@ -117,10 +114,6 @@ public class UserController {
 	// Get a specific user based on their ID
 	public static User getUser(UUID userID) throws IllegalArgumentException {
 		User u = User.get(userID);
-		
-		if(u == null) {
-			throw new IllegalArgumentException("userID is not valid");
-		}
 		
 		return u;
 	}
@@ -176,11 +169,10 @@ public class UserController {
 	// VALIDATORS ----------------------------------------------------
 	// Checks if id has been taken. TRUE if not taken, FALSE if taken
 	public static Boolean validateID(UUID id) {
-		List<User> userList = getAllUser();
-		for(User u: userList) {
-			if(id.toString().equals(u.getId().toString())) {
-				return false;
-			}
+		User user = User.get(id);
+		
+		if(user != null) {
+			return false;
 		}
 		return true;
 	}
