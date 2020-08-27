@@ -172,11 +172,10 @@ public class UserController {
 	// VALIDATORS ----------------------------------------------------
 	// Checks if id has been taken. TRUE if not taken, FALSE if taken
 	public static Boolean validateID(UUID id) {
-		List<User> userList = getAllUser();
-		for(User u: userList) {
-			if(id.toString().equals(u.getId().toString())) {
-				return false;
-			}
+		User user = User.get(id);
+		
+		if(user != null) {
+			return false;
 		}
 		return true;
 	}
