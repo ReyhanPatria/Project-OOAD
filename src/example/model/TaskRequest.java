@@ -37,7 +37,7 @@ public class TaskRequest {
 		try {
 			PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
 					"INSERT INTO `task_requests`(`id`, `supervisor_id`, `worker_id`, `title`, `note`) " + 
-					"VALUES (?, ?, ?, ?,?)");
+					"VALUES (?, ?, ?, ?, ?)");
 			
 			saveStatement.setString(1, this.id.toString());
 			saveStatement.setString(2, this.supervisorID.toString());
