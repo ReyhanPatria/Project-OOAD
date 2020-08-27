@@ -118,10 +118,6 @@ public class UserController {
 	public static User getUser(UUID userID) throws IllegalArgumentException {
 		User u = User.get(userID);
 		
-		if(u == null) {
-			throw new IllegalArgumentException("userID is not valid");
-		}
-		
 		return u;
 	}
 	
