@@ -29,6 +29,7 @@ public class Task {
 	
 	
 	// STATIC ENUM
+	// Enum for sort column
 	public static enum SORT_BY {
 		TITLE_NAME		("`title`"),
 		WORKER_NAME		("`worker_username`"),
@@ -46,6 +47,7 @@ public class Task {
 		}
 	}
 	
+	// Enum for direction
 	public static enum SORT_DIRECTION {
 		ASCENDING("ASC"),
 		DESCENDING("DESC");
@@ -194,6 +196,7 @@ public class Task {
 		return allTaskList;
 	}
 	
+	// Gets a specific task based on task's id
 	public static Task get(UUID id) {
 		Task task = null;
 		
@@ -225,31 +228,76 @@ public class Task {
 		return task;
 	}
 	
+	// Search for Tasks based on task's title or worker/supervisor name
 	public static List<Task> search(String query) throws NoSuchObjectException {
 		ArrayList<Task> searchedTaskList = new ArrayList<Task>();
+		query = "%" + query + "%";
 		
 		try {
-			PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
-					"SELECT * FROM `tasks` WHERE `worker_id`=? OR `supervisor_id`=? " + 
-					"ORDER BY `is_submitted` ASC");
+			PreparedStatement searchStatement = Connection.getConnection().prepareStatement(
+				"SELECT `tasks`.`id`, " +
+					"`tasks`.`supervisor_id`, " +
+					"( " +
+						"SELECT `username` " +
+						"FROM `users` " +
+						"WHERE `tasks`.`supervisor_id` = `users`.`id` " +
+					") AS `supervisor_username`, " +
+					"`tasks`.`worker_id`, " +
+					"( " +
+						"SELECT `username` " +
+						"FROM `users` " +
+						"WHERE `tasks`.`worker_id` = `users`.`id` " +
+					") AS `worker_username`, " +
+					"`tasks`.`title`, " +
+					"`tasks`.`revision_count`, " +
+					"`tasks`.`score`, " +
+					"`tasks`.`is_submitted`, " +
+					"`tasks`.`approved_at`, " +
+					"`tasks`.`note` " +
+				"FROM `tasks` " +
+				"WHERE 	( " +
+						"`title` = ? OR " +
+						"( " +
+							"SELECT `username` " +
+							"FROM `users` " +
+							"WHERE `tasks`.`supervisor_id` = `users`.`id` " +
+						") LIKE ? OR " +
+						"( " +
+							"SELECT `username` " +
+							"FROM `users` " +
+							"WHERE `tasks`.`worker_id` = `users`.`id` " +
+						") LIKE ? " +
+					") " +
+					"AND " + 
+					"( " +
+						"`supervisor_id` = ? OR " +
+						"`worker_id` = ? " +
+					") " +
+				"ORDER BY `is_submitted` ASC"
+			);
 			
 			UUID currentUserID = Session.getInstance().getCurrentUser().getId();
 			
-			getAllStatement.setString(1, currentUserID.toString());
-			getAllStatement.setString(2, currentUserID.toString());
+			searchStatement.setString(1, query);
+			searchStatement.setString(2, query);
+			searchStatement.setString(3, query);
+			searchStatement.setString(4, currentUserID.toString());
+			searchStatement.setString(5, currentUserID.toString());
 			
-			ResultSet taskTable = getAllStatement.executeQuery();
+			System.out.println(searchStatement.toString());
 			
-			while(taskTable.next()) {
-				UUID id = UUID.fromString(taskTable.getString("id"));
-				UUID workerID = UUID.fromString(taskTable.getString("worker_id"));
-				UUID supervisorID = UUID.fromString(taskTable.getString("supervisor_id"));
-				String title = taskTable.getString("title");
-				Integer revisionCount = taskTable.getInt("revision_count");
-				Integer score = taskTable.getInt("score");
-				Boolean isSubmitted = taskTable.getBoolean("is_submitted");
-				Timestamp approvedAt = taskTable.getTimestamp("approved_at");
-				String note = taskTable.getString("note");
+			ResultSet searchTable = searchStatement.executeQuery();
+			
+			while(searchTable.next()) {
+				UUID id = UUID.fromString(searchTable.getString("id"));
+				UUID workerID = UUID.fromString(searchTable.getString("worker_id"));
+				UUID supervisorID = UUID.fromString(searchTable.getString("supervisor_id"));
+				String title = searchTable.getString("title");
+				Integer revisionCount = searchTable.getInt("revision_count");
+				Integer score = searchTable.getInt("score");
+				Boolean isSubmitted = searchTable.getBoolean("is_submitted");
+				Timestamp approvedAt = searchTable.getTimestamp("approved_at");
+				String note = searchTable.getString("note");
 				
 				Task t = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
 				
