@@ -30,15 +30,15 @@ public class Task {
 	
 	// STATIC ENUM
 	// Enum for sort column
-	public static enum SORT_BY {
-		TITLE_NAME		("`title`"),
-		WORKER_NAME		("`worker_username`"),
-		SUPERVISOR_NAME	("`supervisor_username`"),
-		APPROVED_DATE	("`approved_at`");
+	public static enum SortBy {
+		TitleName		("`title`"),
+		WorkerName		("`worker_username`"),
+		SupervisorName	("`supervisor_username`"),
+		ApprovedDate	("`approved_at`");
 		
 		private final String SQLExpression;
 		
-		private SORT_BY(String SQLExpression) {
+		private SortBy(String SQLExpression) {
 			this.SQLExpression = SQLExpression;
 		}
 		
@@ -48,13 +48,13 @@ public class Task {
 	}
 	
 	// Enum for direction
-	public static enum SORT_DIRECTION {
-		ASCENDING("ASC"),
-		DESCENDING("DESC");
+	public static enum SortDirection {
+		Ascending("ASC"),
+		Descending("DESC");
 		
 		private final String SQLExpression;
 		
-		private SORT_DIRECTION(String SQLExpression) {
+		private SortDirection(String SQLExpression) {
 			this.SQLExpression = SQLExpression;
 		}
 		
@@ -311,7 +311,7 @@ public class Task {
 		return searchedTaskList;
 	}
 	
-	public static List<Task> sort(SORT_BY sortBy, SORT_DIRECTION direction) throws NoSuchObjectException {
+	public static List<Task> sort(SortBy sortBy, SortDirection direction) throws NoSuchObjectException {
 		ArrayList<Task> sortList = new ArrayList<Task>();
 		
 		try {
