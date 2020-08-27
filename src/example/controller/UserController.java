@@ -8,7 +8,6 @@ import java.util.UUID;
 import example.model.User;
 import example.session.Session;
 import example.view.LoginPanel;
-import example.view.UserProfilePanel;
 
 public class UserController {
 	// STATIC ATTRIBUTES ----------------------------------------------------
@@ -77,8 +76,6 @@ public class UserController {
 		}
 		
 		Session.createSession(returnedUser);
-		
-		MainController.changePanel(new UserProfilePanel());
 	}
 	
 	// Registers new User
