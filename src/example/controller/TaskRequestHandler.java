@@ -1,6 +1,7 @@
 package example.controller;
 
 import java.rmi.NoSuchObjectException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ public class TaskRequestHandler {
 	// STATIC FUNCTIONS
 	// Creates a new TaskRequest object and saves it to database
 	public static TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) 
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(TaskHandler.validateTitleLength(title) == false) {
 			throw new IllegalArgumentException("Title's length must be 5-20 characters");
@@ -36,14 +37,14 @@ public class TaskRequestHandler {
 	}
 	
 	// Gets a specific TaskReuqest object from database based on its id
-	public TaskRequest getTaskRequest(UUID taskRequestID) {
+	public TaskRequest getTaskRequest(UUID taskRequestID) throws SQLException {
 		TaskRequest taskRequest = TaskRequest.get(taskRequestID);
 		
 		return taskRequest;
 	}
 	
 	// Gets all task request that current user has
-	public static List<TaskRequest> getAllTaskRequest() throws NoSuchObjectException {
+	public static List<TaskRequest> getAllTaskRequest() throws NoSuchObjectException, SQLException {
 		User currentUser = Session.getInstance().getCurrentUser();
 		
 		List<TaskRequest> taskRequestList = TaskRequest.getAll(currentUser.getId());
@@ -53,7 +54,7 @@ public class TaskRequestHandler {
 	
 	// Accepts a task request
 	// Deletes TaskRequest from database then creates a task from it, and gives a notification to the requester
-	public static TaskRequest acceptTaskRequest(UUID taskRequestID) throws NoSuchObjectException {
+	public static TaskRequest acceptTaskRequest(UUID taskRequestID) throws NoSuchObjectException, SQLException {
 		TaskRequest taskRequest = TaskRequest.get(taskRequestID);
 		
 		String title = taskRequest.getTitle();
@@ -74,7 +75,7 @@ public class TaskRequestHandler {
 	
 	// Rejects a task request
 	// Deletes TaskRequest from database, and gives a notification to the requester
-	public static TaskRequest rejectTaskRequest(UUID taskRequestID) {
+	public static TaskRequest rejectTaskRequest(UUID taskRequestID) throws SQLException {
 		TaskRequest taskRequest = TaskRequest.get(taskRequestID);
 		
 		String title = taskRequest.getTitle();

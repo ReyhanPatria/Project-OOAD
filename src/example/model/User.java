@@ -38,73 +38,52 @@ public class User {
 	}
 	
 	// Updates User object attributes in database
-	public User update() {
-		try {
-			PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
-					"UPDATE `users` " + 
-					"SET `username`=?, `password`=?, `address`=?, `DOB`=?, `telp`=? " + 
-					"WHERE `id`=?");
-			
-			updateStatement.setString	(1, this.username		);
-			updateStatement.setString	(2, this.password		);
-			updateStatement.setString	(3, this.address		);
-			updateStatement.setDate		(4, this.DOB			);
-			updateStatement.setString	(5, this.telp			);
-			updateStatement.setString	(6, this.id.toString()	);
-			
-			if(updateStatement.executeUpdate() == 0) {
-				return null;
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+	public User update() throws SQLException {
+		PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
+				"UPDATE `users` " + 
+				"SET `username`=?, `password`=?, `address`=?, `DOB`=?, `telp`=? " + 
+				"WHERE `id`=?");
 		
+		updateStatement.setString	(1, this.username		);
+		updateStatement.setString	(2, this.password		);
+		updateStatement.setString	(3, this.address		);
+		updateStatement.setDate		(4, this.DOB			);
+		updateStatement.setString	(5, this.telp			);
+		updateStatement.setString	(6, this.id.toString()	);
+		
+		updateStatement.executeUpdate();
+			
 		return this;
 	}
 	
 	// Inserts new User object into database
-	public User save() {
-		try {
-			PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
-					"INSERT INTO `users` " + 
-					"(`id`, `username`, `password`, `role`, `address`, `DOB`, `telp`) " + 
-					"VALUES (?, ?, ?, ?, ?, ?, ?)");
-			
-			saveStatement.setString	(1, id.toString()	);
-			saveStatement.setString	(2, username)		;
-			saveStatement.setString	(3, password		);
-			saveStatement.setString	(4, role			);
-			saveStatement.setString	(5, address			);
-			saveStatement.setDate	(6, DOB				);
-			saveStatement.setString	(7, telp			);
-			
-			if(saveStatement.executeUpdate() == 0) {
-				return null;
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+	public User save() throws SQLException {
+		PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
+				"INSERT INTO `users` " + 
+				"(`id`, `username`, `password`, `role`, `address`, `DOB`, `telp`) " + 
+				"VALUES (?, ?, ?, ?, ?, ?, ?)");
+		
+		saveStatement.setString	(1, id.toString()	);
+		saveStatement.setString	(2, username)		;
+		saveStatement.setString	(3, password		);
+		saveStatement.setString	(4, role			);
+		saveStatement.setString	(5, address			);
+		saveStatement.setDate	(6, DOB				);
+		saveStatement.setString	(7, telp			);
+		
+		saveStatement.executeUpdate();
 		
 		return this;
 	}
 	
 	// Deletes User object from database
-	public UUID delete() {
-		try {
-			PreparedStatement deleteStatement = Connection.getConnection().prepareStatement(
-					"DELETE FROM `users` WHERE `id`=?");
-			
-			deleteStatement.setString(1, id.toString());
-			
-			if(deleteStatement.executeUpdate() == 0) {
-				return null;
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+	public UUID delete() throws SQLException {
+		PreparedStatement deleteStatement = Connection.getConnection().prepareStatement(
+				"DELETE FROM `users` WHERE `id`=?");
+		
+		deleteStatement.setString(1, id.toString());
+		
+		deleteStatement.executeUpdate();
 		
 		return id;
 	}
@@ -116,116 +95,95 @@ public class User {
 	// STATIC FUNCTIONS ----------------------------------------------------
 	// Validate a login attempt
 	// Searches for a matching username and password in database to validate a login
-	public static User validateLogin(String username, String password) {
+	public static User validateLogin(String username, String password) throws SQLException {
+		User user = null;
 		ResultSet userIDTable;
 		
-		try {
-			PreparedStatement validateLoginStatement = Connection.getConnection().prepareStatement(
-					"SELECT id from `users`" + 
-					"WHERE `username`=? AND `password`=?");
-			
-			validateLoginStatement.setString(1, username);
-			validateLoginStatement.setString(2, password);
-			
-			userIDTable = validateLoginStatement.executeQuery();
-			
-			if(userIDTable.next()) {
-				UUID id = UUID.fromString(userIDTable.getString("id"));
-				User user = get(id);
-				
-				return user;
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+		PreparedStatement validateLoginStatement = Connection.getConnection().prepareStatement(
+				"SELECT id from `users`" + 
+				"WHERE `username`=? AND `password`=?");
+		
+		validateLoginStatement.setString(1, username);
+		validateLoginStatement.setString(2, password);
+		
+		userIDTable = validateLoginStatement.executeQuery();
+		
+		if(userIDTable.next()) {
+			UUID id = UUID.fromString(userIDTable.getString("id"));
+			user = get(id);
 		}
 		
-		return null;
+		return user;
 	}
 	
 	// Gets a list of all User from the database
-	public static List<User> getAll() {
+	public static List<User> getAll() throws SQLException {
 		ResultSet userTable;
 		List<User> userList = new ArrayList<User>();
 		
-		try {
-			PreparedStatement getAllStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users`");
-			userTable = getAllStatement.executeQuery();
+		PreparedStatement getAllStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users`");
+		userTable = getAllStatement.executeQuery();
+		
+		while(userTable.next()) {
+			UUID id 			= 	UUID.fromString(userTable.getString("id"));
+			String username 	= 	userTable.getString	("username"	);
+			String password 	= 	userTable.getString	("password"	);
+			String role 		= 	userTable.getString	("role"		);
+			String address 		= 	userTable.getString	("address"	);
+			Date DOB 			= 	userTable.getDate	("DOB"		);
+			String telp 		= 	userTable.getString	("telp"		);
 			
-			while(userTable.next()) {
-				UUID id 			= 	UUID.fromString(userTable.getString("id"));
-				String username 	= 	userTable.getString	("username"	);
-				String password 	= 	userTable.getString	("password"	);
-				String role 		= 	userTable.getString	("role"		);
-				String address 		= 	userTable.getString	("address"	);
-				Date DOB 			= 	userTable.getDate	("DOB"		);
-				String telp 		= 	userTable.getString	("telp"		);
-				
-				User u = new User(id, username, password, role, address, DOB, telp);
-				userList.add(u);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+			User u = new User(id, username, password, role, address, DOB, telp);
+			userList.add(u);
 		}
 		
 		return userList;
 	}
 	
 	// Gets a list of User filtered by role from the database
-	public static List<User> getUserByRole(String role) {
+	public static List<User> getUserByRole(String role) throws SQLException {
 		ResultSet userByRoleTable;
 		List<User> userByRoleList = new ArrayList<User>();
 		
-		try {
-			PreparedStatement getUserByRoleStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `role`=?");
+		PreparedStatement getUserByRoleStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `role`=?");
+		
+		getUserByRoleStatement.setString(1, role);
+		userByRoleTable = getUserByRoleStatement.executeQuery();
+		
+		while(userByRoleTable.next()) {
+			UUID id 			= 	UUID.fromString(userByRoleTable.getString("id"));
+			String username 	= 	userByRoleTable.getString	("username"	);
+			String password 	= 	userByRoleTable.getString	("password"	);
+			String address 		= 	userByRoleTable.getString	("address"	);
+			Date DOB 			= 	userByRoleTable.getDate	("DOB"		);
+			String telp 		= 	userByRoleTable.getString	("telp"		);
 			
-			getUserByRoleStatement.setString(1, role);
-			userByRoleTable = getUserByRoleStatement.executeQuery();
-			
-			while(userByRoleTable.next()) {
-				UUID id 			= 	UUID.fromString(userByRoleTable.getString("id"));
-				String username 	= 	userByRoleTable.getString	("username"	);
-				String password 	= 	userByRoleTable.getString	("password"	);
-				String address 		= 	userByRoleTable.getString	("address"	);
-				Date DOB 			= 	userByRoleTable.getDate	("DOB"		);
-				String telp 		= 	userByRoleTable.getString	("telp"		);
-				
-				User u = new User(id, username, password, role, address, DOB, telp);
-				userByRoleList.add(u);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+			User u = new User(id, username, password, role, address, DOB, telp);
+			userByRoleList.add(u);
 		}
 		
 		return userByRoleList;
 	}
 	
 	// Gets a User from database
-	public static User get(UUID id) {
+	public static User get(UUID id) throws SQLException {
 		ResultSet getTable;
 		User u = null;
 		
-		try {
-			PreparedStatement getStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `id`=?");
+		PreparedStatement getStatement = Connection.getConnection().prepareStatement("SELECT * FROM `users` WHERE `id`=?");
+		
+		getStatement.setString(1, id.toString());
+		getTable = getStatement.executeQuery();
+		
+		if(getTable.next()) {
+			String username 	= 	getTable.getString	("username"	);
+			String password 	= 	getTable.getString	("password"	);
+			String role			= 	getTable.getString	("role"		);
+			String address 		= 	getTable.getString	("address"	);
+			Date DOB 			= 	getTable.getDate	("DOB"		);
+			String telp 		= 	getTable.getString	("telp"		);
 			
-			getStatement.setString(1, id.toString());
-			getTable = getStatement.executeQuery();
-			
-			if(getTable.next()) {
-				String username 	= 	getTable.getString	("username"	);
-				String password 	= 	getTable.getString	("password"	);
-				String role			= 	getTable.getString	("role"		);
-				String address 		= 	getTable.getString	("address"	);
-				Date DOB 			= 	getTable.getDate	("DOB"		);
-				String telp 		= 	getTable.getString	("telp"		);
-				
-				u = new User(id, username, password, role, address, DOB, telp);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+			u = new User(id, username, password, role, address, DOB, telp);
 		}
 		
 		return u;

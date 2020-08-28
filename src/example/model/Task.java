@@ -84,72 +84,57 @@ public class Task {
 	}
 	
 	// Inserts new Task to database
-	public Task save() {
-		try {
-			PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
-					"INSERT INTO `tasks`(`id`, `supervisor_id`, `worker_id`, `title`, " + 
-					"`revision_count`, `score`, `is_submitted`, `approved_at`, `note`) " + 
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			
-			saveStatement.setString(1, this.id.toString());
-			saveStatement.setString(2, this.supervisorID.toString());
-			saveStatement.setString(3, this.workerID.toString());
-			saveStatement.setString(4, this.title);
-			saveStatement.setInt(5, this.revisionCount);
-			saveStatement.setInt(6, this.score);
-			saveStatement.setBoolean(7, this.isSubmitted);
-			saveStatement.setTimestamp(8, this.approvedAt);
-			saveStatement.setString(9, this.note);
-			
-			saveStatement.executeUpdate();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+	public Task save() throws SQLException {
+		PreparedStatement saveStatement = Connection.getConnection().prepareStatement(
+				"INSERT INTO `tasks`(`id`, `supervisor_id`, `worker_id`, `title`, " + 
+				"`revision_count`, `score`, `is_submitted`, `approved_at`, `note`) " + 
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
+		saveStatement.setString(1, this.id.toString());
+		saveStatement.setString(2, this.supervisorID.toString());
+		saveStatement.setString(3, this.workerID.toString());
+		saveStatement.setString(4, this.title);
+		saveStatement.setInt(5, this.revisionCount);
+		saveStatement.setInt(6, this.score);
+		saveStatement.setBoolean(7, this.isSubmitted);
+		saveStatement.setTimestamp(8, this.approvedAt);
+		saveStatement.setString(9, this.note);
+		
+		saveStatement.executeUpdate();
+			
 		return this;
 	}
 	
 	// Update task's attributes in database
-	public Task update() {
-		try {
-			PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
-					"UPDATE `tasks` SET `supervisor_id`=?, `worker_id`=?, `title`=?, " + 
-					"`revision_count`=?, `score`=?, `is_submitted`=?, `approved_at`=?, " + 
-					"`note`=? WHERE `id`=?");
-			
-			updateStatement.setString(1, this.supervisorID.toString());
-			updateStatement.setString(2, this.workerID.toString());
-			updateStatement.setString(3, this.title);
-			updateStatement.setInt(4, this.revisionCount);
-			updateStatement.setInt(5, this.score);
-			updateStatement.setBoolean(6, this.isSubmitted);
-			updateStatement.setTimestamp(7, this.approvedAt);
-			updateStatement.setString(8, this.note);
-			updateStatement.setString(9, this.id.toString());
-			
-			updateStatement.executeUpdate();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+	public Task update() throws SQLException {
+		PreparedStatement updateStatement = Connection.getConnection().prepareStatement(
+				"UPDATE `tasks` SET `supervisor_id`=?, `worker_id`=?, `title`=?, " + 
+				"`revision_count`=?, `score`=?, `is_submitted`=?, `approved_at`=?, " + 
+				"`note`=? WHERE `id`=?");
+		
+		updateStatement.setString(1, this.supervisorID.toString());
+		updateStatement.setString(2, this.workerID.toString());
+		updateStatement.setString(3, this.title);
+		updateStatement.setInt(4, this.revisionCount);
+		updateStatement.setInt(5, this.score);
+		updateStatement.setBoolean(6, this.isSubmitted);
+		updateStatement.setTimestamp(7, this.approvedAt);
+		updateStatement.setString(8, this.note);
+		updateStatement.setString(9, this.id.toString());
+		
+		updateStatement.executeUpdate();
 		
 		return this;
 	}
 	
 	// Delete task from database
-	public UUID delete() {
-		try {
-			PreparedStatement deleteStatement = Connection.getConnection().prepareStatement(
-					"DELETE FROM `tasks` WHERE `id`=?");
-			
-			deleteStatement.setString(1, this.id.toString());
-			
-			deleteStatement.executeUpdate();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+	public UUID delete() throws SQLException {
+		PreparedStatement deleteStatement = Connection.getConnection().prepareStatement(
+				"DELETE FROM `tasks` WHERE `id`=?");
+		
+		deleteStatement.setString(1, this.id.toString());
+		
+		deleteStatement.executeUpdate();
 		
 		return this.id;
 	}
@@ -160,81 +145,70 @@ public class Task {
 	
 	// STATIC FUNCTIONS
 	// Get all task that user have
-	public static List<Task> getAll(UUID userID) {
+	public static List<Task> getAll(UUID userID) throws SQLException {
 		ArrayList<Task> allTaskList = new ArrayList<Task>();
 		
-		try {
-			PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
-					"SELECT * FROM `tasks` WHERE `worker_id`=? OR `supervisor_id`=? " + 
-					"ORDER BY `is_submitted` ASC");
+		PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
+				"SELECT * FROM `tasks` WHERE `worker_id`=? OR `supervisor_id`=? " + 
+				"ORDER BY `is_submitted` ASC");
+		
+		getAllStatement.setString(1, userID.toString());
+		getAllStatement.setString(2, userID.toString());
+		
+		ResultSet taskTable = getAllStatement.executeQuery();
+		
+		while(taskTable.next()) {
+			UUID id = UUID.fromString(taskTable.getString("id"));
+			UUID workerID = UUID.fromString(taskTable.getString("worker_id"));
+			UUID supervisorID = UUID.fromString(taskTable.getString("supervisor_id"));
+			String title = taskTable.getString("title");
+			Integer revisionCount = taskTable.getInt("revision_count");
+			Integer score = taskTable.getInt("score");
+			Boolean isSubmitted = taskTable.getBoolean("is_submitted");
+			Timestamp approvedAt = taskTable.getTimestamp("approved_at");
+			String note = taskTable.getString("note");
 			
-			getAllStatement.setString(1, userID.toString());
-			getAllStatement.setString(2, userID.toString());
+			Task t = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
 			
-			ResultSet taskTable = getAllStatement.executeQuery();
-			
-			while(taskTable.next()) {
-				UUID id = UUID.fromString(taskTable.getString("id"));
-				UUID workerID = UUID.fromString(taskTable.getString("worker_id"));
-				UUID supervisorID = UUID.fromString(taskTable.getString("supervisor_id"));
-				String title = taskTable.getString("title");
-				Integer revisionCount = taskTable.getInt("revision_count");
-				Integer score = taskTable.getInt("score");
-				Boolean isSubmitted = taskTable.getBoolean("is_submitted");
-				Timestamp approvedAt = taskTable.getTimestamp("approved_at");
-				String note = taskTable.getString("note");
-				
-				Task t = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
-				
-				allTaskList.add(t);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+			allTaskList.add(t);
 		}
 		
 		return allTaskList;
 	}
 	
 	// Gets a specific task based on task's id
-	public static Task get(UUID id) {
+	public static Task get(UUID id) throws SQLException {
 		Task task = null;
 		
-		try {
-			PreparedStatement getStatement = Connection.getConnection().prepareStatement(
-					"SELECT * FROM `tasks` WHERE `id`=? ORDER BY `is_submitted` ASC");
+		PreparedStatement getStatement = Connection.getConnection().prepareStatement(
+				"SELECT * FROM `tasks` WHERE `id`=? ORDER BY `is_submitted` ASC");
+		
+		getStatement.setString(1, id.toString());
+		
+		ResultSet taskTable = getStatement.executeQuery();
+		
+		if(taskTable.next()) {
+			UUID workerID = UUID.fromString(taskTable.getString("worker_id"));
+			UUID supervisorID = UUID.fromString(taskTable.getString("supervisor_id"));
+			String title = taskTable.getString("title");
+			Integer revisionCount = taskTable.getInt("revision_count");
+			Integer score = taskTable.getInt("score");
+			Boolean isSubmitted = taskTable.getBoolean("is_submitted");
+			Timestamp approvedAt = taskTable.getTimestamp("approved_at");
+			String note = taskTable.getString("note");
 			
-			getStatement.setString(1, id.toString());
-			
-			ResultSet taskTable = getStatement.executeQuery();
-			
-			if(taskTable.next()) {
-				UUID workerID = UUID.fromString(taskTable.getString("worker_id"));
-				UUID supervisorID = UUID.fromString(taskTable.getString("supervisor_id"));
-				String title = taskTable.getString("title");
-				Integer revisionCount = taskTable.getInt("revision_count");
-				Integer score = taskTable.getInt("score");
-				Boolean isSubmitted = taskTable.getBoolean("is_submitted");
-				Timestamp approvedAt = taskTable.getTimestamp("approved_at");
-				String note = taskTable.getString("note");
-				
-				task = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+			task = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
 		}
 		
 		return task;
 	}
 	
 	// Search for Tasks based on task's title or worker/supervisor name
-	public static List<Task> search(String query) throws NoSuchObjectException {
+	public static List<Task> search(String query) throws NoSuchObjectException, SQLException {
 		ArrayList<Task> searchedTaskList = new ArrayList<Task>();
 		query = "%" + query + "%";
 		
-		try {
-			PreparedStatement searchStatement = Connection.getConnection().prepareStatement(
+		PreparedStatement searchStatement = Connection.getConnection().prepareStatement(
 				"SELECT `tasks`.`id`, " +
 					"`tasks`.`supervisor_id`, " +
 					"( " +
@@ -274,48 +248,43 @@ public class Task {
 						"`worker_id` = ? " +
 					") " +
 				"ORDER BY `is_submitted` ASC"
-			);
+		);
+		
+		UUID currentUserID = Session.getInstance().getCurrentUser().getId();
+		
+		searchStatement.setString(1, query);
+		searchStatement.setString(2, query);
+		searchStatement.setString(3, query);
+		searchStatement.setString(4, currentUserID.toString());
+		searchStatement.setString(5, currentUserID.toString());
+		
+		System.out.println(searchStatement.toString());
+		
+		ResultSet searchTable = searchStatement.executeQuery();
+		
+		while(searchTable.next()) {
+			UUID id = UUID.fromString(searchTable.getString("id"));
+			UUID workerID = UUID.fromString(searchTable.getString("worker_id"));
+			UUID supervisorID = UUID.fromString(searchTable.getString("supervisor_id"));
+			String title = searchTable.getString("title");
+			Integer revisionCount = searchTable.getInt("revision_count");
+			Integer score = searchTable.getInt("score");
+			Boolean isSubmitted = searchTable.getBoolean("is_submitted");
+			Timestamp approvedAt = searchTable.getTimestamp("approved_at");
+			String note = searchTable.getString("note");
 			
-			UUID currentUserID = Session.getInstance().getCurrentUser().getId();
+			Task t = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
 			
-			searchStatement.setString(1, query);
-			searchStatement.setString(2, query);
-			searchStatement.setString(3, query);
-			searchStatement.setString(4, currentUserID.toString());
-			searchStatement.setString(5, currentUserID.toString());
-			
-			System.out.println(searchStatement.toString());
-			
-			ResultSet searchTable = searchStatement.executeQuery();
-			
-			while(searchTable.next()) {
-				UUID id = UUID.fromString(searchTable.getString("id"));
-				UUID workerID = UUID.fromString(searchTable.getString("worker_id"));
-				UUID supervisorID = UUID.fromString(searchTable.getString("supervisor_id"));
-				String title = searchTable.getString("title");
-				Integer revisionCount = searchTable.getInt("revision_count");
-				Integer score = searchTable.getInt("score");
-				Boolean isSubmitted = searchTable.getBoolean("is_submitted");
-				Timestamp approvedAt = searchTable.getTimestamp("approved_at");
-				String note = searchTable.getString("note");
-				
-				Task t = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
-				
-				searchedTaskList.add(t);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+			searchedTaskList.add(t);
 		}
 		
 		return searchedTaskList;
 	}
 	
-	public static List<Task> sort(SortBy sortBy, SortDirection direction) throws NoSuchObjectException {
+	public static List<Task> sort(SortBy sortBy, SortDirection direction) throws NoSuchObjectException, SQLException {
 		ArrayList<Task> sortList = new ArrayList<Task>();
 		
-		try {
-			PreparedStatement sortStatement = Connection.getConnection().prepareStatement(
+		PreparedStatement sortStatement = Connection.getConnection().prepareStatement(
 				"( " +
 					"SELECT `tasks`.`id`, " +
 						"`tasks`.`supervisor_id`, " +
@@ -341,33 +310,29 @@ public class Task {
 						"OR `worker_id` = ? " +
 				") " +
 				"ORDER BY " + sortBy.toSQLExpression() + " " + direction.toSQLExpression()
-			);
+		);
+		
+		sortStatement.setString(1, Session.getInstance().getCurrentUser().getId().toString());
+		sortStatement.setString(2, Session.getInstance().getCurrentUser().getId().toString());
+		
+		System.out.println(sortStatement.toString());
+		
+		ResultSet sortTable = sortStatement.executeQuery();
+		
+		while(sortTable.next()) {
+			UUID id = UUID.fromString(sortTable.getString("id"));
+			UUID workerID = UUID.fromString(sortTable.getString("worker_id"));
+			UUID supervisorID = UUID.fromString(sortTable.getString("supervisor_id"));
+			String title = sortTable.getString("title");
+			Integer revisionCount = sortTable.getInt("revision_count");
+			Integer score = sortTable.getInt("score");
+			Boolean isSubmitted = sortTable.getBoolean("is_submitted");
+			Timestamp approvedAt = sortTable.getTimestamp("approved_at");
+			String note = sortTable.getString("note");
 			
-			sortStatement.setString(1, Session.getInstance().getCurrentUser().getId().toString());
-			sortStatement.setString(2, Session.getInstance().getCurrentUser().getId().toString());
+			Task t = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
 			
-			System.out.println(sortStatement.toString());
-			
-			ResultSet sortTable = sortStatement.executeQuery();
-			
-			while(sortTable.next()) {
-				UUID id = UUID.fromString(sortTable.getString("id"));
-				UUID workerID = UUID.fromString(sortTable.getString("worker_id"));
-				UUID supervisorID = UUID.fromString(sortTable.getString("supervisor_id"));
-				String title = sortTable.getString("title");
-				Integer revisionCount = sortTable.getInt("revision_count");
-				Integer score = sortTable.getInt("score");
-				Boolean isSubmitted = sortTable.getBoolean("is_submitted");
-				Timestamp approvedAt = sortTable.getTimestamp("approved_at");
-				String note = sortTable.getString("note");
-				
-				Task t = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
-				
-				sortList.add(t);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+			sortList.add(t);
 		}
 		
 		return sortList;
