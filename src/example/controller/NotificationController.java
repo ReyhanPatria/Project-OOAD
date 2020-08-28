@@ -1,6 +1,7 @@
 package example.controller;
 
 import java.rmi.NoSuchObjectException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -13,7 +14,7 @@ import example.session.Session;
 public class NotificationController {
 	// STATIC FUNCTIONS -----------------------------------------------------
 	// Gets all notification of currently logged in user
-	public static List<Notification> getAllNotification() throws NoSuchObjectException {
+	public static List<Notification> getAllNotification() throws NoSuchObjectException, SQLException {
 		User currentUser = Session.getInstance().getCurrentUser();
 		List<Notification> allNotificationList = Notification.getAll(currentUser.getId());
 		
@@ -21,7 +22,7 @@ public class NotificationController {
 	}
 	
 	// Creates a new notification for a user based on userID
-	public static Notification createNotification(UUID userID, String message) {
+	public static Notification createNotification(UUID userID, String message) throws SQLException {
 		Notification newNotification = new Notification(UUID.randomUUID(), userID, message, null);
 		newNotification.save();
 		
@@ -29,7 +30,7 @@ public class NotificationController {
 	}
 	
 	// Updates readAt timestamp for all unread notification for a user based in userID 
-	public static void realAllNotification(UUID userID) {
+	public static void realAllNotification(UUID userID) throws SQLException {
 		List<Notification> allNotificationList = Notification.getAllUnread(userID);
 		for(Notification n: allNotificationList) {
 			n.setReadAt(Timestamp.from(Instant.now()));
