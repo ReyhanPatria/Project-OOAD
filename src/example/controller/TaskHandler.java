@@ -1,6 +1,7 @@
 package example.controller;
 
 import java.rmi.NoSuchObjectException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -13,14 +14,14 @@ import example.session.Session;
 public class TaskHandler {
 	// STATIC FUNCTIONS
 	// Get all task that current user have
-	public static List<Task> getAllTask() throws NoSuchObjectException {
+	public static List<Task> getAllTask() throws NoSuchObjectException, SQLException {
 		User currentUser = Session.getInstance().getCurrentUser();
 		List<Task> taskList = Task.getAll(currentUser.getId());
 		return taskList;
 	}
 	
 	// Get a specific Task from database based on its id
-	public static Task getTask(UUID taskID) {
+	public static Task getTask(UUID taskID) throws SQLException {
 		Task task = Task.get(taskID);
 		
 		return task;
@@ -28,7 +29,7 @@ public class TaskHandler {
 	
 	// Creates a new Task object then inserts it into database
 	public static Task createTask(String title, UUID workerID, UUID supervisorID, String note) 
-			throws NoSuchObjectException, IllegalArgumentException {
+			throws NoSuchObjectException, IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(validateTitleLength(title) == false) {
 			throw new IllegalArgumentException("Title's length must be 5-20 characters");
@@ -73,7 +74,7 @@ public class TaskHandler {
 	
 	// Update an existing Task object in database
 	public static Task updateTask(UUID taskID, String title, UUID workerID, UUID supervisorID, Integer score, String note) 
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(validateTitleLength(title) == false) {
 			throw new IllegalArgumentException("Title's length must be 5-20 characters");
@@ -105,7 +106,7 @@ public class TaskHandler {
 	}
 	
 	// Delete a specific Task from database
-	public static void deleteTask(UUID taskID) {
+	public static void deleteTask(UUID taskID) throws SQLException {
 		Task task = Task.get(taskID);
 		
 		task.delete();
@@ -113,7 +114,7 @@ public class TaskHandler {
 	
 	// Approve of a Task
 	// Sets Task's score and approved timestamp then updates the database, gives a notification
-	public static Task approveTask(UUID taskID, Integer score) throws IllegalArgumentException {
+	public static Task approveTask(UUID taskID, Integer score) throws IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(validateScore(score) == false) {
 			throw new IllegalArgumentException("Score must be between 0-100");
@@ -138,7 +139,7 @@ public class TaskHandler {
 	
 	// Request a Task revision
 	// Adds 1 to Task's revision count and set submitted status to false, gives a notification
-	public static Task requestTaskRevision(UUID taskID) {
+	public static Task requestTaskRevision(UUID taskID) throws SQLException {
 		Task task = getTask(taskID);
 		String title = task.getTitle();
 		UUID supervisorID = task.getSupervisorID();
@@ -159,7 +160,7 @@ public class TaskHandler {
 	
 	// Submit a Task
 	// Sets Task's submitted status to true then updates the database, and gives a notification
-	public static Task submitTask(UUID taskID) {
+	public static Task submitTask(UUID taskID) throws SQLException {
 		Task task = getTask(taskID);
 		String title = task.getTitle();
 		UUID supervisorID = task.getSupervisorID();
@@ -178,14 +179,14 @@ public class TaskHandler {
 	
 	// Search for a task based on title name or supervisor/worker username
 	// Returns a list of task that best fits the query
-	public static List<Task> searchTask(String query) throws NoSuchObjectException {
+	public static List<Task> searchTask(String query) throws NoSuchObjectException, SQLException {
 		List<Task> taskList = Task.search(query);
 		
 		return taskList;
 	}
 	
 	// Sort the task list based on a column and direction
-	public static List<Task> sortTask(Task.SortBy sortBy, Task.SortDirection direction) throws NoSuchObjectException {
+	public static List<Task> sortTask(Task.SortBy sortBy, Task.SortDirection direction) throws NoSuchObjectException, SQLException {
 		List<Task> taskList = Task.sort(sortBy, direction);
 		
 		return taskList;
@@ -197,7 +198,7 @@ public class TaskHandler {
 	
 	// VALIDATORS
 	// Validate worker's id
-	public static Boolean validateWorkerID(UUID workerID) {
+	public static Boolean validateWorkerID(UUID workerID) throws IllegalArgumentException, SQLException {
 		User worker = UserController.getUser(workerID);
 		
 		if(worker != null && worker.getRole().equalsIgnoreCase("WORKER") == true) {
@@ -207,7 +208,7 @@ public class TaskHandler {
 	}
 	
 	// Validate supervisor's id
-	public static Boolean validateSupervisorID(UUID supervisorID) {
+	public static Boolean validateSupervisorID(UUID supervisorID) throws IllegalArgumentException, SQLException {
 		User supervisor = UserController.getUser(supervisorID);
 		
 		if(supervisor != null && supervisor.getRole().equalsIgnoreCase("SUPERVISOR") == true) {
