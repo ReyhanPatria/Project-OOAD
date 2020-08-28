@@ -1,5 +1,6 @@
 package example.view;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,7 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 	
 	public MenuAdminView() {
 		
-		this.setPreferredSize(MainFrame.SCREEN_SIZE);
+		this.setSize(new Dimension(1440,1024));
 		setLayout(null);
 		
 		JButton registerButton = new JButton("Register User");

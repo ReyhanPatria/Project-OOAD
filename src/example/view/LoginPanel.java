@@ -62,6 +62,12 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		JButton loginButton = new JButton("");	
 		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LogMeIn.png"));
 		loginButton.setBounds(582, 543, 276, 62);
+		loginButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.changePanel(new MenuAdminView());
+			}
+		});
 		loginButton.setBorderPainted(false);
 		loginButton.setOpaque(false);
 		loginButton.setContentAreaFilled(false);
@@ -74,6 +80,8 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		passwordTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		passwordTextField.setBounds(460, 467, 520, 50);
 		this.add(passwordTextField);
+		
+		//validasi data username sama password ada di db atau nggak hrsnya di controller
 		
 		//Back Button
 		JButton backButton = new JButton("Cancel");

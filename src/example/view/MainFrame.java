@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
 	private final static Integer MINIMUM_SIZE_HEIGHT = (int) (SCREEN_SIZE.getHeight() * 0.5);
 	public final static Dimension MINIMUM_SIZE = new Dimension(MINIMUM_SIZE_WIDTH, MINIMUM_SIZE_HEIGHT);
 	
-	// Attributes for preferred frame size
+//	 Attributes for preferred frame size
 	private final static Integer PREFERRED_SIZE_WIDTH = (int) (SCREEN_SIZE.getWidth() * 0.8);
 	private final static Integer PREFERRED_SIZE_HEIGHT = (int) (SCREEN_SIZE.getHeight() * 0.8);
 	public final static Dimension PREFERRED_SIZE = new Dimension(PREFERRED_SIZE_WIDTH, PREFERRED_SIZE_HEIGHT);
@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setExtendedState(Frame.MAXIMIZED_BOTH); // Jadi fullscreen
 		getContentPane().setLayout(null);
-//		this.setBounds(100, 100, 1443, 900);
+		this.setBounds(0, 0, 1440, 1024);
 		this.setVisible(true);
 	}
 	
