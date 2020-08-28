@@ -2,6 +2,7 @@ package example.controller;
 
 import java.rmi.NoSuchObjectException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class UserController {
 	// STATIC FUNCTIONS ----------------------------------------------------
 	// Save updates on currently logged in User’s attributes to database
 	public static User updateProfile(String username, Date DOB, String address, String telp) 
-			throws IllegalArgumentException, NoSuchObjectException {
+			throws IllegalArgumentException, NoSuchObjectException, SQLException {
 		// Validate parameters
 		if(validateUsername(username) == false) {
 			throw new IllegalArgumentException("Username has been taken");
@@ -52,7 +53,7 @@ public class UserController {
 	
 	// Changes currently logged in User password to a new password
 	public static User changePassword(String oldPassword, String newPassword) 
-			throws IllegalArgumentException, NoSuchObjectException {
+			throws IllegalArgumentException, NoSuchObjectException, SQLException {
 		User currentUser = Session.getInstance().getCurrentUser();
 		
 		if(oldPassword.equals(currentUser.getPassword()) == false) {
@@ -69,7 +70,7 @@ public class UserController {
 	}
 	
 	// Instantiate UserController instance
-	public static void login(String username, String password) throws IllegalArgumentException {
+	public static void login(String username, String password) throws IllegalArgumentException, SQLException {
 		User returnedUser = User.validateLogin(username, password);
 		if(returnedUser == null) {
 			throw new IllegalArgumentException("Username or Password is wrong!");
@@ -80,7 +81,7 @@ public class UserController {
 	
 	// Registers new User
 	public static User registerUser(String username, String password, String confirmPassword, String role,
-			String address, Date DOB, String telp) throws IllegalArgumentException {
+			String address, Date DOB, String telp) throws IllegalArgumentException, SQLException {
 		if(password.equals(confirmPassword) == false) {
 			throw new IllegalArgumentException("Password does not match!");
 		}
@@ -98,12 +99,12 @@ public class UserController {
 	}
 	
 	// Get a list of all user
-	public static List<User> getAllUser() {
+	public static List<User> getAllUser() throws SQLException {
 		return User.getAll();
 	}
 	
 	// Get a list of all user based on a role
-	public static List<User> getUserByRole(String role) throws IllegalArgumentException {
+	public static List<User> getUserByRole(String role) throws IllegalArgumentException, SQLException {
 		if(validateRole(role)) {
 			return User.getUserByRole(role);
 		}
@@ -112,7 +113,7 @@ public class UserController {
 	}
 	
 	// Get a specific user based on their ID
-	public static User getUser(UUID userID) throws IllegalArgumentException {
+	public static User getUser(UUID userID) throws IllegalArgumentException, SQLException {
 		User u = User.get(userID);
 		
 		return u;
@@ -120,7 +121,7 @@ public class UserController {
 	
 	// Creating a new User object and stores it in the Database.
 	public static User createUser(String username, String password, String role, 
-			Date DOB, String address, String telp) throws IllegalArgumentException {
+			Date DOB, String address, String telp) throws IllegalArgumentException, SQLException {
 		if(validateUsername(username) == false) {
 			throw new IllegalArgumentException("Username has been taken");
 		}
@@ -147,13 +148,13 @@ public class UserController {
 	}
 	
 	// Delete user based on their ID
-	public static void deleteUser(UUID userID) throws IllegalArgumentException {
+	public static void deleteUser(UUID userID) throws IllegalArgumentException, SQLException {
 		User u = getUser(userID);
 		u.delete();
 	}
 	
 	// Resets of a user based on their ID
-	public static User resetPassword(UUID userID) {
+	public static User resetPassword(UUID userID) throws IllegalArgumentException, SQLException {
 		User u = getUser(userID);
 		
 		u.setPassword(u.getDOB().toString());
@@ -168,7 +169,7 @@ public class UserController {
 	
 	// VALIDATORS ----------------------------------------------------
 	// Checks if id has been taken. TRUE if not taken, FALSE if taken
-	public static Boolean validateID(UUID id) {
+	public static Boolean validateID(UUID id) throws SQLException {
 		User user = User.get(id);
 		
 		if(user != null) {
@@ -178,7 +179,7 @@ public class UserController {
 	}
 	
 	// Checks if username has been taken. TRUE if not taken, FALSE if taken
-	public static Boolean validateUsername(String username) {
+	public static Boolean validateUsername(String username) throws SQLException {
 		List<User> userList = getAllUser();
 		for(User u: userList) {
 			if(username.equals(u.getUsername())) {
