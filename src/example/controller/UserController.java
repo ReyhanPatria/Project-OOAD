@@ -94,8 +94,6 @@ public class UserController {
 	// Log out current user (make instance variable null)
 	public static void logout() {
 		Session.endSession();
-		
-		FrameController.changePanel(new LoginPanel());
 	}
 	
 	// Get a list of all user
