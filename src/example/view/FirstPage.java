@@ -3,54 +3,51 @@ package example.view;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import example.controller.FrameController;
-
 public class FirstPage extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel background;
+	private JLabel backgroundImage;
+	private JButton loginButton;
 	
 	public FirstPage() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		setLayout(null);
 		
-		//Login Button
-		JButton loginButton = new JButton("");
-		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Loginbutton.png"));
-		loginButton.setBounds(984, 417, 230, 80);
-		loginButton.setBorderPainted(false);
-		loginButton.setOpaque(false);
-		loginButton.setContentAreaFilled(false);
-		loginButton.setFocusable(false);
-		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		loginButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FrameController.changePanel(new LoginPanel());
-			}
-		});
+		// Login Button
+		this.loginButton = new JButton("");
+		this.loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Loginbutton.png"));
+		this.loginButton.setBounds(984, 417, 230, 80);
+		this.loginButton.setBorderPainted(false);
+		this.loginButton.setOpaque(false);
+		this.loginButton.setContentAreaFilled(false);
+		this.loginButton.setFocusable(false);
+		this.loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		GridBagConstraints gbc_loginButton = new GridBagConstraints();
 		gbc_loginButton.insets = new Insets(0, 0, 5, 5);
 		gbc_loginButton.gridx = 1;
 		gbc_loginButton.gridy = 12;
-		add(loginButton);
+		this.add(this.loginButton);
 		
 		// Background image
-		background = new JLabel("background");
-		background.setToolTipText("");
-		background.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LandingPage.png"));
-		background.setBounds(0, 0, 1350, 700);
-		this.add(background);
-	
+		this.backgroundImage = new JLabel("background");
+		this.backgroundImage.setToolTipText("");
+		this.backgroundImage.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LandingPage.png"));
+		this.backgroundImage.setBounds(0, 0, 1350, 700);
+		this.add(this.backgroundImage);
 	}
 
+	public JLabel getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public JButton getLoginButton() {
+		return loginButton;
+	}
 }
