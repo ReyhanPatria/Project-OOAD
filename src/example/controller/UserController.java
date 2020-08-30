@@ -79,12 +79,10 @@ public class UserController {
 	}
 	
 	// Registers new User
-	public static User registerUser(String username, String password, String confirmPassword, String role,
-			String address, Date DOB, String telp) throws IllegalArgumentException, SQLException {
-		if(password.equals(confirmPassword) == false) {
-			throw new IllegalArgumentException("Password does not match!");
-		}
+	public static User registerUser(String username, String role, String address, Date DOB, String telp) 
+			throws IllegalArgumentException, SQLException {
 		
+		String password = DOB.toString();
 		User newUser = createUser(username, password, role, DOB, address, telp); 
 		
 		return newUser;
