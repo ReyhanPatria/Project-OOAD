@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import example.model.User;
 import example.session.Session;
-import example.view.LoginPanel;
 
 public class UserController {
 	// STATIC ATTRIBUTES ----------------------------------------------------
