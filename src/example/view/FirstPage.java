@@ -43,6 +43,7 @@ public class FirstPage extends JPanel implements ViewPanel {
 		this.add(this.backgroundImage);
 	}
 
+	// GETTERS
 	public JLabel getBackgroundImage() {
 		return backgroundImage;
 	}
