@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import example.controller.MainController;
+import example.controller.FrameController;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -35,7 +35,7 @@ public class ProfileAdminView extends JPanel implements ViewPanel {
 		homeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new MenuAdminView());
+				FrameController.changePanel(new MenuAdminView());
 			}
 		});
 		homeButton.setBorderPainted(false);

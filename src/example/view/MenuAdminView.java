@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import example.controller.MainController;
+import example.controller.FrameController;
 
 public class MenuAdminView extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 		registerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new RegisterUserPanel());
+				FrameController.changePanel(new RegisterUserPanel());
 			}
 		});
 		registerButton.setBounds(508, 132, 106, 28);
@@ -42,7 +42,7 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 		logOutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new FirstPage());
+				FrameController.changePanel(new FirstPage());
 			}
 		});
 		add(logOutButton);

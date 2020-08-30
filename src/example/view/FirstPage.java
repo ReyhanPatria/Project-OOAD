@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import example.controller.MainController;
+import example.controller.FrameController;
 
 public class FirstPage extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class FirstPage extends JPanel implements ViewPanel {
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new LoginPanel());
+				FrameController.changePanel(new LoginPanel());
 			}
 		});
 		GridBagConstraints gbc_loginButton = new GridBagConstraints();

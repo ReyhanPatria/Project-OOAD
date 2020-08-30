@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 
 import com.toedter.calendar.JDateChooser;
 
-import example.controller.MainController;
+import example.controller.FrameController;
 import example.controller.UserController;
 
 public class RegisterUserPanel extends JPanel implements ViewPanel {
@@ -135,7 +135,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		profileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new ProfileAdminView());
+				FrameController.changePanel(new ProfileAdminView());
 			}
 		});		
 		
@@ -153,7 +153,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new MenuAdminView());
+				FrameController.changePanel(new MenuAdminView());
 			}
 		});		
 		

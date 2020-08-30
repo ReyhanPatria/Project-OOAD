@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 
 import example.view.MainFrame;
 
-public class MainController {
+public class FrameController {
 	// STATIC FUNCTIONS -----------------------------------------------------
 	// Changed MainFrame panel to a new panel
 	public static void changePanel(JPanel newPanel) {

@@ -95,7 +95,7 @@ public class UserController {
 	public static void logout() {
 		Session.endSession();
 		
-		MainController.changePanel(new LoginPanel());
+		FrameController.changePanel(new LoginPanel());
 	}
 	
 	// Get a list of all user

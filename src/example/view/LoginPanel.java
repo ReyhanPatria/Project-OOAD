@@ -15,7 +15,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import example.controller.MainController;
+import example.controller.FrameController;
 
 public class LoginPanel extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
@@ -65,7 +65,7 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new MenuAdminView());
+				FrameController.changePanel(new MenuAdminView());
 			}
 		});
 		loginButton.setBorderPainted(false);
@@ -89,7 +89,7 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainController.changePanel(new FirstPage());
+				FrameController.changePanel(new FirstPage());
 			}
 		});
 		this.add(backButton);
