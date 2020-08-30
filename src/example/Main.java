@@ -1,11 +1,10 @@
 package example;
 
-import example.controller.MainController;
-import example.view.FirstPage;
+import example.controller.ViewController;
 
 public class Main {
 	public Main() {
-		MainController.changePanel(new FirstPage());
+		ViewController.loadFirstPage();
 	}
 	
 	public static void main(String[] args) {
