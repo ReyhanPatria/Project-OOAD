@@ -1,9 +1,8 @@
 package example.view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -15,8 +14,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import example.controller.FrameController;
-
 public class LoginPanel extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
 	
@@ -24,6 +21,8 @@ public class LoginPanel extends JPanel implements ViewPanel {
 	private JPasswordField passwordTextField;
 	private JLabel lbl_Invalid;
 	private JLabel lblBackground;
+	private JButton loginButton;
+	private JButton backButton;
 	
 	public LoginPanel() {
 		// Set panel's preferred size
@@ -54,24 +53,21 @@ public class LoginPanel extends JPanel implements ViewPanel {
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				usernameTextField.setText("");
+				if(usernameTextField.getText().equals("Input your username")) {
+					usernameTextField.setText("");
+				}
 			}
 		});
 		
 		// Login button
-		JButton loginButton = new JButton("");	
+		loginButton = new JButton("");	
 		loginButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LogMeIn.png"));
 		loginButton.setBounds(582, 543, 276, 62);
-		loginButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FrameController.changePanel(new MenuAdminView());
-			}
-		});
 		loginButton.setBorderPainted(false);
 		loginButton.setOpaque(false);
 		loginButton.setContentAreaFilled(false);
 		loginButton.setFocusable(false);
+		this.loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(loginButton);
 		
 		// Password field untuk isi password
@@ -84,14 +80,8 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		//validasi data username sama password ada di db atau nggak hrsnya di controller
 		
 		//Back Button
-		JButton backButton = new JButton("Cancel");
+		backButton = new JButton("Cancel");
 		backButton.setBounds(1238, 681, 89, 23);
-		backButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FrameController.changePanel(new FirstPage());
-			}
-		});
 		this.add(backButton);
 		
 		// Label gambar background 
@@ -100,7 +90,34 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		lblBackground.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\LoginPage.png"));
 		lblBackground.setBounds(0, 0, 1365, 735);
 		this.add(lblBackground);
+	}
 
-		
+	// GETTERS
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public JTextField getUsernameTextField() {
+		return usernameTextField;
+	}
+
+	public JPasswordField getPasswordTextField() {
+		return passwordTextField;
+	}
+
+	public JLabel getLbl_Invalid() {
+		return lbl_Invalid;
+	}
+
+	public JLabel getLblBackground() {
+		return lblBackground;
+	}
+
+	public JButton getLoginButton() {
+		return loginButton;
+	}
+
+	public JButton getBackButton() {
+		return backButton;
 	}
 }
