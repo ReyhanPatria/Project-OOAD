@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /.classpath
 /.project
 /.settings/
@@ -5,3 +6,6 @@
 /mysql-connector-java-5.1.49-bin.jar
 /mysql-connector.jar
 /example/
+=======
+/bin/
+>>>>>>> branch 'master' of https://github.com/ReyhanPatria/Project-OOAD.git

@@ -2,17 +2,15 @@ package example.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 public class ViewAllUser extends JPanel{
+	private static final long serialVersionUID = 1L;
+	
 	private JButton deleteuser;
 	private JButton resetpass;
 	private JTable dataTable;
