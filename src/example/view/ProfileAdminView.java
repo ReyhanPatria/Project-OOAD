@@ -16,10 +16,10 @@ public class ProfileAdminView extends JPanel implements ViewPanel {
 	
 	private JLabel bg;
 	
-	private JTextField		usernameField;
-	private JTextField		addressField;
-	private JDateChooser	dobDateChooser;
-	private JTextField		phoneNumberField;
+	private JLabel	usernameField;
+	private JLabel	addressField;
+	private JLabel	dobDateChooser;
+	private JLabel	phoneNumberField;
 	
 	private JButton homeButton;
 	private JButton changePasswordButton;
@@ -33,7 +33,7 @@ public class ProfileAdminView extends JPanel implements ViewPanel {
 		// Home button
 		homeButton = new JButton("");
 		homeButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Home.png"));
-		homeButton.setBounds(1202, 11, 132, 39);
+		homeButton.setBounds(1201, 11, 134, 48);
 		homeButton.setBorderPainted(false);
 		homeButton.setOpaque(false);
 		homeButton.setContentAreaFilled(false);
@@ -44,7 +44,7 @@ public class ProfileAdminView extends JPanel implements ViewPanel {
 		// Change password button
 		changePasswordButton = new JButton("");
 		changePasswordButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\ChangePassword.png"));
-		changePasswordButton.setBounds(733, 583, 285, 45);
+		changePasswordButton.setBounds(731, 583, 306, 62);
 		changePasswordButton.setBorderPainted(false);
 		changePasswordButton.setOpaque(false);
 		changePasswordButton.setContentAreaFilled(false);
@@ -55,7 +55,7 @@ public class ProfileAdminView extends JPanel implements ViewPanel {
 		// Edit profile button
 		editProfileButton = new JButton("");
 		editProfileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\EditProfile.png"));
-		editProfileButton.setBounds(353, 583, 285, 45);
+		editProfileButton.setBounds(339, 583, 306, 62);
 		editProfileButton.setBorderPainted(false);
 		editProfileButton.setOpaque(false);
 		editProfileButton.setContentAreaFilled(false);
@@ -64,29 +64,25 @@ public class ProfileAdminView extends JPanel implements ViewPanel {
 		this.add(editProfileButton);
 		
 		// Username text field
-		usernameField = new JTextField();
+		usernameField = new JLabel();
 		usernameField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		usernameField.setBounds(593, 232, 566, 50);
-		this.add(usernameField);
-		usernameField.setColumns(10);
 		
 		// Address text field
-		addressField = new JTextField();
+		addressField = new JLabel();
 		addressField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		addressField.setColumns(10);
 		addressField.setBounds(593, 304, 566, 50);
 		this.add(addressField);
 		
 		// DOB chooser
-		dobDateChooser = new JDateChooser(new java.util.Date());
-		dobDateChooser.setBounds(440, 316, 488, 30);
-		dobDateChooser.getCalendarButton().setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		dobDateChooser = new JLabel();
+		dobDateChooser.setBounds(593, 377, 566, 45);
+		dobDateChooser.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		this.add(dobDateChooser);
 		
 		// Phone number text field
-		phoneNumberField = new JTextField();
+		phoneNumberField = new JLabel();
 		phoneNumberField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		phoneNumberField.setColumns(10);
 		phoneNumberField.setBounds(593, 444, 566, 50);
 		this.add(phoneNumberField);
 		
@@ -124,19 +120,19 @@ public class ProfileAdminView extends JPanel implements ViewPanel {
 		return editProfileButton;
 	}
 
-	public JTextField getUsernameField() {
+	public JLabel getUsernameField() {
 		return usernameField;
 	}
 
-	public JTextField getAddressField() {
+	public JLabel getAddressField() {
 		return addressField;
 	}
 
-	public JDateChooser getDobDateChooser() {
+	public JLabel getDobDateChooser() {
 		return dobDateChooser;
 	}
 
-	public JTextField getPhoneNumberField() {
+	public JLabel getPhoneNumberField() {
 		return phoneNumberField;
 	}
 }
