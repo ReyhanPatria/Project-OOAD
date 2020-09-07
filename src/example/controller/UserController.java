@@ -3,9 +3,11 @@ package example.controller;
 import java.rmi.NoSuchObjectException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import example.encryption.PasswordUtils;
 import example.model.User;
 import example.session.Session;
 
@@ -28,7 +30,7 @@ public class UserController {
 		}
 		else if(validateUsernameLength(username) == false) {
 			throw new IllegalArgumentException("Username length has to be 5-15 characters");
-		}
+		}	
 		else if(validateDOB(DOB) == false) {
 			throw new IllegalArgumentException("Date of Birth must be in the past");
 		}
@@ -62,7 +64,9 @@ public class UserController {
 			throw new IllegalArgumentException("New password cannot be empty");
 		}
 		
-		currentUser.setPassword(newPassword);
+		String securedPassword = PasswordUtils.generateSecurePassword(newPassword, currentUser.getUsername());
+		
+		currentUser.setPassword(securedPassword);
 		currentUser.update();
 		
 		return currentUser;
@@ -70,7 +74,9 @@ public class UserController {
 	
 	// Instantiate UserController instance
 	public static void login(String username, String password) throws IllegalArgumentException, SQLException {
-		User returnedUser = User.validateLogin(username, password);
+		String securedPassword = PasswordUtils.generateSecurePassword(password, username);
+		
+		User returnedUser = User.validateLogin(username, securedPassword);
 		if(returnedUser == null) {
 			throw new IllegalArgumentException("Username or Password is wrong!");
 		}
@@ -81,9 +87,13 @@ public class UserController {
 	// Registers new User
 	public static User registerUser(String username, String role, String address, Date DOB, String telp) 
 			throws IllegalArgumentException, SQLException {
+		if(validateUsernameLength(username) == false) {
+			throw new IllegalArgumentException("Username length has to be 5-15 characters");
+		}
 		
 		String password = DOB.toString();
-		User newUser = createUser(username, password, role, DOB, address, telp); 
+		String securedPassword = PasswordUtils.generateSecurePassword(password, username);
+		User newUser = createUser(username, securedPassword, role, DOB, address, telp); 
 		
 		return newUser;
 	}
@@ -152,7 +162,11 @@ public class UserController {
 	public static User resetPassword(UUID userID) throws IllegalArgumentException, SQLException {
 		User u = getUser(userID);
 		
-		u.setPassword(u.getDOB().toString());
+		String username = u.getUsername();
+		String newPassword = u.getDOB().toString();
+		String securedPassword = PasswordUtils.generateSecurePassword(newPassword, username);
+		
+		u.setPassword(securedPassword);
 		u.update();
 		
 		return u;
@@ -214,7 +228,8 @@ public class UserController {
 	
 	// Checks if DOB date is in the past
 	public static Boolean validateDOB(Date DOB) {
-		if(DOB.compareTo(new java.util.Date()) < 0) {
+		java.sql.Date currentDate = java.sql.Date.valueOf(LocalDate.now());
+		if(DOB.before(currentDate) == true) {
 			return true;
 		}
 		return false;
