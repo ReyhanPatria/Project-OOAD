@@ -7,9 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import com.toedter.calendar.JDateChooser;
 
 public class ProfileAdminView extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
