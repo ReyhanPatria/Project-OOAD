@@ -1,20 +1,15 @@
 package example.view;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
-public class ProfileSupervisorandWorkers extends JPanel implements ViewPanel {
+public class ProfileSupervisorAndWorker extends JPanel implements ViewPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -34,126 +29,123 @@ public class ProfileSupervisorandWorkers extends JPanel implements ViewPanel {
 	private JTextField txtSearch;
 	private JLabel usernameField;
 	
-	public ProfileSupervisorandWorkers() {
-		// TODO Auto-generated constructor stub
+	public ProfileSupervisorAndWorker() {
+		// Set panel's preferred size
+		this.setPreferredSize(MainFrame.SCREEN_SIZE);
+		this.setLayout(null);
 		
-			// Set panel's preferred size
-			this.setPreferredSize(MainFrame.SCREEN_SIZE);
-					setLayout(null);
-			
-			//username txt
-			usernameField = new JLabel("");
-			usernameField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-			usernameField.setBounds(603, 230, 556, 48);
-			add(usernameField);
-			
-			//search field
-			txtSearch = new JTextField();
-			txtSearch.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-			txtSearch.setText("Search...");
-			txtSearch.setBounds(404, 11, 537, 48);
-			this.add(txtSearch);
-			txtSearch.setColumns(10);
-			
-			//Button for create a task
-			taskButton = new JButton("");
-			taskButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\CreateTask.png"));
-			taskButton.setBounds(963, 11, 50, 50);
-			taskButton.setBorderPainted(false);
-			taskButton.setOpaque(false);
-			taskButton.setContentAreaFilled(false);
-			taskButton.setFocusable(false);
-			this.taskButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			this.add(taskButton);
-			
-			//button notif
-			notifButton = new JButton("");
-			notifButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Notifications.png"));
-			notifButton.setBounds(1129, 9, 50, 50);
-			notifButton.setBorderPainted(false);
-			notifButton.setOpaque(false);
-			notifButton.setContentAreaFilled(false);
-			notifButton.setFocusable(false);
-			this.notifButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			this.add(notifButton);
-			
-			// Login button
-			homeButton = new JButton("");	
-			homeButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Home.png"));
-			homeButton.setBounds(1201, 11, 134, 48);
-			homeButton.setBorderPainted(false);
-			homeButton.setOpaque(false);
-			homeButton.setContentAreaFilled(false);
-			homeButton.setFocusable(false);
-			this.homeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			this.add(homeButton);
-			
-			// Change password button
-			changePasswordButton = new JButton("");
-			changePasswordButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\ChangePassword.png"));
-			changePasswordButton.setBounds(731, 583, 306, 62);
-			changePasswordButton.setBorderPainted(false);
-			changePasswordButton.setOpaque(false);
-			changePasswordButton.setContentAreaFilled(false);
-			changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			changePasswordButton.setFocusable(false);
-			this.add(changePasswordButton);
-			
-			// Edit profile button
-			editProfileButton = new JButton("");
-			editProfileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\EditProfile.png"));
-			editProfileButton.setBounds(339, 583, 306, 62);
-			editProfileButton.setBorderPainted(false);
-			editProfileButton.setOpaque(false);
-			editProfileButton.setContentAreaFilled(false);
-			editProfileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			editProfileButton.setFocusable(false);
-			this.add(editProfileButton);
-			
-			
-			// Address text field
-			addressField = new JLabel();
-			addressField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-			addressField.setBounds(603, 304, 556, 50);
-			this.add(addressField);
-			
-			// DOB chooser
-			dobDateChooser = new JLabel();
-			dobDateChooser.setBounds(603, 377, 556, 45);
-			dobDateChooser.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-			this.add(dobDateChooser);
-			
-			// Phone number text field
-			phoneNumberField = new JLabel();
-			phoneNumberField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-			phoneNumberField.setBounds(603, 444, 556, 50);
-			this.add(phoneNumberField);
-			
-			//Back Button
-			backButton = new JButton("Cancel");
-			backButton.setBounds(1238, 681, 89, 23);
-			this.add(backButton);
-			
-			// Label gambar background 
-			bg = new JLabel("");
-			bg.setToolTipText("");
-			bg.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\ProfilePage2.png"));
-			bg.setBounds(0, 0, 1365, 735);
-			this.add(bg);
-		}
-	
-	//GETTERS
+		// username txt
+		usernameField = new JLabel("");
+		usernameField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		usernameField.setBounds(603, 230, 556, 48);
+		this.add(usernameField);
+		
+		// search field
+		txtSearch = new JTextField();
+		txtSearch.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		txtSearch.setText("Search...");
+		txtSearch.setBounds(404, 11, 537, 48);
+		txtSearch.setColumns(10);
+		this.add(txtSearch);
+		
+		// Button for create a task
+		taskButton = new JButton("");
+		taskButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\CreateTask.png"));
+		taskButton.setBounds(963, 11, 50, 50);
+		taskButton.setBorderPainted(false);
+		taskButton.setOpaque(false);
+		taskButton.setContentAreaFilled(false);
+		taskButton.setFocusable(false);
+		taskButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.add(taskButton);
+		
+		// button notif
+		notifButton = new JButton("");
+		notifButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Notifications.png"));
+		notifButton.setBounds(1129, 9, 50, 50);
+		notifButton.setBorderPainted(false);
+		notifButton.setOpaque(false);
+		notifButton.setContentAreaFilled(false);
+		notifButton.setFocusable(false);
+		notifButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.add(notifButton);
+		
+		// Login button
+		homeButton = new JButton("");	
+		homeButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Home.png"));
+		homeButton.setBounds(1201, 11, 134, 48);
+		homeButton.setBorderPainted(false);
+		homeButton.setOpaque(false);
+		homeButton.setContentAreaFilled(false);
+		homeButton.setFocusable(false);
+		homeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.add(homeButton);
+		
+		// Change password button
+		changePasswordButton = new JButton("");
+		changePasswordButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\ChangePassword.png"));
+		changePasswordButton.setBounds(731, 583, 306, 62);
+		changePasswordButton.setBorderPainted(false);
+		changePasswordButton.setOpaque(false);
+		changePasswordButton.setContentAreaFilled(false);
+		changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		changePasswordButton.setFocusable(false);
+		this.add(changePasswordButton);
+		
+		// Edit profile button
+		editProfileButton = new JButton("");
+		editProfileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\EditProfile.png"));
+		editProfileButton.setBounds(339, 583, 306, 62);
+		editProfileButton.setBorderPainted(false);
+		editProfileButton.setOpaque(false);
+		editProfileButton.setContentAreaFilled(false);
+		editProfileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		editProfileButton.setFocusable(false);
+		this.add(editProfileButton);
+		
+		
+		// Address text field
+		addressField = new JLabel();
+		addressField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		addressField.setBounds(603, 304, 556, 50);
+		this.add(addressField);
+		
+		// DOB chooser
+		dobDateChooser = new JLabel();
+		dobDateChooser.setBounds(603, 377, 556, 45);
+		dobDateChooser.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		this.add(dobDateChooser);
+		
+		// Phone number text field
+		phoneNumberField = new JLabel();
+		phoneNumberField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		phoneNumberField.setBounds(603, 444, 556, 50);
+		this.add(phoneNumberField);
+		
+		//Back Button
+		backButton = new JButton("Cancel");
+		backButton.setBounds(1238, 681, 89, 23);
+		this.add(backButton);
+		
+		// Label gambar background 
+		bg = new JLabel("");
+		bg.setToolTipText("");
+		bg.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\ProfilePage2.png"));
+		bg.setBounds(0, 0, 1365, 735);
+		this.add(bg);
+	}
 
+	
+	
+	
+	
+	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	public JLabel getBg() {
 		return bg;
-	}
-
-	public JLabel getUsernameField() {
-		return usernameField;
 	}
 
 	public JLabel getAddressField() {
@@ -195,5 +187,8 @@ public class ProfileSupervisorandWorkers extends JPanel implements ViewPanel {
 	public JTextField getTxtSearch() {
 		return txtSearch;
 	}
-	
+
+	public JLabel getUsernameField() {
+		return usernameField;
+	}
 }
