@@ -224,7 +224,7 @@ public class UserController {
 	
 	// Checks if DOB date is in the past
 	public static Boolean validateDOB(Date DOB) {
-		if(DOB.compareTo(new java.util.Date()) < 0) {
+		if(DOB.before(new java.util.Date()) == true) {
 			return true;
 		}
 		return false;
