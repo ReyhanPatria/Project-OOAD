@@ -3,6 +3,7 @@ package example.controller;
 import java.rmi.NoSuchObjectException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class UserController {
 		}
 		else if(validateUsernameLength(username) == false) {
 			throw new IllegalArgumentException("Username length has to be 5-15 characters");
-		}
+		}	
 		else if(validateDOB(DOB) == false) {
 			throw new IllegalArgumentException("Date of Birth must be in the past");
 		}
@@ -86,6 +87,9 @@ public class UserController {
 	// Registers new User
 	public static User registerUser(String username, String role, String address, Date DOB, String telp) 
 			throws IllegalArgumentException, SQLException {
+		if(validateUsernameLength(username) == false) {
+			throw new IllegalArgumentException("Username length has to be 5-15 characters");
+		}
 		
 		String password = DOB.toString();
 		String securedPassword = PasswordUtils.generateSecurePassword(password, username);
@@ -224,7 +228,8 @@ public class UserController {
 	
 	// Checks if DOB date is in the past
 	public static Boolean validateDOB(Date DOB) {
-		if(DOB.before(new java.util.Date()) == true) {
+		java.sql.Date currentDate = java.sql.Date.valueOf(LocalDate.now());
+		if(DOB.before(currentDate) == true) {
 			return true;
 		}
 		return false;
