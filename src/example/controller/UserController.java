@@ -55,18 +55,26 @@ public class UserController {
 	// Changes currently logged in User password to a new password
 	public static User changePassword(String oldPassword, String newPassword) 
 			throws IllegalArgumentException, NoSuchObjectException, SQLException {
+		if(validatePasswordLength(newPassword) == false) {
+			throw new IllegalArgumentException("Password must be at least 5 characters");
+		}
+		
 		User currentUser = Session.getInstance().getCurrentUser();
 		
-		if(oldPassword.equals(currentUser.getPassword()) == false) {
+		String securedOldPassword = PasswordUtils.generateSecurePassword(oldPassword, currentUser.getUsername());
+		String securedNewPassword = PasswordUtils.generateSecurePassword(newPassword, currentUser.getUsername());
+		
+		if(securedOldPassword.equals(currentUser.getPassword()) == false) {
 			throw new IllegalArgumentException("Incorrect old password");
+		}
+		else if(securedOldPassword.equals(securedNewPassword)) {
+			throw new IllegalArgumentException("New password cannot be the same as old password");
 		}
 		else if(newPassword.length() <= 0) {
 			throw new IllegalArgumentException("New password cannot be empty");
 		}
 		
-		String securedPassword = PasswordUtils.generateSecurePassword(newPassword, currentUser.getUsername());
-		
-		currentUser.setPassword(securedPassword);
+		currentUser.setPassword(securedNewPassword);
 		currentUser.update();
 		
 		return currentUser;
@@ -202,6 +210,13 @@ public class UserController {
 	public static Boolean validateUsernameLength(String username) {
 		username = username.replace(" ", "");
 		if(username.length() < 5 || username.length() > 15) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static Boolean validatePasswordLength(String password) {
+		if(password.length() < 5) {
 			return false;
 		}
 		return true;
