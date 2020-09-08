@@ -2,24 +2,32 @@ package example.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
-public class ViewAllUser extends JPanel implements ViewPanel{
+public class AllUserView extends JPanel implements ViewPanel{
+	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
-	private JButton deleteuser;
-	private JButton resetpass;
-	private JTable dataTable;
+	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
+	private JButton deleteUserButton;
+	private JButton resetPasswordButton;
+	private JTable userDataTable;
 
-	public ViewAllUser() {
+	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
+	public AllUserView() {
 		this.setBackground(Color.DARK_GRAY);
 		this.setLayout(new BorderLayout());
 		
@@ -27,44 +35,42 @@ public class ViewAllUser extends JPanel implements ViewPanel{
 		JPanel topActionPanel = new JPanel();
 		topActionPanel.setLayout(new FlowLayout());
 		
-		deleteuser = new JButton("Delete User");
-		resetpass = new JButton("Reset Password");
+		deleteUserButton = new JButton("Delete User");
+		resetPasswordButton = new JButton("Reset Password");
 		
-		topActionPanel.add(deleteuser);
-		topActionPanel.add(resetpass);
+		topActionPanel.add(deleteUserButton);
+		topActionPanel.add(resetPasswordButton);
 		
 		//data panel
 		JPanel dataPanel = new JPanel();
 		dataPanel.setLayout(new BorderLayout());
 		
-		dataTable = new JTable();
-		
-		String[][] userDummy = {{"12345-abc", "test", "admin", "surabaya", "2000-09-09", "0897654321"}};
-		String[] tableHeader = {"id","username", "role", "address", "DOB", "telp"};
-		dataTable = new JTable(userDummy, tableHeader);
-		
-		dataPanel.add(new JScrollPane(dataTable), BorderLayout.CENTER);
+		// user data table
+		userDataTable = new JTable();
+		dataPanel.add(new JScrollPane(userDataTable), BorderLayout.CENTER);
 		
 		this.add(topActionPanel, BorderLayout.NORTH);
 		this.add(dataPanel, BorderLayout.CENTER);
 	}
 
+	
+	
+	
+	
+	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public JButton getDeleteuser() {
-		return deleteuser;
+	public JButton getDeleteUserButton() {
+		return deleteUserButton;
 	}
 
-	public JButton getResetpass() {
-		return resetpass;
+	public JButton getResetPasswordButton() {
+		return resetPasswordButton;
 	}
 
-	public JTable getDataTable() {
-		return dataTable;
+	public JTable getUserDataTable() {
+		return userDataTable;
 	}
-	
-	
-
 }
