@@ -121,13 +121,7 @@ public class ViewController {
 		mav.getViewButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * 
-				 * TODO
-				 * 
-				 * 
-				 */
+//				ViewController.LoadViewAllUser();
 			}
 		});
 		
