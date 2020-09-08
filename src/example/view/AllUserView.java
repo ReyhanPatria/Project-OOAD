@@ -1,33 +1,22 @@
 package example.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
-import com.toedter.calendar.JDateChooser;
-
-import example.controller.UserController;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class AllUserView extends JPanel implements ViewPanel{
 	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
-	// NON-STATIC ATTRIBUTES
 	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
 	private JLabel bground;
 	
 	private JButton resetPasswordButton;
@@ -38,6 +27,10 @@ public class AllUserView extends JPanel implements ViewPanel{
 	
 	private JTable userDataTable;
 
+	
+	
+	
+	
 	// NON-STATIC ATTRIBUTES
 	public AllUserView() {
 		
@@ -45,7 +38,7 @@ public class AllUserView extends JPanel implements ViewPanel{
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		setLayout(null);
 		
-		//user Table
+		// user Table
 		userDataTable = new JTable();
 		userDataTable.setBounds(75, 170, 950, 500);
 		this.add(userDataTable);
@@ -83,7 +76,7 @@ public class AllUserView extends JPanel implements ViewPanel{
 		createButton.setFocusable(false);
 		this.add(createButton);
 		
-		//profile button
+		// profile button
 		profileButton = new JButton("");
 		profileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Profile.png"));
 		profileButton.setBounds(1205, 22, 134, 48);
@@ -112,6 +105,10 @@ public class AllUserView extends JPanel implements ViewPanel{
 		this.add(bground);
 	}
 
+	
+	
+	
+	
 	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -144,7 +141,4 @@ public class AllUserView extends JPanel implements ViewPanel{
 	public JButton getCreateButton() {
 		return createButton;
 	}
-
-
-	
 }
