@@ -5,15 +5,10 @@ import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import com.toedter.calendar.JDateChooser;
-
-import example.controller.UserController;
 
 public class ChangePasswordView extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
