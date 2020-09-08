@@ -107,21 +107,13 @@ public class ViewController {
 	public static MenuAdminView loadMenuAdminView() {
 		MenuAdminView mav = new MenuAdminView();
 		
-		// Logic for register button
-//		mav.getRegisterButton().addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				ViewController.loadRegisterUserPanel();
-//			}
-//		});
-		
 		// Logic for profile button
-				mav.getProfileButton().addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						ViewController.loadProfileAdminView();
-					}
-				});
+		mav.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewController.loadProfileAdminView();
+			}
+		});
 		
 		// Logic for view all user button
 		mav.getViewButton().addActionListener(new ActionListener() {
