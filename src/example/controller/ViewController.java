@@ -260,7 +260,6 @@ public class ViewController {
 					return false;
 				}
 			};
-			userDataModel.addRow(tableHeader);
 			
 			// Inserting user data rows
 			for(User u: allUserList) {
@@ -290,22 +289,30 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					// Confirming reset choice
-					Integer confirmResult = JOptionPane.showConfirmDialog(MainFrame.getInstance(), 
-							"Are you sure?", "Reset Password", JOptionPane.YES_NO_OPTION);
+					// Getting the selected row
+					Integer selectedRow = alv.getUserDataTable().getSelectedRow();
+					Integer idColumn = 0;
 					
-					// If reset was confirmed
-					if(confirmResult == JOptionPane.YES_OPTION) {
-						// Getting user's id for reset
-						Integer selectedRow = alv.getUserDataTable().getSelectedRow();
-						Integer idColumn = 0;
-						String selectedId = (String) alv.getUserDataTable().getModel().getValueAt(selectedRow, idColumn);
-						UUID selectedUUID = UUID.fromString(selectedId);
+					// Checking if a row is selected
+					if(selectedRow < 0 || selectedRow >= alv.getUserDataTable().getRowCount()) {
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "No user selected");
+					}
+					else {
+						// Confirming reset choice
+						Integer confirmResult = JOptionPane.showConfirmDialog(MainFrame.getInstance(), 
+								"Are you sure?", "Reset Password", JOptionPane.YES_NO_OPTION);
 						
-						// Resetting user's password
-						UserController.resetPassword(selectedUUID);
-						// Success message
-						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Password was reset");
+						// If reset was confirmed
+						if(confirmResult == JOptionPane.YES_OPTION) {
+							// Getting user's id for reset
+							String selectedId = (String) alv.getUserDataTable().getModel().getValueAt(selectedRow, idColumn);
+							UUID selectedUUID = UUID.fromString(selectedId);
+							
+							// Resetting user's password
+							UserController.resetPassword(selectedUUID);
+							// Success message
+							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Password was reset");
+						}
 					}
 				}
 				catch(Exception e1) {
@@ -318,8 +325,46 @@ public class ViewController {
 		alv.getDeleteUserButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				try {
+					// Getting the selected row
+					Integer selectedRow = alv.getUserDataTable().getSelectedRow();
+					Integer idColumn = 0;
+					
+					// Checking if a row is selected
+					if(selectedRow < 0 || selectedRow >= alv.getUserDataTable().getRowCount()) {
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "No user selected");
+					}
+					else {
+						// Confirming delete choice
+						Integer confirmResult = JOptionPane.showConfirmDialog(MainFrame.getInstance(), 
+								"Are you sure?", "Delete User", JOptionPane.YES_NO_OPTION);
+						
+						// If reset was confirmed
+						if(confirmResult == JOptionPane.YES_OPTION) {
+							// Getting user's id for reset
+							String selectedId = (String) alv.getUserDataTable().getModel().getValueAt(selectedRow, idColumn);
+							UUID selectedUUID = UUID.fromString(selectedId);
+							
+							// Check if selected user is currently logged in user
+							User currentUser = Session.getInstance().getCurrentUser();
+							if(currentUser.getId().equals(selectedUUID)) {
+								JOptionPane.showMessageDialog(MainFrame.getInstance(), "You cannot delete your own account!");
+							}
+							else {
+								// Resetting user's password
+								UserController.deleteUser(selectedUUID);
+								// Success message
+								JOptionPane.showMessageDialog(MainFrame.getInstance(), "User was deleted");
+								
+								// Reloads all user view
+								ViewController.loadAllUserView();
+							}
+						}
+					}
+				}
+				catch(Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
