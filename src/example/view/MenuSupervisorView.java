@@ -1,12 +1,9 @@
 package example.view;
 
-import java.awt.Cursor;
 import java.awt.Dimension;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ImageIcon;
 
 public class MenuSupervisorView extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;

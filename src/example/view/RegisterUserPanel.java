@@ -2,8 +2,6 @@ package example.view;
 
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
