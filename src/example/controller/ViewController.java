@@ -16,6 +16,7 @@ import example.model.User;
 import example.session.Session;
 import example.view.AllUserView;
 import example.view.ChangePasswordView;
+import example.view.EditProfileView;
 import example.view.FirstPage;
 import example.view.LoginPanel;
 import example.view.MainFrame;
@@ -90,12 +91,12 @@ public class ViewController {
 			}
 			else if(userRole.equalsIgnoreCase("supervisor")) {
 				/*
-				 * TODO
+				 * TODO: Create loadMenuSupervisorView()
 				 */
 			}
 			else if(userRole.equalsIgnoreCase("worker")) {
 				/*
-				 * TODO
+				 * TODO: Create loadMenuWorkerView()
 				 */
 			}
 		}
@@ -223,11 +224,7 @@ public class ViewController {
 		pv.getEditProfileButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * TODO
-				 * 
-				 */
+				 ViewController.loadEditProfileView();
 			}
 		});
 		
@@ -236,6 +233,19 @@ public class ViewController {
 	
 	public static ChangePasswordView loadChangePasswordView() {
 		ChangePasswordView cpv = new ChangePasswordView();
+		
+		// Check currently logged in user's role
+		try {
+			User currentUser = Session.getInstance().getCurrentUser();
+			
+			// Remove notification button if admin is logged in
+			if(currentUser.getRole().equalsIgnoreCase("ADMIN")) {
+				cpv.remove(cpv.getNotifButton());
+			}
+		}
+		catch(NoSuchObjectException e2) {
+			e2.printStackTrace();
+		}
 		
 		// Logic for update button
 		cpv.getUpdateButton().addActionListener(new ActionListener() {
@@ -260,9 +270,57 @@ public class ViewController {
 			}
 		});
 		
+		// Logic for notification button
+		cpv.getNotifButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * 
+				 * TODO: Create loadNotificationView()
+				 * 
+				 * 
+				 */
+			}
+		});
+		
+		// Logic for back button
+		cpv.getBackButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		// Logic for menu button
+		cpv.getMenuButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for profile button
+		cpv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Load profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
 		FrameController.changePanel(cpv);
 		
 		return cpv;
+	}
+	
+	public static EditProfileView loadEditProfileView() {
+		EditProfileView epv = new EditProfileView();
+		
+		FrameController.changePanel(epv);
+		
+		return epv;
 	}
 	
 	// Loads all user view
