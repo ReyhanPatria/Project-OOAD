@@ -38,23 +38,13 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		setLayout(null);
 		
 		// Text Field untuk isi username
-		usernameTextField = new JTextField("Input Username");
+		usernameTextField = new JTextField("");
 		usernameTextField.setBounds(440, 206, 488, 43);
 		usernameTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		usernameTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(usernameTextField);
 		usernameTextField.setColumns(10);
-		usernameTextField.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				usernameTextField.setText("");
-			}
-		});
+
 
 		// Choose role combo box
 		roleComboBox = new JComboBox<Object>(UserController.selectableRoleList);
@@ -110,8 +100,13 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 
 		// Cancel button
 		cancelButton = new JButton("Cancel");
+		cancelButton.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project-OOAD\\src\\example\\IMAGE\\Home.png"));
 		cancelButton.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		cancelButton.setBounds(894, 649, 89, 23);	
+		cancelButton.setBounds(1027, 0, 134, 48);	
+		cancelButton.setBorderPainted(false);
+		cancelButton.setOpaque(false);
+		cancelButton.setContentAreaFilled(false);
+		cancelButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(cancelButton);
 		
 		// Label gambar background 

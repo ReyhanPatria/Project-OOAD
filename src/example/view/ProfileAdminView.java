@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ProfileAdminView extends JPanel implements ViewPanel {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel bg;
