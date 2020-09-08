@@ -160,7 +160,10 @@ public class ViewController {
 				
 				try {
 					UserController.registerUser(username, role, address, DOB, telp);
-				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), "User registered successfully");
+					ViewController.loadMenuView();
+				}
+				catch (Exception e1) {
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
 			}
