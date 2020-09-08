@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -15,8 +16,8 @@ public class ChangePasswordView extends JPanel implements ViewPanel {
 	
 	private JLabel bground;
 	
-	private JTextField	oldPassField;
-	private JTextField	newPassField;
+	private JPasswordField	oldPassField;
+	private JPasswordField	newPassField;
 	
 	private JButton updateButton;
 	private JButton menuButton;
@@ -50,7 +51,7 @@ public class ChangePasswordView extends JPanel implements ViewPanel {
 		this.add(notifButton);
 		
 		// Text Field untuk isi old password
-		oldPassField = new JTextField("");
+		oldPassField = new JPasswordField("");
 		oldPassField.setBounds(440, 335, 488, 37);
 		oldPassField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		oldPassField.setHorizontalAlignment(SwingConstants.LEFT);
@@ -59,7 +60,7 @@ public class ChangePasswordView extends JPanel implements ViewPanel {
 		
 		
 		// new password text field
-		newPassField = new JTextField();
+		newPassField = new JPasswordField();
 		newPassField.setBounds(440, 425, 488, 37);
 		newPassField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(newPassField);
