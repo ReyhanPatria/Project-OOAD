@@ -5,10 +5,16 @@ import java.awt.event.ActionListener;
 import java.rmi.NoSuchObjectException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.UUID;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
+import example.model.User;
 import example.session.Session;
+import example.view.AllUserView;
 import example.view.FirstPage;
 import example.view.LoginPanel;
 import example.view.MainFrame;
@@ -121,7 +127,7 @@ public class ViewController {
 		mav.getViewButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				ViewController.LoadViewAllUser();
+				ViewController.loadAllUserView();
 			}
 		});
 		
@@ -241,5 +247,90 @@ public class ViewController {
 		});
 		
 		FrameController.changePanel(pav);
+	}
+	
+	// Loads all user view
+	public static AllUserView loadAllUserView() {
+		AllUserView alv = new AllUserView();
+		
+		// Filling the table with user data
+		try {
+			List<User> allUserList = UserController.getAllUser();
+			
+			// Creating table content
+			String[] tableHeader = {"id","username", "role", "address", "DOB", "telp"};
+			DefaultTableModel userDataModel = new DefaultTableModel(tableHeader, 0) {
+				private static final long serialVersionUID = 1L;
+
+				// Making the cells not editable
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			
+			// Inserting user data rows
+			for(User u: allUserList) {
+				Object[] rowData = {u.getId().toString(), 
+									u.getUsername(), 
+									u.getRole(), 
+									u.getAddress(), 
+									u.getDOB().toString(), 
+									u.getTelp()};
+				userDataModel.addRow(rowData);
+			}
+			
+			// Setting table content
+			alv.getUserDataTable().setModel(userDataModel);
+			
+			// Hiding id column
+			TableColumnModel tcm = alv.getUserDataTable().getColumnModel();
+			tcm.removeColumn(tcm.getColumn(0));
+		}
+		catch(SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		// Logic for reset password button
+		alv.getResetPasswordButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Confirming reset choice
+					Integer confirmResult = JOptionPane.showConfirmDialog(MainFrame.getInstance(), 
+							"Are you sure?", "Reset Password", JOptionPane.YES_NO_OPTION);
+					
+					// If reset was confirmed
+					if(confirmResult == JOptionPane.YES_OPTION) {
+						// Getting user's id for reset
+						Integer selectedRow = alv.getUserDataTable().getSelectedRow();
+						Integer idColumn = 0;
+						String selectedId = (String) alv.getUserDataTable().getModel().getValueAt(selectedRow, idColumn);
+						UUID selectedUUID = UUID.fromString(selectedId);
+						
+						// Resetting user's password
+						UserController.resetPassword(selectedUUID);
+						// Success message
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Password was reset");
+					}
+				}
+				catch(Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		// Logic for delete user button
+		alv.getDeleteUserButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		FrameController.changePanel(alv);
+		
+		return alv;
 	}
 }
