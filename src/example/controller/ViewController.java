@@ -15,6 +15,7 @@ import javax.swing.table.TableColumnModel;
 import example.model.User;
 import example.session.Session;
 import example.view.AllUserView;
+import example.view.ChangePasswordView;
 import example.view.FirstPage;
 import example.view.LoginPanel;
 import example.view.MainFrame;
@@ -213,11 +214,8 @@ public class ViewController {
 		pv.getChangePasswordButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * TODO
-				 * 
-				 */
+				// Loads change password view
+				ViewController.loadChangePasswordView();
 			}
 		});
 		
@@ -234,6 +232,37 @@ public class ViewController {
 		});
 		
 		FrameController.changePanel(pv);
+	}
+	
+	public static ChangePasswordView loadChangePasswordView() {
+		ChangePasswordView cpv = new ChangePasswordView();
+		
+		// Logic for update button
+		cpv.getUpdateButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Gets old and new password
+				String oldPassword = cpv.getOldPassField().getText();
+				String newPassword = cpv.getNewPassField().getText();
+				
+				try {
+					// Change password
+					UserController.changePassword(oldPassword, newPassword);
+					// Success message
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), "Password changed successfully!");
+					// Loads profile view
+					ViewController.loadProfileView();
+				}
+				catch(Exception e1) {
+					// Shows error message in a message box
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
+			}
+		});
+		
+		FrameController.changePanel(cpv);
+		
+		return cpv;
 	}
 	
 	// Loads all user view
