@@ -94,7 +94,7 @@ public class UserController {
 	
 	// Registers new User
 	public static User registerUser(String username, String role, String address, Date DOB, String telp) 
-			throws IllegalArgumentException, SQLException {
+			throws IllegalArgumentException, SQLException, NoSuchObjectException {
 		if(validateUsernameLength(username) == false) {
 			throw new IllegalArgumentException("Username length has to be 5-15 characters");
 		}
@@ -134,7 +134,8 @@ public class UserController {
 	
 	// Creating a new User object and stores it in the Database.
 	public static User createUser(String username, String password, String role, 
-			Date DOB, String address, String telp) throws IllegalArgumentException, SQLException {
+			Date DOB, String address, String telp) throws IllegalArgumentException, 
+			SQLException, NoSuchObjectException {
 		if(validateUsername(username) == false) {
 			throw new IllegalArgumentException("Username has been taken");
 		}
@@ -196,10 +197,12 @@ public class UserController {
 	}
 	
 	// Checks if username has been taken. TRUE if not taken, FALSE if taken
-	public static Boolean validateUsername(String username) throws SQLException {
+	public static Boolean validateUsername(String username) throws SQLException, NoSuchObjectException {
+		User currentUser = Session.getInstance().getCurrentUser();
+		
 		List<User> userList = getAllUser();
 		for(User u: userList) {
-			if(username.equals(u.getUsername())) {
+			if(username.equals(u.getUsername()) && u.getId().equals(currentUser.getId()) == false) {
 				return false;
 			}
 		}
