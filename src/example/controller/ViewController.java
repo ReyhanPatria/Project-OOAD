@@ -317,6 +317,71 @@ public class ViewController {
 	
 	public static EditProfileView loadEditProfileView() {
 		EditProfileView epv = new EditProfileView();
+
+		// Sets default text for text fields
+		try {
+			User currentUser = Session.getInstance().getCurrentUser();
+			
+			epv.getUsernameField().setText(currentUser.getUsername());
+			epv.getAddressField().setText(currentUser.getAddress());
+			epv.getDobDateChooser().setDate(currentUser.getDOB());
+			epv.getPhoneNumberField().setText(currentUser.getTelp());
+		}
+		catch(NoSuchObjectException e1) {
+			e1.printStackTrace();
+		}
+		
+		// Logic for update button
+		epv.getUpdateButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Gets inputed data
+					String username = epv.getUsernameField().getText();
+					Date DOB = new Date(epv.getDobDateChooser().getDateEditor().getDate().getTime());
+					String address = epv.getAddressField().getText();
+					String telp = epv.getPhoneNumberField().getText();
+					
+					// Updates profile
+					UserController.updateProfile(username, DOB, address, telp);
+					// Success message
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), "Profile updated successfully");
+					// Load profile view
+					ViewController.loadProfileView();
+				}
+				catch(Exception e1) {
+					// Error message
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
+			}
+		});
+		
+		// Logic for back button
+		epv.getBackButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		// Logic for profile button
+		epv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		// Logic for home button
+		epv.getHomeButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
 		
 		FrameController.changePanel(epv);
 		
@@ -332,7 +397,7 @@ public class ViewController {
 			List<User> allUserList = UserController.getAllUser();
 			
 			// Creating table content
-			String[] tableHeader = {"id","username", "role", "address", "DOB", "telp"};
+			String[] tableHeader = {"id","Username", "Role", "Address", "DOB", "Telp"};
 			DefaultTableModel userDataModel = new DefaultTableModel(tableHeader, 0) {
 				private static final long serialVersionUID = 1L;
 
