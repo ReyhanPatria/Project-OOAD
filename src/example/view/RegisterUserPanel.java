@@ -153,7 +153,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		return registerButton;
 	}
 
-	public JButton getCancelButton() {
+	public JButton getHomeButton() {
 		return homeButton;
 	}
 
