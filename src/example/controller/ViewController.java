@@ -153,7 +153,7 @@ public class ViewController {
 				try {
 					UserController.registerUser(username, role, address, DOB, telp);
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), "User registered successfully");
-					ViewController.loadMenuView();
+					ViewController.loadAllUserView();
 				}
 				catch (Exception e1) {
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
@@ -161,16 +161,20 @@ public class ViewController {
 			}
 		});
 		
+		// Logic for profile button
 		rp.getProfileButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
 				ViewController.loadProfileView();
 			}
 		});
 		
-		rp.getCancelButton().addActionListener(new ActionListener() {
+		// Logic for home button
+		rp.getHomeButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads main menu view
 				ViewController.loadMenuView();
 			}
 		});	
@@ -284,6 +288,13 @@ public class ViewController {
 			e1.printStackTrace();
 		}
 		
+		alv.getCreateButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewController.loadRegisterUserPanel();
+			}
+		});
+		
 		// Logic for reset password button
 		alv.getResetPasswordButton().addActionListener(new ActionListener() {
 			@Override
@@ -365,6 +376,24 @@ public class ViewController {
 				catch(Exception e1) {
 					e1.printStackTrace();
 				}
+			}
+		});
+		
+		// Logic for home button
+		alv.getHomeButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads home menu
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for profile button
+		alv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Load profile menu
+				ViewController.loadProfileView();
 			}
 		});
 		
