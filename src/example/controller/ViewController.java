@@ -111,7 +111,7 @@ public class ViewController {
 		mav.getProfileButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadProfileAdminView();
+				ViewController.loadProfileView();
 			}
 		});
 		
@@ -185,41 +185,32 @@ public class ViewController {
 	}
 	
 	public static void loadProfileView() {
-		try {
-			String userRole = Session.getInstance().getCurrentUser().getRole();
-			
-			if(userRole.equalsIgnoreCase("admin")) {
-				ViewController.loadProfileAdminView();
-			}
-			else if(userRole.equalsIgnoreCase("supervisor")) {
-				/*
-				 * TODO
-				 */
-			}
-			else if(userRole.equalsIgnoreCase("worker")) {
-				/*
-				 * TODO
-				 */
-			}
-		}
-		catch(NoSuchObjectException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void loadProfileAdminView() {
-		ProfileView pav = new ProfileView();
+		ProfileView pv = new ProfileView();
 		
-		// Logic for home buttom
-		pav.getHomeButton().addActionListener(new ActionListener() {
+		// Setting profile info
+		try {
+			User currentUser = Session.getInstance().getCurrentUser();
+			
+			pv.getUsernameField().setText(currentUser.getUsername());
+			pv.getDOBField().setText(currentUser.getDOB().toString());
+			pv.getPhoneNumberField().setText(currentUser.getTelp());
+			pv.getAddressField().setText(currentUser.getAddress());
+		}
+		catch(NoSuchObjectException e1) {
+			e1.printStackTrace();
+		}
+		
+		// Logic for home button
+		pv.getHomeButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads main menu view
 				ViewController.loadMenuView();
 			}
 		});
 		
 		// Logic for change password button
-		pav.getChangePasswordButton().addActionListener(new ActionListener() {
+		pv.getChangePasswordButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				/*
@@ -231,7 +222,7 @@ public class ViewController {
 		});
 		
 		// Logic for edit profile button
-		pav.getEditProfileButton().addActionListener(new ActionListener() {
+		pv.getEditProfileButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				/*
@@ -242,7 +233,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(pav);
+		FrameController.changePanel(pv);
 	}
 	
 	// Loads all user view
