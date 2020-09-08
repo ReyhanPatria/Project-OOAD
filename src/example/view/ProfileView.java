@@ -15,7 +15,7 @@ public class ProfileView extends JPanel implements ViewPanel {
 	private JLabel bg;
 	
 	private JLabel	addressField;
-	private JLabel	dobDateChooser;
+	private JLabel	DOBField;
 	private JLabel	phoneNumberField;
 	private JLabel 	usernameField;
 	private JButton homeButton;
@@ -73,10 +73,10 @@ public class ProfileView extends JPanel implements ViewPanel {
 		this.add(addressField);
 		
 		// DOB chooser
-		dobDateChooser = new JLabel();
-		dobDateChooser.setBounds(604, 380, 544, 34);
-		dobDateChooser.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		this.add(dobDateChooser);
+		DOBField = new JLabel();
+		DOBField.setBounds(604, 380, 544, 34);
+		DOBField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		this.add(DOBField);
 		
 		// Phone number text field
 		phoneNumberField = new JLabel();
@@ -122,8 +122,8 @@ public class ProfileView extends JPanel implements ViewPanel {
 		return addressField;
 	}
 
-	public JLabel getDobDateChooser() {
-		return dobDateChooser;
+	public JLabel getDOBField() {
+		return DOBField;
 	}
 
 	public JLabel getPhoneNumberField() {
