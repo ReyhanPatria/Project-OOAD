@@ -15,9 +15,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class EditProfileView extends JPanel implements ViewPanel {
-	
+	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
 	private JLabel bg;
 	
 	private JTextField	addressField;
@@ -31,6 +36,11 @@ public class EditProfileView extends JPanel implements ViewPanel {
 	private JButton profileButton;
 	private JButton backButton;
 
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
 	public EditProfileView() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
@@ -117,6 +127,10 @@ public class EditProfileView extends JPanel implements ViewPanel {
 		bg.setToolTipText("");
 		this.add(bg);	
 	}
+
+	
+	
+	
 	
 	// GETTERS
 	public static long getSerialversionuid() {
@@ -127,31 +141,35 @@ public class EditProfileView extends JPanel implements ViewPanel {
 		return bg;
 	}
 
-	public JButton getHomeButton() {
-		return homeButton;
+	public JTextField getAddressField() {
+		return addressField;
 	}
 
-	public JButton getChangePasswordButton() {
-		return updateButton;
-	}
-
-	public JButton getEditProfileButton() {
-		return profileButton;
+	public JTextField getPhoneNumberField() {
+		return phoneNumberField;
 	}
 
 	public JTextField getUsernameField() {
 		return usernameField;
 	}
 
-	public JTextField getAddressField() {
-		return addressField;
-	}
-
 	public JDateChooser getDobDateChooser() {
 		return dobDateChooser;
 	}
 
-	public JTextField getPhoneNumberField() {
-		return phoneNumberField;
+	public JButton getHomeButton() {
+		return homeButton;
+	}
+
+	public JButton getUpdateButton() {
+		return updateButton;
+	}
+
+	public JButton getProfileButton() {
+		return profileButton;
+	}
+
+	public JButton getBackButton() {
+		return backButton;
 	}
 }
