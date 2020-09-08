@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class AllUserView extends JPanel implements ViewPanel{
@@ -40,8 +41,9 @@ public class AllUserView extends JPanel implements ViewPanel{
 		
 		// user Table
 		userDataTable = new JTable();
-		userDataTable.setBounds(75, 170, 950, 500);
-		this.add(userDataTable);
+		JScrollPane tableScrollPane = new JScrollPane(userDataTable);
+		tableScrollPane.setBounds(75, 170, 950, 500);
+		this.add(tableScrollPane);
 		
 		// Reset button
 		resetPasswordButton = new JButton("");
