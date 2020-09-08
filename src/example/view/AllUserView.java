@@ -2,61 +2,116 @@ package example.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import com.toedter.calendar.JDateChooser;
+
+import example.controller.UserController;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AllUserView extends JPanel implements ViewPanel{
 	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
-	
-	
-	
-	
 	// NON-STATIC ATTRIBUTES
-	private JButton deleteUserButton;
+	
+	private JLabel bground;
+	
 	private JButton resetPasswordButton;
+	private JButton homeButton;
+	private JButton profileButton;
+	private JButton deleteUserButton;
+	private JButton createButton;
+	
 	private JTable userDataTable;
 
-	
-	
-	
-	
 	// NON-STATIC ATTRIBUTES
 	public AllUserView() {
-		this.setBackground(Color.DARK_GRAY);
-		this.setLayout(new BorderLayout());
 		
-		// top action panel
-		JPanel topActionPanel = new JPanel();
-		topActionPanel.setLayout(new FlowLayout());
+		// Set panel's preferred size
+		this.setPreferredSize(MainFrame.SCREEN_SIZE);
+		setLayout(null);
 		
-		deleteUserButton = new JButton("Delete User");
-		resetPasswordButton = new JButton("Reset Password");
-		
-		topActionPanel.add(deleteUserButton);
-		topActionPanel.add(resetPasswordButton);
-		
-		//data panel
-		JPanel dataPanel = new JPanel();
-		dataPanel.setLayout(new BorderLayout());
-		
-		// user data table
+		//user Table
 		userDataTable = new JTable();
-		dataPanel.add(new JScrollPane(userDataTable), BorderLayout.CENTER);
+		userDataTable.setBounds(75, 170, 950, 500);
+		this.add(userDataTable);
 		
-		this.add(topActionPanel, BorderLayout.NORTH);
-		this.add(dataPanel, BorderLayout.CENTER);
+		// Reset button
+		resetPasswordButton = new JButton("");
+		resetPasswordButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\ResetPassword.png"));
+		resetPasswordButton.setBounds(1063, 594, 276, 62);
+		resetPasswordButton.setBorderPainted(false);
+		resetPasswordButton.setOpaque(false);
+		resetPasswordButton.setContentAreaFilled(false);
+		resetPasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		resetPasswordButton.setFocusable(false);
+		this.add(resetPasswordButton);
+		
+		// delete user button
+		deleteUserButton = new JButton("");
+		deleteUserButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\DeleteUser.png"));
+		deleteUserButton.setBounds(1063, 460, 276, 62);
+		deleteUserButton.setBorderPainted(false);
+		deleteUserButton.setOpaque(false);
+		deleteUserButton.setContentAreaFilled(false);
+		deleteUserButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		deleteUserButton.setFocusable(false);
+		this.add(deleteUserButton);
+		
+		// create user button
+		createButton = new JButton("");
+		createButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\CreateUser.png"));
+		createButton.setBounds(1063, 324, 276, 62);
+		createButton.setBorderPainted(false);
+		createButton.setOpaque(false);
+		createButton.setContentAreaFilled(false);
+		createButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		createButton.setFocusable(false);
+		this.add(createButton);
+		
+		//profile button
+		profileButton = new JButton("");
+		profileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Profile.png"));
+		profileButton.setBounds(1205, 22, 134, 48);
+		profileButton.setBorderPainted(false);
+		profileButton.setOpaque(false);
+		profileButton.setContentAreaFilled(false);
+		profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		profileButton.setFocusable(false);
+		this.add(profileButton);
+
+		//home button
+		homeButton = new JButton("");
+		homeButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Home.png"));
+		homeButton.setBounds(1044, 22, 134, 48);	
+		homeButton.setBorderPainted(false);
+		homeButton.setOpaque(false);
+		homeButton.setContentAreaFilled(false);
+		homeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.add(homeButton);
+		
+		// Label gambar background 
+		bground = new JLabel("");
+		bground.setBounds(0, 0, 1440, 1024);
+		bground.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\POLOSAN.png"));
+		bground.setToolTipText("");
+		this.add(bground);
 	}
 
-	
-	
-	
-	
 	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -73,4 +128,23 @@ public class AllUserView extends JPanel implements ViewPanel{
 	public JTable getUserDataTable() {
 		return userDataTable;
 	}
+
+	public JLabel getBground() {
+		return bground;
+	}
+
+	public JButton getHomeButton() {
+		return homeButton;
+	}
+
+	public JButton getProfileButton() {
+		return profileButton;
+	}
+
+	public JButton getCreateButton() {
+		return createButton;
+	}
+
+
+	
 }

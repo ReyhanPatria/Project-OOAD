@@ -27,7 +27,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 	private JDateChooser		dobDateChooser;
 	
 	private JButton registerButton;
-	private JButton cancelButton;
+	private JButton homeButton;
 	private JButton profileButton;
 	
 	public RegisterUserPanel() {
@@ -96,22 +96,22 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		profileButton.setFocusable(false);
 		this.add(profileButton);
 
-		// Cancel button
-		cancelButton = new JButton("Cancel");
-		cancelButton.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project-OOAD\\src\\example\\IMAGE\\Home.png"));
-		cancelButton.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		cancelButton.setBounds(1027, 0, 134, 48);	
-		cancelButton.setBorderPainted(false);
-		cancelButton.setOpaque(false);
-		cancelButton.setContentAreaFilled(false);
-		cancelButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		this.add(cancelButton);
+		// Home button
+		homeButton = new JButton("");
+		homeButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Home.png"));
+		homeButton.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
+		homeButton.setBounds(1027, 0, 134, 48);	
+		homeButton.setBorderPainted(false);
+		homeButton.setOpaque(false);
+		homeButton.setContentAreaFilled(false);
+		homeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.add(homeButton);
 		
 		// Label gambar background 
 		bground = new JLabel("");
 		bground.setBounds(0, -20, 1366, 756);
 		bground.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		bground.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project-OOAD\\src\\example\\IMAGE\\RegisterUserAdmin2.png"));
+		bground.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\RegisterUserAdmin2.png"));
 		bground.setToolTipText("");
 		this.add(bground);
 	}
@@ -154,7 +154,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 	}
 
 	public JButton getCancelButton() {
-		return cancelButton;
+		return homeButton;
 	}
 
 	public JButton getProfileButton() {

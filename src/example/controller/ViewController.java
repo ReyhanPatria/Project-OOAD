@@ -19,7 +19,7 @@ import example.view.FirstPage;
 import example.view.LoginPanel;
 import example.view.MainFrame;
 import example.view.MenuAdminView;
-import example.view.ProfileAdminView;
+import example.view.ProfileView;
 import example.view.RegisterUserPanel;
 
 public class ViewController {
@@ -108,12 +108,12 @@ public class ViewController {
 		MenuAdminView mav = new MenuAdminView();
 		
 		// Logic for register button
-		mav.getRegisterButton().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ViewController.loadRegisterUserPanel();
-			}
-		});
+//		mav.getRegisterButton().addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				ViewController.loadRegisterUserPanel();
+//			}
+//		});
 		
 		// Logic for profile button
 				mav.getProfileButton().addActionListener(new ActionListener() {
@@ -212,7 +212,7 @@ public class ViewController {
 	}
 	
 	public static void loadProfileAdminView() {
-		ProfileAdminView pav = new ProfileAdminView();
+		ProfileView pav = new ProfileView();
 		
 		// Logic for home buttom
 		pav.getHomeButton().addActionListener(new ActionListener() {
@@ -268,6 +268,7 @@ public class ViewController {
 					return false;
 				}
 			};
+			userDataModel.addRow(tableHeader);
 			
 			// Inserting user data rows
 			for(User u: allUserList) {
@@ -278,6 +279,7 @@ public class ViewController {
 									u.getDOB().toString(), 
 									u.getTelp()};
 				userDataModel.addRow(rowData);
+
 			}
 			
 			// Setting table content

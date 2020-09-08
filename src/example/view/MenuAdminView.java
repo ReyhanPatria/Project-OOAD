@@ -12,8 +12,6 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel backgroundImage;
-	
-	private JButton registerButton;
 	private JButton viewButton;
 	private JButton logOutButton;
 	private JButton profileButton;
@@ -22,19 +20,9 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 		this.setSize(new Dimension(1440,1024));
 		setLayout(null);
 		
-		registerButton = new JButton("");
-		registerButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\RegisterUser.png"));
-		registerButton.setBounds(315, 191, 308, 308);
-		registerButton.setBorderPainted(false);
-		registerButton.setOpaque(false);
-		registerButton.setContentAreaFilled(false);
-		registerButton.setFocusable(false);
-		this.registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		this.add(registerButton);
-		
 		viewButton = new JButton("");
-		viewButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\ViewAllUser.png"));
-		viewButton.setBounds(751, 191, 308, 308);
+		viewButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\ViewAllUser.png"));
+		viewButton.setBounds(366, 250, 308, 308);
 		viewButton.setBorderPainted(false);
 		viewButton.setOpaque(false);
 		viewButton.setContentAreaFilled(false);
@@ -44,7 +32,7 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 		
 		logOutButton = new JButton("");
 		logOutButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Logout.png"));
-		logOutButton.setBounds(535, 414, 308, 308);
+		logOutButton.setBounds(804, 250, 308, 308);
 		logOutButton.setBorderPainted(false);
 		logOutButton.setOpaque(false);
 		logOutButton.setContentAreaFilled(false);
@@ -54,7 +42,7 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 		
 		profileButton = new JButton("");
 		profileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Profile.png"));
-		profileButton.setBounds(1204, 11, 134, 48);
+		profileButton.setBounds(1214, 21, 134, 48);
 		profileButton.setBorderPainted(false);
 		profileButton.setOpaque(false);
 		profileButton.setContentAreaFilled(false);
@@ -62,9 +50,9 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 		this.profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		add(profileButton);
 		
-		JLabel backgroundImage = new JLabel("New label");
-		backgroundImage.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\HomePageAdmin2.png"));
-		backgroundImage.setBounds(0, 0, 1370, 750);
+		JLabel backgroundImage = new JLabel("");
+		backgroundImage.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\POLOSAN.png"));
+		backgroundImage.setBounds(0, 0, 1440, 1024);
 		add(backgroundImage);
 	}
 
@@ -75,10 +63,6 @@ public class MenuAdminView extends JPanel implements ViewPanel {
 
 	public JLabel getBackgroundImage() {
 		return backgroundImage;
-	}
-
-	public JButton getRegisterButton() {
-		return registerButton;
 	}
 
 	public JButton getViewButton() {

@@ -97,9 +97,6 @@ public class NotificationSupervisorAndWorker extends JPanel implements ViewPanel
 	}
 	
 	
-	
-	
-	
 	//GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
