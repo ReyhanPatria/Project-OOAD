@@ -40,6 +40,11 @@ public class EditProfileView extends JPanel implements ViewPanel {
 		backButton = new JButton("");
 		backButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Back.png"));
 		backButton.setBounds(59, 82, 134, 48);
+		backButton.setBorderPainted(false);
+		backButton.setOpaque(false);
+		backButton.setContentAreaFilled(false);
+		backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		backButton.setFocusable(false);
 		add(backButton);
 		
 		//username field
@@ -65,7 +70,7 @@ public class EditProfileView extends JPanel implements ViewPanel {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		updateButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\ChangePassword.png"));
+		updateButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Update.png"));
 		updateButton.setBounds(530, 575, 306, 62);
 		updateButton.setBorderPainted(false);
 		updateButton.setOpaque(false);
