@@ -38,8 +38,8 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		setLayout(null);
 		
 		// Text Field untuk isi username
-		usernameTextField = new JTextField("Username");
-		usernameTextField.setBounds(440, 267, 488, 30);
+		usernameTextField = new JTextField("Input Username");
+		usernameTextField.setBounds(440, 206, 488, 43);
 		usernameTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		usernameTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(usernameTextField);
@@ -58,34 +58,34 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 
 		// Choose role combo box
 		roleComboBox = new JComboBox<Object>(UserController.selectableRoleList);
-		roleComboBox.setBounds(440, 341, 488, 30);
+		roleComboBox.setBounds(440, 298, 488, 43);
 		roleComboBox.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(roleComboBox);
 		
 		
 		// Address text field
 		addressTextField = new JTextField();
-		addressTextField.setBounds(440, 482, 488, 30);
+		addressTextField.setBounds(440, 476, 488, 36);
 		addressTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(addressTextField);
 
 		// DOB chooser
 		dobDateChooser = new JDateChooser(new java.util.Date());
-		dobDateChooser.setBounds(440, 411, 488, 30);
+		dobDateChooser.setBounds(440, 386, 488, 43);
 		dobDateChooser.getCalendarButton().setFont(new Font("Book Antiqua", Font.PLAIN, 24));
 		this.add(dobDateChooser);
 
 		// Telp text field
 		telpTextField = new JTextField();
-		telpTextField.setBounds(440, 554, 488, 30);
-		telpTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		telpTextField.setBounds(440, 568, 488, 36);
+		telpTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(telpTextField);
 		telpTextField.setColumns(10);
 		
 		// Register button
 		registerButton = new JButton("");
 		registerButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Register.png"));
-		registerButton.setBounds(552, 595, 260, 43);
+		registerButton.setBounds(552, 615, 276, 62);
 		registerButton.setBorderPainted(false);
 		registerButton.setOpaque(false);
 		registerButton.setContentAreaFilled(false);
@@ -100,7 +100,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		// Back to profile button
 		profileButton = new JButton("");
 		profileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Profile.png"));
-		profileButton.setBounds(1198, 105, 136, 30);
+		profileButton.setBounds(1200, 0, 134, 48);
 		profileButton.setBorderPainted(false);
 		profileButton.setOpaque(false);
 		profileButton.setContentAreaFilled(false);
@@ -111,14 +111,14 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		// Cancel button
 		cancelButton = new JButton("Cancel");
 		cancelButton.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		cancelButton.setBounds(1017, 621, 89, 23);	
+		cancelButton.setBounds(894, 649, 89, 23);	
 		this.add(cancelButton);
 		
 		// Label gambar background 
 		bground = new JLabel("");
-		bground.setBounds(0, 0, 1366, 777);
+		bground.setBounds(0, -20, 1366, 756);
 		bground.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		bground.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\RegisterUserAdmin2.png"));
+		bground.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project-OOAD\\src\\example\\IMAGE\\RegisterUserAdmin2.png"));
 		bground.setToolTipText("");
 		this.add(bground);
 	}
