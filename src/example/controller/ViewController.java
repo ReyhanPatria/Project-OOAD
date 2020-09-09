@@ -20,6 +20,7 @@ import javax.swing.table.TableColumnModel;
 import example.model.Notification;
 import example.model.User;
 import example.session.Session;
+import example.view.AllTaskView;
 import example.view.AllUserView;
 import example.view.ChangePasswordView;
 import example.view.CreateTaskView;
@@ -164,11 +165,7 @@ public class ViewController {
 		msv.getViewAllTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * TODO: Create loadAllTaskView()
-				 * 
-				 */
+				ViewController.loadAllTaskView();
 			}
 		});
 		
@@ -834,5 +831,15 @@ public class ViewController {
 		FrameController.changePanel(nv);
 		
 		return nv;
+	}
+	
+	public static AllTaskView loadAllTaskView() {
+		AllTaskView atv = new AllTaskView();
+		
+		// TODO: Create button, combo box, search bar logic
+		
+		FrameController.changePanel(atv);
+		
+		return atv;
 	}
 }
