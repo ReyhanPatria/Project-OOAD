@@ -7,46 +7,32 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class NotificationSupervisorAndWorker extends JPanel implements ViewPanel {
+public class NotificationView extends JPanel implements ViewPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel bg;
 	
-	private JLabel	showNotif;
-	
 	private JButton homeButton;
 	private JButton markButton;
 	private JButton profileButton;
-	private JButton taskButton;
 	
-	private JTextField txtSearch;
+	private JTable notifDataTable;
 	
-	public NotificationSupervisorAndWorker() {
+	public NotificationView() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		this.setLayout(null);
 		
-		// search field
-		txtSearch = new JTextField();
-		txtSearch.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		txtSearch.setText("Search...");
-		txtSearch.setBounds(404, 11, 537, 48);
-		txtSearch.setColumns(10);
-		this.add(txtSearch);
-		
-		// Button for create a task
-		taskButton = new JButton("");
-		taskButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\CreateTask.png"));
-		taskButton.setBounds(963, 11, 50, 50);
-		taskButton.setBorderPainted(false);
-		taskButton.setOpaque(false);
-		taskButton.setContentAreaFilled(false);
-		taskButton.setFocusable(false);
-		taskButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		this.add(taskButton);
+		// notif Table
+		notifDataTable = new JTable();
+		JScrollPane tableScrollPane = new JScrollPane(notifDataTable);
+		tableScrollPane.setBounds(125, 250, 1100, 450);
+		this.add(tableScrollPane);
 		
 		// profile button
 		profileButton = new JButton("");
@@ -73,7 +59,7 @@ public class NotificationSupervisorAndWorker extends JPanel implements ViewPanel
 		// mark as read button
 		markButton = new JButton("");
 		markButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\MarkAsRead.png"));
-		markButton.setBounds(1029, 114, 306, 62);
+		markButton.setBounds(1029, 150, 306, 62);
 		markButton.setBorderPainted(false);
 		markButton.setOpaque(false);
 		markButton.setContentAreaFilled(false);
@@ -81,18 +67,11 @@ public class NotificationSupervisorAndWorker extends JPanel implements ViewPanel
 		markButton.setFocusable(false);
 		this.add(markButton);
 		
-		
-		// notif
-		showNotif = new JLabel();
-		showNotif.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		showNotif.setBounds(227, 196, 910, 50);
-		this.add(showNotif);
-		
 		// Label gambar background 
 		bg = new JLabel("");
 		bg.setToolTipText("");
-		bg.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\NotificationsPage2.png"));
-		bg.setBounds(0, 0, 1365, 735);
+		bg.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project-OOAD\\src\\example\\IMAGE\\POLOSANNotificationsPage.png"));
+		bg.setBounds(0, 0, 1440, 1024);
 		this.add(bg);
 	}
 	
@@ -104,10 +83,6 @@ public class NotificationSupervisorAndWorker extends JPanel implements ViewPanel
 
 	public JLabel getBg() {
 		return bg;
-	}
-
-	public JLabel getShowNotif() {
-		return showNotif;
 	}
 
 	public JButton getHomeButton() {
@@ -122,11 +97,11 @@ public class NotificationSupervisorAndWorker extends JPanel implements ViewPanel
 		return profileButton;
 	}
 
-	public JButton getTaskButton() {
-		return taskButton;
+	public JTable getNotifDataTable() {
+		return notifDataTable;
 	}
+	
+	
 
-	public JTextField getTxtSearch() {
-		return txtSearch;
-	}
+
 }

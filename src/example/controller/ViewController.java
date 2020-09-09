@@ -25,6 +25,7 @@ import example.view.ProfileView;
 import example.view.RegisterUserPanel;
 
 public class ViewController {
+	
 	// STATIC FUNCTIONS
 	// Loads start up page
 	public static FirstPage loadFirstPage() {
