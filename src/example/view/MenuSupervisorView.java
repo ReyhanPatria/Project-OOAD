@@ -3,16 +3,20 @@ package example.view;
 import java.awt.Cursor;
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MenuSupervisorView extends JPanel implements ViewPanel {
+	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
 	private JLabel backgroundImage;
 	private JButton viewTaskRequestButton;
 	private JButton logOutButton;
@@ -21,9 +25,14 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 	private JButton createTaskButton;
 	private JButton notifButton;
 	
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
 	public MenuSupervisorView() {
 		this.setSize(new Dimension(1440,1024));
-		setLayout(null);
+		this.setLayout(null);
 		
 		notifButton = new JButton("");
 		notifButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Notifications.png"));
@@ -32,7 +41,7 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 		notifButton.setOpaque(false);
 		notifButton.setContentAreaFilled(false);
 		notifButton.setFocusable(false);
-		this.notifButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		notifButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(notifButton);
 		
 		viewTaskRequestButton = new JButton("");
@@ -42,7 +51,7 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 		viewTaskRequestButton.setOpaque(false);
 		viewTaskRequestButton.setContentAreaFilled(false);
 		viewTaskRequestButton.setFocusable(false);
-		this.viewTaskRequestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		viewTaskRequestButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(viewTaskRequestButton);
 		
 		viewAllTaskButton = new JButton("");
@@ -52,7 +61,7 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 		viewAllTaskButton.setOpaque(false);
 		viewAllTaskButton.setContentAreaFilled(false);
 		viewAllTaskButton.setFocusable(false);
-		this.viewAllTaskButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		viewAllTaskButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(viewAllTaskButton);
 		
 		createTaskButton = new JButton("");
@@ -62,7 +71,7 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 		createTaskButton.setOpaque(false);
 		createTaskButton.setContentAreaFilled(false);
 		createTaskButton.setFocusable(false);
-		this.createTaskButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		createTaskButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(createTaskButton);
 		
 		logOutButton = new JButton("");
@@ -72,7 +81,7 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 		logOutButton.setOpaque(false);
 		logOutButton.setContentAreaFilled(false);
 		logOutButton.setFocusable(false);
-		this.logOutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		logOutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(logOutButton);				
 		
 		profileButton = new JButton("");
@@ -82,15 +91,19 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 		profileButton.setOpaque(false);
 		profileButton.setContentAreaFilled(false);
 		profileButton.setFocusable(false);
-		this.profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(profileButton);
 		
 		backgroundImage = new JLabel("");
 		backgroundImage.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\POLOSANMenuSupervisorWorker.png"));
 		backgroundImage.setBounds(0, 0, 1440, 1024);
-		add(backgroundImage);
+		this.add(backgroundImage);
 	}
 
+	
+	
+	
+	
 	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -123,8 +136,4 @@ public class MenuSupervisorView extends JPanel implements ViewPanel {
 	public JButton getNotifButton() {
 		return notifButton;
 	}
-
-	
-
-	
 }
