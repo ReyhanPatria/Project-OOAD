@@ -79,7 +79,7 @@ public class NotificationView extends JPanel implements ViewPanel {
 		// Label gambar background 
 		bg = new JLabel("");
 		bg.setToolTipText("");
-		bg.setIcon(new ImageIcon("C:\\Users\\HP\\Documents\\Cawu 3\\Periode 2\\Object Oriented Analysis and Design\\Aslab\\Project-OOAD\\src\\example\\IMAGE\\POLOSANNotificationsPage.png"));
+		bg.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\POLOSANNotificationsPage.png"));
 		bg.setBounds(0, 0, 1440, 1024);
 		this.add(bg);
 	}
