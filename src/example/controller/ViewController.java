@@ -21,6 +21,7 @@ import example.view.FirstPage;
 import example.view.LoginPanel;
 import example.view.MainFrame;
 import example.view.MenuAdminView;
+import example.view.MenuSupervisorView;
 import example.view.ProfileView;
 import example.view.RegisterUserPanel;
 
@@ -91,9 +92,7 @@ public class ViewController {
 				ViewController.loadMenuAdminView();
 			}
 			else if(userRole.equalsIgnoreCase("supervisor")) {
-				/*
-				 * TODO: Create loadMenuSupervisorView()
-				 */
+				ViewController.loadMenuSupervisorView();
 			}
 			else if(userRole.equalsIgnoreCase("worker")) {
 				/*
@@ -138,6 +137,83 @@ public class ViewController {
 		FrameController.changePanel(mav);
 		
 		return mav;
+	}
+	
+	// Loads menu for supervisor
+	public static MenuSupervisorView loadMenuSupervisorView() {
+		MenuSupervisorView msv = new MenuSupervisorView();
+		
+		// Logic for notification button
+		msv.getNotifButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * 
+				 * TODO: Create loadNotificationView()
+				 * 
+				 */
+			}
+		});
+		
+		// Logic for view all task button
+		msv.getViewAllTaskButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * 
+				 * TODO: Create loadAllTaskView()
+				 * 
+				 */
+			}
+		});
+		
+		// Logic for view task request button
+		msv.getViewTaskRequestButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * 
+				 * TODO: Create loadTaskRequestView()
+				 * 
+				 */
+			}
+		});
+		
+		// Logic for create task view
+		msv.getCreateTaskButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * 
+				 * TODO: Create loadCreateTaskView()
+				 * 
+				 */
+			}
+		});
+		
+		// Logic for profile button
+		msv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		// Logic for logout button
+		msv.getLogOutButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Logout and ends session
+				UserController.logout();
+				// Load first page
+				ViewController.loadFirstPage();
+			}
+		});
+		
+		FrameController.changePanel(msv);
+		
+		return msv;
 	}
 	
 	// Loads register user panel
