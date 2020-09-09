@@ -13,8 +13,14 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 
 public class CreateTaskView extends JPanel implements ViewPanel {
+	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	
+	
+	// NON-STATIC ATTRRIBUTES
 	private JLabel bground;
 	
 	private JTextField titleTextField;
@@ -30,6 +36,12 @@ public class CreateTaskView extends JPanel implements ViewPanel {
 	private JButton backButton;
 	private JButton notifButton;
 	
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
+	// Constructor
 	public CreateTaskView() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
@@ -121,8 +133,12 @@ public class CreateTaskView extends JPanel implements ViewPanel {
 		bground.setToolTipText("");
 		this.add(bground);
 	}
+	
+	
+	
+	
+	
 	// GETTERS
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -166,7 +182,4 @@ public class CreateTaskView extends JPanel implements ViewPanel {
 	public JButton getNotifButton() {
 		return notifButton;
 	}
-	
-	
-
 }
