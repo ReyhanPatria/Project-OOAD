@@ -12,16 +12,19 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import example.model.Notification;
 import example.model.User;
 import example.session.Session;
 import example.view.AllUserView;
 import example.view.ChangePasswordView;
+import example.view.CreateTaskView;
 import example.view.EditProfileView;
 import example.view.FirstPage;
 import example.view.LoginPanel;
 import example.view.MainFrame;
 import example.view.MenuAdminView;
 import example.view.MenuSupervisorView;
+import example.view.NotificationView;
 import example.view.ProfileView;
 import example.view.RegisterUserPanel;
 
@@ -147,11 +150,8 @@ public class ViewController {
 		msv.getNotifButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * TODO: Create loadNotificationView()
-				 * 
-				 */
+				// Loads notification view
+				ViewController.loadNotificationView();
 			}
 		});
 		
@@ -183,11 +183,7 @@ public class ViewController {
 		msv.getCreateTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * TODO: Create loadCreateTaskView()
-				 * 
-				 */
+				ViewController.loadCreateTaskView();
 			}
 		});
 		
@@ -214,6 +210,51 @@ public class ViewController {
 		FrameController.changePanel(msv);
 		
 		return msv;
+	}
+	
+	// Loads create task view
+	public static CreateTaskView loadCreateTaskView() {
+		CreateTaskView ctv = new CreateTaskView();
+		
+		// Logic for back button
+		ctv.getBackButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for notification button
+		ctv.getNotifButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads notification view
+				ViewController.loadNotificationView();
+			}
+		});
+		
+		// Logic for menu button
+		ctv.getMenuButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for profile button
+		ctv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		FrameController.changePanel(ctv);
+		
+		return ctv;
 	}
 	
 	// Loads register user panel
@@ -351,12 +392,8 @@ public class ViewController {
 		cpv.getNotifButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * TODO: Create loadNotificationView()
-				 * 
-				 * 
-				 */
+				// Loads notification view
+				ViewController.loadNotificationView();
 			}
 		});
 		
@@ -620,5 +657,88 @@ public class ViewController {
 		FrameController.changePanel(alv);
 		
 		return alv;
+	}
+
+	// Loads notification view
+	public static NotificationView loadNotificationView() {
+		NotificationView nv = new NotificationView();
+		
+		// Filling the table with notification data
+		try {
+			// Getting all notification
+			List<Notification> allNotifList = NotificationController.getAllNotification();
+			
+			// Creating table content
+			String[] tableHeader = {"id","Message", "Status"};
+			DefaultTableModel notifDataModel = new DefaultTableModel(tableHeader, 0) {
+				private static final long serialVersionUID = 1L;
+
+				// Making the cells not editable
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			
+			// Inserting notification data rows
+			for(Notification n: allNotifList) {
+				String id = n.getId().toString();
+				String message = n.getMessage();
+				String status = (n.getReadAt() == null) ? "Unread" : "Read at " + n.getReadAt().toString();
+				
+				Object[] rowData = {id, message, status};
+				notifDataModel.addRow(rowData);
+			}
+			
+			// Setting table content
+			nv.getNotifDataTable().setModel(notifDataModel);
+			
+			// Hiding id column
+			TableColumnModel tcm = nv.getNotifDataTable().getColumnModel();
+			tcm.removeColumn(tcm.getColumn(0));
+		}
+		catch(Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		// Logic for mark as read button
+		nv.getMarkButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Gets current user
+					User currentUser = Session.getInstance().getCurrentUser();
+					// Mark all notification as read
+					NotificationController.readAllNotification(currentUser.getId());
+					// Reloads notification view
+					ViewController.loadNotificationView();
+				}
+				catch(Exception e1) {
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
+			}
+		});
+		
+		// Logic for home button
+		nv.getHomeButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads home menu
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for profile button
+		nv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Load profile menu
+				ViewController.loadProfileView();
+			}
+		});
+		
+		FrameController.changePanel(nv);
+		
+		return nv;
 	}
 }
