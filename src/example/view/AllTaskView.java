@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class ViewAllTaskView extends JPanel implements ViewPanel {
+public class AllTaskView extends JPanel implements ViewPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -33,7 +33,7 @@ public class ViewAllTaskView extends JPanel implements ViewPanel {
 	
 	private JTable taskListTable;
 	
-	public ViewAllTaskView() {
+	public AllTaskView() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		this.setLayout(null);
