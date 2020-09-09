@@ -1,7 +1,6 @@
 package example.view;
 
 import java.awt.Cursor;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -9,12 +8,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 public class NotificationView extends JPanel implements ViewPanel {
-
+	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
 	private JLabel bg;
 	
 	private JButton homeButton;
@@ -23,6 +26,12 @@ public class NotificationView extends JPanel implements ViewPanel {
 	
 	private JTable notifDataTable;
 	
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
+	// Constructor
 	public NotificationView() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
@@ -76,7 +85,10 @@ public class NotificationView extends JPanel implements ViewPanel {
 	}
 	
 	
-	//GETTERS
+	
+	
+	
+	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -100,8 +112,4 @@ public class NotificationView extends JPanel implements ViewPanel {
 	public JTable getNotifDataTable() {
 		return notifDataTable;
 	}
-	
-	
-
-
 }
