@@ -30,7 +30,7 @@ public class NotificationController {
 	}
 	
 	// Updates readAt timestamp for all unread notification for a user based in userID 
-	public static void realAllNotification(UUID userID) throws SQLException {
+	public static void readAllNotification(UUID userID) throws SQLException {
 		List<Notification> allNotificationList = Notification.getAllUnread(userID);
 		for(Notification n: allNotificationList) {
 			n.setReadAt(Timestamp.from(Instant.now()));
