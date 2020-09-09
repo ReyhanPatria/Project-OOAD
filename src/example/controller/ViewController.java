@@ -1,5 +1,6 @@
 package example.controller;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.NoSuchObjectException;
@@ -8,6 +9,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -216,6 +221,64 @@ public class ViewController {
 	public static CreateTaskView loadCreateTaskView() {
 		CreateTaskView ctv = new CreateTaskView();
 		
+		// Custom combo box cell renderer
+		DefaultListCellRenderer comboBoxCellRenderer = new DefaultListCellRenderer() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				// Make combo box show user's username
+				if(value instanceof User) {
+					User u = (User) value;
+	                setText(u.getUsername());
+				}
+				return this;
+			}
+		};
+		
+		// Creating worker combo box
+		try {
+			// Getting current user
+			User currentUser = Session.getInstance().getCurrentUser();
+			// Initial workerList as an array of currentUser
+			Object[] workerList = {currentUser};
+			// Change workerList to actual list of workers if current user is supervisor
+			if(currentUser.getRole().equalsIgnoreCase("SUPERVISOR") == true) {
+				workerList = UserController.getUserByRole("WORKER").toArray();
+			}
+			
+			// Creating list of user
+			ComboBoxModel<Object> workerComboBoxModel = new DefaultComboBoxModel<Object>(workerList);
+			// Adding list of user to combo box
+			ctv.getWorkerComboBox().setModel(workerComboBoxModel);
+			ctv.getWorkerComboBox().setRenderer(comboBoxCellRenderer);
+		}
+		catch(Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		// Creating supervisor combo box
+		try {
+			// Getting current user
+			User currentUser = Session.getInstance().getCurrentUser();
+			// Initial supervisorList as an array of currentUser
+			Object[] supervisorList = {currentUser};
+			// Change supervisorList to actual list of supervisors if current user is worker
+			if(currentUser.getRole().equalsIgnoreCase("WORKER") == true) {
+				supervisorList = UserController.getUserByRole("SUPERVISOR").toArray();
+			}
+			
+			// Creating list of user
+			ComboBoxModel<Object> supervisorComboBoxModel = new DefaultComboBoxModel<Object>(supervisorList);
+			// Adding list of user to combo box
+			ctv.getSupervisorComboBox().setModel(supervisorComboBoxModel);
+			ctv.getSupervisorComboBox().setRenderer(comboBoxCellRenderer);
+		}
+		catch(Exception e1) {
+			e1.printStackTrace();
+		}
+		
 		// Logic for back button
 		ctv.getBackButton().addActionListener(new ActionListener() {
 			@Override
@@ -249,6 +312,37 @@ public class ViewController {
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
 				ViewController.loadProfileView();
+			}
+		});
+		
+		// Logic for create button
+		ctv.getCreateButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Create task / task request depends on role
+				try {
+					// Check confirm
+					Integer confirmResult = JOptionPane.showConfirmDialog(MainFrame.getInstance(), 
+							"Are you sure?", "Create Task", JOptionPane.YES_NO_OPTION);
+					
+					// If create task was confirmed
+					if(confirmResult == JOptionPane.YES_OPTION) {
+						String title = ctv.getTitleTextField().getText();
+						UUID workerID = ((User) ctv.getWorkerComboBox().getSelectedItem()).getId();
+						UUID supervisorID = ((User) ctv.getSupervisorComboBox().getSelectedItem()).getId();
+						String note = ctv.getNoteField().getText();
+						
+						// Create task/task request
+						TaskHandler.createTask(title, workerID, supervisorID, note);
+						// Success message
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task was created");
+						// Loads menu view
+						ViewController.loadMenuView();
+					}
+				}
+				catch(Exception e1) {
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
 			}
 		});
 		
