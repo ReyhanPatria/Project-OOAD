@@ -124,6 +124,12 @@ public class TaskHandler {
 		String title = task.getTitle();
 		UUID supervisorID = task.getSupervisorID();
 		UUID workerID = task.getSupervisorID();
+		Boolean isSubmitted = task.getIsSubmitted();
+		
+		// Check if task have been submitted
+		if(isSubmitted == false) {
+			throw new IllegalArgumentException("Task hasn't been submitted");
+		}
 		
 		task.setScore(score);
 		task.setApprovedAt(Timestamp.from(Instant.now()));
@@ -145,6 +151,12 @@ public class TaskHandler {
 		UUID supervisorID = task.getSupervisorID();
 		UUID workerID = task.getSupervisorID();
 		Integer revisionCount = task.getRevisionCount();
+		Boolean isSubmitted = task.getIsSubmitted();
+		
+		// Check if task have been submitted
+		if(isSubmitted == false) {
+			throw new IllegalArgumentException("Task hasn't been submitted");
+		}
 		
 		task.setRevisionCount(revisionCount + 1);
 		task.setIsSubmitted(false);
