@@ -72,11 +72,9 @@ public class ViewController {
 					
 					ViewController.loadMenuView();
 				}
-				catch(IllegalArgumentException e1) {
+				catch(Exception e1) {
 					lp.getLbl_Invalid().setVisible(true);
-				}
-				catch(SQLException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
 			}
 		});
@@ -112,7 +110,7 @@ public class ViewController {
 			}
 		}
 		catch(NoSuchObjectException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e.getMessage());
 		}
 	}
 	
@@ -254,7 +252,7 @@ public class ViewController {
 			ctv.getWorkerComboBox().setRenderer(comboBoxCellRenderer);
 		}
 		catch(Exception e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 		}
 		
 		// Creating supervisor combo box
@@ -275,7 +273,7 @@ public class ViewController {
 			ctv.getSupervisorComboBox().setRenderer(comboBoxCellRenderer);
 		}
 		catch(Exception e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 		}
 		
 		// Logic for back button
@@ -410,7 +408,7 @@ public class ViewController {
 			pv.getAddressField().setText(currentUser.getAddress());
 		}
 		catch(NoSuchObjectException e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 		}
 		
 		// Logic for home button
@@ -455,7 +453,7 @@ public class ViewController {
 			}
 		}
 		catch(NoSuchObjectException e2) {
-			e2.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e2.getMessage());
 		}
 		
 		// Logic for update button
@@ -535,7 +533,7 @@ public class ViewController {
 			epv.getPhoneNumberField().setText(currentUser.getTelp());
 		}
 		catch(NoSuchObjectException e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 		}
 		
 		// Logic for update button
@@ -634,7 +632,7 @@ public class ViewController {
 			tcm.removeColumn(tcm.getColumn(0));
 		}
 		catch(SQLException e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 		}
 		
 		alv.getCreateButton().addActionListener(new ActionListener() {
@@ -676,7 +674,7 @@ public class ViewController {
 					}
 				}
 				catch(Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
 			}
 		});
@@ -723,7 +721,7 @@ public class ViewController {
 					}
 				}
 				catch(Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
 			}
 		});
@@ -790,7 +788,7 @@ public class ViewController {
 			tcm.removeColumn(tcm.getColumn(0));
 		}
 		catch(Exception e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 		}
 		
 		// Logic for mark as read button
@@ -878,7 +876,7 @@ public class ViewController {
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e.getMessage());
 		}
 		
 		return taskTableModel;
@@ -954,7 +952,7 @@ public class ViewController {
 					}
 				}
 				catch(Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
 			}
 		});
