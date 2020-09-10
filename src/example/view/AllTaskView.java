@@ -59,13 +59,13 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		
 		// Sort by combo box
 		sortByComboBox = new JComboBox<Object>();
-		sortByComboBox.setBounds(50, 325, 200, 40);
+		sortByComboBox.setBounds(50, 160, 200, 40);
 		sortByComboBox.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		this.add(sortByComboBox);
 		
 		sortDirectionComboBox = new JComboBox<Object>();
 		sortDirectionComboBox.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		sortDirectionComboBox.setBounds(50, 250, 200, 40);
+		sortDirectionComboBox.setBounds(50, 235, 200, 40);
 		this.add(sortDirectionComboBox);
 		
 		// search field
@@ -104,7 +104,7 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		sortButton.setFocusable(false);
 		sortButton.setContentAreaFilled(false);
 		sortButton.setBorderPainted(false);
-		sortButton.setBounds(50, 160, 213, 55);
+		sortButton.setBounds(50, 315, 213, 55);
 		this.add(sortButton);
 		
 		// profile button
