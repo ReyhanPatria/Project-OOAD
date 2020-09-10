@@ -13,9 +13,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class AllTaskView extends JPanel implements ViewPanel {
-
+	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
 	private JLabel bg;
 	
 	private JButton menuButton;
@@ -27,15 +32,20 @@ public class AllTaskView extends JPanel implements ViewPanel {
 	private JButton requestRevisionButton;
 	private JButton updateTaskButton;
 	
-	private JComboBox<Object> sortBy;
 	
 	private JTextField txtSearch;
+	private JButton searchButton;
 	
 	private JTable taskListTable;
-	private JComboBox<Object> sortBy2;
-	private JButton searchButton;
-	private JButton sortByButton;
+	private JComboBox<Object> sortByComboBox;
+	private JComboBox<Object> sortDirectionComboBox;
+	private JButton sortButton;
 	
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
 	public AllTaskView() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
@@ -48,15 +58,15 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		this.add(tableScrollPane);
 		
 		// Sort by combo box
-		sortBy = new JComboBox<Object>();
-		sortBy.setBounds(50, 325, 200, 40);
-		sortBy.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		this.add(sortBy);
+		sortByComboBox = new JComboBox<Object>();
+		sortByComboBox.setBounds(50, 325, 200, 40);
+		sortByComboBox.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		this.add(sortByComboBox);
 		
-		sortBy2 = new JComboBox<Object>();
-		sortBy2.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		sortBy2.setBounds(50, 250, 200, 40);
-		add(sortBy2);
+		sortDirectionComboBox = new JComboBox<Object>();
+		sortDirectionComboBox.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		sortDirectionComboBox.setBounds(50, 250, 200, 40);
+		this.add(sortDirectionComboBox);
 		
 		// search field
 		txtSearch = new JTextField();
@@ -77,6 +87,7 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		notifButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(notifButton);
 		
+		// Search button
 		searchButton = new JButton("");
 		searchButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Search.png"));
 		searchButton.setOpaque(false);
@@ -84,16 +95,17 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		searchButton.setContentAreaFilled(false);
 		searchButton.setBorderPainted(false);
 		searchButton.setBounds(825, 15, 134, 50);
-		add(searchButton);
+		this.add(searchButton);
 		
-		sortByButton = new JButton("");
-		sortByButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Sortby.png"));
-		sortByButton.setOpaque(false);
-		sortByButton.setFocusable(false);
-		sortByButton.setContentAreaFilled(false);
-		sortByButton.setBorderPainted(false);
-		sortByButton.setBounds(50, 160, 213, 55);
-		add(sortByButton);
+		// Sort button
+		sortButton = new JButton("");
+		sortButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Sortby.png"));
+		sortButton.setOpaque(false);
+		sortButton.setFocusable(false);
+		sortButton.setContentAreaFilled(false);
+		sortButton.setBorderPainted(false);
+		sortButton.setBounds(50, 160, 213, 55);
+		this.add(sortButton);
 		
 		// profile button
 		profileButton = new JButton("");
@@ -172,7 +184,6 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		requestRevisionButton.setFocusable(false);
 		this.add(requestRevisionButton);
 		
-		
 		// Label gambar background 
 		bg = new JLabel("");
 		bg.setToolTipText("");
@@ -181,8 +192,11 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		this.add(bg);
 	}
 
-	//GETTERS
 	
+	
+	
+	
+	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -223,18 +237,27 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		return updateTaskButton;
 	}
 
-	public JComboBox<Object> getSortBy() {
-		return sortBy;
-	}
-
 	public JTextField getTxtSearch() {
 		return txtSearch;
+	}
+
+	public JButton getSearchButton() {
+		return searchButton;
 	}
 
 	public JTable getTaskListTable() {
 		return taskListTable;
 	}
-	
-	
 
+	public JComboBox<Object> getSortByComboBox() {
+		return sortByComboBox;
+	}
+
+	public JComboBox<Object> getSortDirectionComboBox() {
+		return sortDirectionComboBox;
+	}
+
+	public JButton getSortButton() {
+		return sortButton;
+	}
 }
