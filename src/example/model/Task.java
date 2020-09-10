@@ -258,8 +258,6 @@ public class Task {
 		searchStatement.setString(4, currentUserID.toString());
 		searchStatement.setString(5, currentUserID.toString());
 		
-		System.out.println(searchStatement.toString());
-		
 		ResultSet searchTable = searchStatement.executeQuery();
 		
 		while(searchTable.next()) {
@@ -314,8 +312,6 @@ public class Task {
 		
 		sortStatement.setString(1, Session.getInstance().getCurrentUser().getId().toString());
 		sortStatement.setString(2, Session.getInstance().getCurrentUser().getId().toString());
-		
-		System.out.println(sortStatement.toString());
 		
 		ResultSet sortTable = sortStatement.executeQuery();
 		
