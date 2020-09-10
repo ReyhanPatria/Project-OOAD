@@ -65,7 +65,7 @@ public class ChangePasswordView extends JPanel implements ViewPanel {
 		newPassField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(newPassField);
 		
-		// Register button
+		// Update button
 		updateButton = new JButton("");
 		updateButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Update.png"));
 		updateButton.setBounds(542, 482, 276, 62);

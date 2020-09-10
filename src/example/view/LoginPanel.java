@@ -80,8 +80,14 @@ public class LoginPanel extends JPanel implements ViewPanel {
 		//validasi data username sama password ada di db atau nggak hrsnya di controller
 		
 		//Back Button
-		backButton = new JButton("Cancel");
-		backButton.setBounds(1238, 681, 89, 23);
+		backButton = new JButton("");
+		backButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Back2.png"));
+		backButton.setBounds(1150, 650, 173, 61);
+		backButton.setBorderPainted(false);
+		backButton.setOpaque(false);
+		backButton.setContentAreaFilled(false);
+		backButton.setFocusable(false);
+		this.backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(backButton);
 		
 		// Label gambar background 

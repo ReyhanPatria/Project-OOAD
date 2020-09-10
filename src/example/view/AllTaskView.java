@@ -32,6 +32,9 @@ public class AllTaskView extends JPanel implements ViewPanel {
 	private JTextField txtSearch;
 	
 	private JTable taskListTable;
+	private JComboBox<Object> sortBy2;
+	private JButton searchButton;
+	private JButton sortByButton;
 	
 	public AllTaskView() {
 		// Set panel's preferred size
@@ -41,20 +44,25 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		//All Task Table
 		taskListTable = new JTable();
 		JScrollPane tableScrollPane = new JScrollPane(taskListTable);
-		tableScrollPane.setBounds(200, 250, 950, 300);
+		tableScrollPane.setBounds(325, 250, 700, 300);
 		this.add(tableScrollPane);
 		
 		// Sort by combo box
 		sortBy = new JComboBox<Object>();
-		sortBy.setBounds(243, 160, 205, 40);
+		sortBy.setBounds(50, 325, 200, 40);
 		sortBy.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		this.add(sortBy);
+		
+		sortBy2 = new JComboBox<Object>();
+		sortBy2.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		sortBy2.setBounds(50, 250, 200, 40);
+		add(sortBy2);
 		
 		// search field
 		txtSearch = new JTextField();
 		txtSearch.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		txtSearch.setText("Search...");
-		txtSearch.setBounds(406, 15, 500, 50);
+		txtSearch.setBounds(405, 15, 400, 50);
 		txtSearch.setColumns(10);
 		this.add(txtSearch);
 		
@@ -68,6 +76,24 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		notifButton.setFocusable(false);
 		notifButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(notifButton);
+		
+		searchButton = new JButton("");
+		searchButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Search.png"));
+		searchButton.setOpaque(false);
+		searchButton.setFocusable(false);
+		searchButton.setContentAreaFilled(false);
+		searchButton.setBorderPainted(false);
+		searchButton.setBounds(825, 15, 134, 50);
+		add(searchButton);
+		
+		sortByButton = new JButton("");
+		sortByButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Sortby.png"));
+		sortByButton.setOpaque(false);
+		sortByButton.setFocusable(false);
+		sortByButton.setContentAreaFilled(false);
+		sortByButton.setBorderPainted(false);
+		sortByButton.setBounds(50, 160, 213, 55);
+		add(sortByButton);
 		
 		// profile button
 		profileButton = new JButton("");
@@ -94,7 +120,7 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		// back button
 		backButton = new JButton("");	
 		backButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Back.png"));
-		backButton.setBounds(50, 160, 134, 48);
+		backButton.setBounds(1050, 160, 134, 48);
 		backButton.setBorderPainted(false);
 		backButton.setOpaque(false);
 		backButton.setContentAreaFilled(false);

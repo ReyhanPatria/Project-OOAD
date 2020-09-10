@@ -55,13 +55,13 @@ public class EditProfileView extends JPanel implements ViewPanel {
 		backButton.setContentAreaFilled(false);
 		backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		backButton.setFocusable(false);
-		add(backButton);
+		this.add(backButton);
 		
 		//username field
 		usernameField = new JTextField();
 		usernameField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		usernameField.setBounds(593, 238, 565, 45);
-		add(usernameField);
+		this.add(usernameField);
 		
 		// Home button
 		homeButton = new JButton("");
@@ -74,12 +74,8 @@ public class EditProfileView extends JPanel implements ViewPanel {
 		homeButton.setFocusable(false);
 		this.add(homeButton);
 		
-		// Change password button
+		// update profile button
 		updateButton = new JButton("");
-		updateButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		updateButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Update.png"));
 		updateButton.setBounds(530, 575, 306, 62);
 		updateButton.setBorderPainted(false);
@@ -106,7 +102,6 @@ public class EditProfileView extends JPanel implements ViewPanel {
 		addressField.setBounds(593, 309, 565, 45);
 		this.add(addressField);
 		
-		// DOB chooser
 		// DOB chooser
 		dobDateChooser = new JDateChooser(new java.util.Date());
 		dobDateChooser.getCalendarButton().setFont(new Font("Cambria Math", Font.PLAIN, 20));
