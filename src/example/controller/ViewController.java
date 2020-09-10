@@ -36,6 +36,7 @@ import example.view.MenuSupervisorView;
 import example.view.NotificationView;
 import example.view.ProfileView;
 import example.view.RegisterUserPanel;
+import example.view.UpdateTaskView;
 
 public class ViewController {
 	
@@ -903,14 +904,34 @@ public class ViewController {
 	public static AllTaskView loadAllTaskView() {
 		AllTaskView atv = new AllTaskView();
 		
+		// Loading initial task table
 		ViewController.loadTaskListTable(atv.getTaskListTable(), null, null);
 		
-		// TODO: Logic for update task, approve task, request revision button
 		// Logic for update task button
 		atv.getUpdateTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Create loadUpdateTaskView()
+				try {
+				// Getting selected row
+				Integer selectedRow = atv.getTaskListTable().getSelectedRow();
+				Integer idColumn = 0;
+				
+				// Checking if a row is selected
+				if(selectedRow < 0 || selectedRow >= atv.getTaskListTable().getRowCount()) {
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), "No task selected");
+				}
+				
+				// Getting task's id for delete
+				UUID selectedUUID = (UUID) atv.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
+				// Getting task to be updated
+				Task taskToBeUpdated = TaskHandler.getTask(selectedUUID);
+				// Loads update task view
+				ViewController.loadUpdateTaskView(taskToBeUpdated);
+				}
+				catch(Exception e1) {
+					// Error message
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
 			}
 		});
 		
@@ -997,6 +1018,41 @@ public class ViewController {
 			}
 		});
 		
+		// Logic for request revision button
+		atv.getRequestRevisionButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Getting the selected row from task table
+					Integer selectedRow = atv.getTaskListTable().getSelectedRow();
+					Integer idColumn = 0;
+					
+					// Checking if a row is selected
+					if(selectedRow < 0 || selectedRow >= atv.getTaskListTable().getRowCount()) {
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "No task selected");
+					}
+					else {
+						// Getting selected task's id
+						UUID selectedID = (UUID) atv.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
+						// Request task revision
+						TaskHandler.requestTaskRevision(selectedID);
+						// Success message
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task revision requested");
+						
+						// Updating task table without reloading page
+						// Getting sort categories
+						Task.SortBy sortBy = (Task.SortBy) atv.getSortByComboBox().getSelectedItem();
+						Task.SortDirection sortDirection = (Task.SortDirection) atv.getSortDirectionComboBox().getSelectedItem();
+						// Loading table
+						ViewController.loadTaskListTable(atv.getTaskListTable(), sortBy, sortDirection);
+					}
+				}
+				catch(Exception e1) {
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
+			}
+		});
+		
 		// Creating sort by combo box
 		// Sort by combo box model
 		ComboBoxModel<Object> sortByComboBoxModel = new DefaultComboBoxModel<Object>(Task.SortBy.values());
@@ -1063,5 +1119,15 @@ public class ViewController {
 		FrameController.changePanel(atv);
 		
 		return atv;
+	}
+	
+	public static UpdateTaskView loadUpdateTaskView(Task taskToBeUpdated) {
+		UpdateTaskView utv = new UpdateTaskView();
+		
+		// TODO: Create logic for update task view
+		
+		FrameController.changePanel(utv);
+		
+		return utv;
 	}
 }
