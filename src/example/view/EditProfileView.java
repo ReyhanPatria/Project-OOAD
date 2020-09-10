@@ -11,9 +11,6 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class EditProfileView extends JPanel implements ViewPanel {
 	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
