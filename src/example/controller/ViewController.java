@@ -16,8 +16,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 import example.model.Notification;
+import example.model.Task;
 import example.model.User;
 import example.session.Session;
 import example.view.AllTaskView;
@@ -622,7 +624,6 @@ public class ViewController {
 									u.getDOB().toString(), 
 									u.getTelp()};
 				userDataModel.addRow(rowData);
-
 			}
 			
 			// Setting table content
@@ -833,10 +834,200 @@ public class ViewController {
 		return nv;
 	}
 	
+	// Load task table model
+	public static TableModel loadTaskTabelModel(Task.SortBy sortBy, Task.SortDirection sortDirection) {
+		String[] taskTableHeader = {"id", "Title", "supervisorID", "Supervisor", 
+				"workerID", "Worker", "Note", "Revision Count", "Submitted", "Approved Date", 
+				"Score"};
+		DefaultTableModel taskTableModel = new DefaultTableModel(taskTableHeader, 0) {
+			private static final long serialVersionUID = 1L;
+			// Making the cells not editable
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
+		// Adding data to table model
+		try {
+			// Getting task list based on sort categories
+			List<Task> taskList = null;
+			if(sortBy == null || sortDirection == null) {
+				taskList = TaskHandler.getAllTask();
+			}
+			else {
+				taskList = TaskHandler.sortTask(sortBy, sortDirection);
+			}
+			
+			// Inserting task data rows
+			for(Task t: taskList) {
+				UUID 	id				=	t.getId();
+				String	title			=	t.getTitle();
+				UUID	supervisorID	=	t.getSupervisorID();
+				String	supervisorName	=	UserController.getUser(supervisorID).getUsername();
+				UUID	workerID		=	t.getWorkerID();
+				String	workerName		=	UserController.getUser(workerID).getUsername();
+				String	note			=	t.getNote();
+				Integer	revisionCount	=	t.getRevisionCount();
+				String	isSubmitted		=	(t.getIsSubmitted()) ? "Yes" : "No";
+				String	approvedDate	=	(t.getApprovedAt() == null) ? "Not approved" : t.getApprovedAt().toString();
+				
+				Object[] rowData = {id, title, supervisorID, supervisorName, workerID, workerName, note, 
+						revisionCount, isSubmitted, approvedDate};
+				taskTableModel.addRow(rowData);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return taskTableModel;
+	}
+	
+	// Loads all task view
 	public static AllTaskView loadAllTaskView() {
 		AllTaskView atv = new AllTaskView();
 		
 		// TODO: Create button, combo box, search bar logic
+		// Creating table model
+		TableModel taskTableModel = ViewController.loadTaskTabelModel(null, null);
+		atv.getTaskListTable().setModel(taskTableModel);
+		// Hiding id, supervisorId, workerId column
+		TableColumnModel tcm = atv.getTaskListTable().getColumnModel();
+		tcm.removeColumn(tcm.getColumn(0));
+		tcm.removeColumn(tcm.getColumn(1));
+		tcm.removeColumn(tcm.getColumn(2));
+		
+		// TODO: Logic for update task, approve task, request revision button
+		// Logic for update task button
+		atv.getUpdateTaskButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: Create loadUpdateTaskView()
+			}
+		});
+		
+		// Logic for delete task button
+		atv.getDeleteTaskButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Getting the selected row from task table
+					Integer selectedRow = atv.getTaskListTable().getSelectedRow();
+					Integer idColumn = 0;
+					
+					// Checking if a row is selected
+					if(selectedRow < 0 || selectedRow >= atv.getTaskListTable().getRowCount()) {
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "No task selected");
+					}
+					else {
+						// Confirming delete choice
+						Integer confirmResult = JOptionPane.showConfirmDialog(MainFrame.getInstance(), 
+								"Are you sure?", "Delete Task", JOptionPane.YES_NO_OPTION);
+						
+						// If delete was confirmed
+						if(confirmResult == JOptionPane.YES_OPTION) {
+							// Getting task's id for delete
+							UUID selectedUUID = (UUID) atv.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
+							
+							// Deleting task
+							TaskHandler.deleteTask(selectedUUID);
+							// Success message
+							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task was deleted");
+							
+							// Updating task table without reloading page
+							// Getting sort categories
+							Task.SortBy sortBy = (Task.SortBy) atv.getSortByComboBox().getSelectedItem();
+							Task.SortDirection sortDirection = (Task.SortDirection) atv.getSortDirectionComboBox().getSelectedItem();
+							
+							// Creating new table model
+							TableModel taskTableModel = ViewController.loadTaskTabelModel(sortBy, sortDirection);
+							// Updating model
+							atv.getTaskListTable().setModel(taskTableModel);
+							
+							// Hiding id, supervisorId, workerId column
+							TableColumnModel tcm = atv.getTaskListTable().getColumnModel();
+							tcm.removeColumn(tcm.getColumn(0));
+							tcm.removeColumn(tcm.getColumn(1));
+							tcm.removeColumn(tcm.getColumn(2));
+						}
+					}
+				}
+				catch(Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		// Creating sort by combo box
+		// Sort by combo box model
+		ComboBoxModel<Object> sortByComboBoxModel = new DefaultComboBoxModel<Object>(Task.SortBy.values());
+		// Insert model into combo box
+		atv.getSortByComboBox().setModel(sortByComboBoxModel);
+		
+		// Creating sort direction combo box
+		// Sort direction combo box model
+		ComboBoxModel<Object> sortDirectionComboBoxModel = new DefaultComboBoxModel<Object>(Task.SortDirection.values());
+		// Insert model into combo box
+		atv.getSortDirectionComboBox().setModel(sortDirectionComboBoxModel);
+		
+		// Logic for sort button
+		atv.getSortButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Getting sort categories
+				Task.SortBy sortBy = (Task.SortBy) atv.getSortByComboBox().getSelectedItem();
+				Task.SortDirection sortDirection = (Task.SortDirection) atv.getSortDirectionComboBox().getSelectedItem();
+				
+				// Creating new table model
+				TableModel taskTableModel = ViewController.loadTaskTabelModel(sortBy, sortDirection);
+				// Updating model
+				atv.getTaskListTable().setModel(taskTableModel);
+				
+				// Hiding id, supervisorId, workerId column
+				TableColumnModel tcm = atv.getTaskListTable().getColumnModel();
+				tcm.removeColumn(tcm.getColumn(0));
+				tcm.removeColumn(tcm.getColumn(1));
+				tcm.removeColumn(tcm.getColumn(2));
+			}
+		});
+		
+		
+		// Logic for notification button
+		atv.getNotifButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads notification view
+				ViewController.loadNotificationView();
+			}
+		});
+		
+		// Logic for menu button
+		atv.getMenuButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for profile button
+		atv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		// Logic for back button
+		atv.getBackButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
 		
 		FrameController.changePanel(atv);
 		
