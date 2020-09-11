@@ -62,13 +62,13 @@ public class TaskRequestHandler {
 		UUID workerID = taskRequest.getWorkerID();
 		String note = taskRequest.getNote();
 		
-		taskRequest.delete();
-		
-		TaskHandler.createTask(title, supervisorID, workerID, note);
+		TaskHandler.createTask(title, workerID, supervisorID, note);
 		
 		String supervisorName = UserController.getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has accepted your task request \"%s\"", supervisorName, title);
 		NotificationController.createNotification(workerID, notificationMessage);
+		
+		taskRequest.delete();
 		
 		return taskRequest;
 	}
