@@ -13,6 +13,7 @@ import example.session.Session;
 
 public class NotificationController {
 	// STATIC ATTRIBUTES
+	// Instance of notification controller
 	private static NotificationController instance;
 	
 	

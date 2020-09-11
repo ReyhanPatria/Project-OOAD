@@ -6,6 +6,7 @@ import example.view.MainFrame;
 
 public class FrameController {
 	// STATIC ATTRIBUTES
+	// Instance of frame controller
 	private static FrameController instance;
 	
 	
