@@ -86,7 +86,7 @@ public class TaskHandler {
 			NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		}
 		else if(currentUser.getRole().equalsIgnoreCase("WORKER")) {
-			TaskRequestHandler.createTaskRequest(title, supervisorID, workerID, note);
+			TaskRequestHandler.getInstance().createTaskRequest(title, supervisorID, workerID, note);
 			
 			String workerName = UserController.getUser(workerID).getUsername();
 			String notificationMessage = String.format("%s has requested you to supervise a new task \"%s\"", workerName, title);

@@ -10,9 +10,32 @@ import example.model.User;
 import example.session.Session;
 
 public class TaskRequestHandler {
+	// STATIC ATTRIBUTES
+	// Instance of task request handler
+	private static TaskRequestHandler instance;
+	
+	
+	
+	
+	
 	// STATIC FUNCTIONS
+	public static TaskRequestHandler getInstance() {
+		if(instance == null) {
+			instance = new TaskRequestHandler();
+		}
+		return instance;
+	}
+	
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
+	// Constructor
+	public TaskRequestHandler() {}
+	
 	// Creates a new TaskRequest object and saves it to database
-	public static TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) 
+	public TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) 
 			throws IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(TaskHandler.validateTitleLength(title) == false) {
@@ -44,7 +67,7 @@ public class TaskRequestHandler {
 	}
 	
 	// Gets all task request that current user has
-	public static List<TaskRequest> getAllTaskRequest() throws NoSuchObjectException, SQLException {
+	public List<TaskRequest> getAllTaskRequest() throws NoSuchObjectException, SQLException {
 		User currentUser = Session.getInstance().getCurrentUser();
 		
 		List<TaskRequest> taskRequestList = TaskRequest.getAll(currentUser.getId());
@@ -54,7 +77,7 @@ public class TaskRequestHandler {
 	
 	// Accepts a task request
 	// Deletes TaskRequest from database then creates a task from it, and gives a notification to the requester
-	public static TaskRequest acceptTaskRequest(UUID taskRequestID) throws NoSuchObjectException, SQLException {
+	public TaskRequest acceptTaskRequest(UUID taskRequestID) throws NoSuchObjectException, SQLException {
 		TaskRequest taskRequest = TaskRequest.get(taskRequestID);
 		
 		String title = taskRequest.getTitle();
@@ -62,11 +85,11 @@ public class TaskRequestHandler {
 		UUID workerID = taskRequest.getWorkerID();
 		String note = taskRequest.getNote();
 		
-		TaskHandler.createTask(title, workerID, supervisorID, note);
+		TaskHandler.getInstance().createTask(title, workerID, supervisorID, note);
 		
 		String supervisorName = UserController.getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has accepted your task request \"%s\"", supervisorName, title);
-		NotificationController.createNotification(workerID, notificationMessage);
+		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		
 		taskRequest.delete();
 		
@@ -75,7 +98,7 @@ public class TaskRequestHandler {
 	
 	// Rejects a task request
 	// Deletes TaskRequest from database, and gives a notification to the requester
-	public static TaskRequest rejectTaskRequest(UUID taskRequestID) throws SQLException {
+	public TaskRequest rejectTaskRequest(UUID taskRequestID) throws SQLException {
 		TaskRequest taskRequest = TaskRequest.get(taskRequestID);
 		
 		String title = taskRequest.getTitle();
@@ -86,7 +109,7 @@ public class TaskRequestHandler {
 		
 		String supervisorName = UserController.getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has rejected your task request \"%s\"", supervisorName, title);
-		NotificationController.createNotification(workerID, notificationMessage);
+		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		
 		return taskRequest;
 	}
