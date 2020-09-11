@@ -34,6 +34,7 @@ import example.view.LoginPanel;
 import example.view.MainFrame;
 import example.view.MenuAdminView;
 import example.view.MenuSupervisorView;
+import example.view.MenuWorkerView;
 import example.view.NotificationView;
 import example.view.ProfileView;
 import example.view.RegisterUserPanel;
@@ -107,9 +108,7 @@ public class ViewController {
 				ViewController.loadMenuSupervisorView();
 			}
 			else if(userRole.equalsIgnoreCase("worker")) {
-				/*
-				 * TODO: Create loadMenuWorkerView()
-				 */
+				ViewController.loadMenuWorkerView();
 			}
 		}
 		catch(NoSuchObjectException e) {
@@ -211,6 +210,60 @@ public class ViewController {
 		FrameController.changePanel(msv);
 		
 		return msv;
+	}
+	
+	// Loads worker's menu view
+	public static MenuWorkerView loadMenuWorkerView() {
+		MenuWorkerView mwv = new MenuWorkerView();
+		
+		// Logic for notification button
+		mwv.getNotifButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads notification view
+				ViewController.loadNotificationView();
+			}
+		});
+		
+		// Logic for view all task button
+		mwv.getViewAllTaskButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewController.loadAllTaskView();
+			}
+		});
+		
+		// Logic for create task view
+		mwv.getCreateTaskButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewController.loadCreateTaskView();
+			}
+		});
+		
+		// Logic for profile button
+		mwv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		// Logic for logout button
+		mwv.getLogOutButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Logout and ends session
+				UserController.logout();
+				// Load first page
+				ViewController.loadFirstPage();
+			}
+		});
+		
+		FrameController.changePanel(mwv);
+		
+		return mwv;
 	}
 	
 	// Loads create task view
