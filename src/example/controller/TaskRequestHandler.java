@@ -88,7 +88,7 @@ public class TaskRequestHandler {
 		
 		TaskHandler.getInstance().createTask(title, workerID, supervisorID, note);
 		
-		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		String supervisorName = UserController.getInstance().getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has accepted your task request \"%s\"", supervisorName, title);
 		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		
@@ -108,7 +108,7 @@ public class TaskRequestHandler {
 		
 		taskRequest.delete();
 		
-		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		String supervisorName = UserController.getInstance().getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has rejected your task request \"%s\"", supervisorName, title);
 		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		

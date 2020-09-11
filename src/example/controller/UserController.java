@@ -12,7 +12,11 @@ import example.model.User;
 import example.session.Session;
 
 public class UserController {
-	// STATIC ATTRIBUTES ----------------------------------------------------
+	// STATIC ATTRIBUTES
+	// Instance of user controller
+	private static UserController instance;
+	
+	// List of user roles
 	public static String[] allRoleList = {"admin", "supervisor", "worker"};
 	public static String[] selectableRoleList = {"supervisor", "worker"};
 	
@@ -20,9 +24,25 @@ public class UserController {
 	
 	
 	
-	// STATIC FUNCTIONS ----------------------------------------------------
+	// STATIC FUNCTIONS
+	// Gets instance of user controller
+	public static UserController getInstance() {
+		if(instance == null) {
+			instance = new UserController();
+		}
+		return instance;
+	}
+	
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
+	// Constructor
+	public UserController() {}
+	
 	// Save updates on currently logged in User’s attributes to database
-	public static User updateProfile(String username, Date DOB, String address, String telp) 
+	public User updateProfile(String username, Date DOB, String address, String telp) 
 			throws IllegalArgumentException, NoSuchObjectException, SQLException {
 		// Validate parameters
 		if(validateUsername(username) == false) {
@@ -53,7 +73,7 @@ public class UserController {
 	}
 	
 	// Changes currently logged in User password to a new password
-	public static User changePassword(String oldPassword, String newPassword) 
+	public User changePassword(String oldPassword, String newPassword) 
 			throws IllegalArgumentException, NoSuchObjectException, SQLException {
 		if(validatePasswordLength(newPassword) == false) {
 			throw new IllegalArgumentException("Password must be at least 5 characters");
@@ -81,7 +101,7 @@ public class UserController {
 	}
 	
 	// Instantiate UserController instance
-	public static void login(String username, String password) throws IllegalArgumentException, SQLException {
+	public void login(String username, String password) throws IllegalArgumentException, SQLException {
 		String securedPassword = PasswordUtils.generateSecurePassword(password, username);
 		
 		User returnedUser = User.validateLogin(username, securedPassword);
@@ -93,7 +113,7 @@ public class UserController {
 	}
 	
 	// Registers new User
-	public static User registerUser(String username, String role, String address, Date DOB, String telp) 
+	public User registerUser(String username, String role, String address, Date DOB, String telp) 
 			throws IllegalArgumentException, SQLException, NoSuchObjectException {
 		if(validateUsernameLength(username) == false) {
 			throw new IllegalArgumentException("Username length has to be 5-15 characters");
@@ -107,17 +127,17 @@ public class UserController {
 	}
 	
 	// Log out current user (make instance variable null)
-	public static void logout() {
+	public void logout() {
 		Session.endSession();
 	}
 	
 	// Get a list of all user
-	public static List<User> getAllUser() throws SQLException {
+	public List<User> getAllUser() throws SQLException {
 		return User.getAll();
 	}
 	
 	// Get a list of all user based on a role
-	public static List<User> getUserByRole(String role) throws IllegalArgumentException, SQLException {
+	public List<User> getUserByRole(String role) throws IllegalArgumentException, SQLException {
 		if(validateRole(role)) {
 			return User.getUserByRole(role);
 		}
@@ -126,14 +146,14 @@ public class UserController {
 	}
 	
 	// Get a specific user based on their ID
-	public static User getUser(UUID userID) throws IllegalArgumentException, SQLException {
+	public User getUser(UUID userID) throws IllegalArgumentException, SQLException {
 		User u = User.get(userID);
 		
 		return u;
 	}
 	
 	// Creating a new User object and stores it in the Database.
-	public static User createUser(String username, String password, String role, 
+	public User createUser(String username, String password, String role, 
 			Date DOB, String address, String telp) throws IllegalArgumentException, 
 			SQLException, NoSuchObjectException {
 		if(validateUsername(username) == false) {
@@ -162,13 +182,13 @@ public class UserController {
 	}
 	
 	// Delete user based on their ID
-	public static void deleteUser(UUID userID) throws IllegalArgumentException, SQLException {
+	public void deleteUser(UUID userID) throws IllegalArgumentException, SQLException {
 		User u = getUser(userID);
 		u.delete();
 	}
 	
 	// Resets of a user based on their ID
-	public static User resetPassword(UUID userID) throws IllegalArgumentException, SQLException {
+	public User resetPassword(UUID userID) throws IllegalArgumentException, SQLException {
 		User u = getUser(userID);
 		
 		String username = u.getUsername();
@@ -200,7 +220,7 @@ public class UserController {
 	public static Boolean validateUsername(String username) throws SQLException, NoSuchObjectException {
 		User currentUser = Session.getInstance().getCurrentUser();
 		
-		List<User> userList = getAllUser();
+		List<User> userList = UserController.getInstance().getAllUser();
 		for(User u: userList) {
 			if(username.equals(u.getUsername()) && u.getId().equals(currentUser.getId()) == false) {
 				return false;
@@ -218,6 +238,7 @@ public class UserController {
 		return true;
 	}
 	
+	// Validate password length
 	public static Boolean validatePasswordLength(String password) {
 		if(password.length() < 5) {
 			return false;

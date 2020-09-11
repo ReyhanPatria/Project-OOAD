@@ -81,14 +81,14 @@ public class TaskHandler {
 			newTask = new Task(id, workerID, supervisorID, title, revisionCount, score, isSubmitted, approvedAt, note);
 			newTask.save();
 			
-			String supervisorName = UserController.getUser(supervisorID).getUsername();
+			String supervisorName = UserController.getInstance().getUser(supervisorID).getUsername();
 			String notificationMessage = String.format("%s has assigned you a new task \"%s\"", supervisorName, title);
 			NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		}
 		else if(currentUser.getRole().equalsIgnoreCase("WORKER")) {
 			TaskRequestHandler.getInstance().createTaskRequest(title, supervisorID, workerID, note);
 			
-			String workerName = UserController.getUser(workerID).getUsername();
+			String workerName = UserController.getInstance().getUser(workerID).getUsername();
 			String notificationMessage = String.format("%s has requested you to supervise a new task \"%s\"", workerName, title);
 			NotificationController.getInstance().createNotification(supervisorID, notificationMessage);
 		}
@@ -130,7 +130,7 @@ public class TaskHandler {
 		task.update();
 		
 		// Sends notification for supervisor and worker
-		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		String supervisorName = UserController.getInstance().getUser(supervisorID).getUsername();
 		NotificationController.getInstance().createNotification(
 				supervisorID, String.format("%s has updated information on task \"%s\"", supervisorName, title));
 		NotificationController.getInstance().createNotification(
@@ -153,7 +153,7 @@ public class TaskHandler {
 		UUID supervisorID = task.getSupervisorID();
 		UUID workerID = task.getWorkerID();
 		// Gets supervisor name
-		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		String supervisorName = UserController.getInstance().getUser(supervisorID).getUsername();
 		// Sends notification for supervisor and worker
 		NotificationController.getInstance().createNotification(
 				supervisorID, String.format("%s has deleted on task \"%s\"", supervisorName, title));
@@ -185,7 +185,7 @@ public class TaskHandler {
 		
 		task.update();
 		
-		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		String supervisorName = UserController.getInstance().getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has approved your task \"%s\"", supervisorName, title);
 		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		
@@ -212,7 +212,7 @@ public class TaskHandler {
 		
 		task.update();
 		
-		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		String supervisorName = UserController.getInstance().getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has requested you a revision on task \"%s\"", supervisorName, title);
 		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		
@@ -231,7 +231,7 @@ public class TaskHandler {
 		
 		task.update();
 		
-		String workerName = UserController.getUser(workerID).getUsername();
+		String workerName = UserController.getInstance().getUser(workerID).getUsername();
 		String notificationMessage = String.format("%s has submitted \"%s\"", workerName, title);
 		NotificationController.getInstance().createNotification(supervisorID, notificationMessage);
 		
@@ -260,7 +260,7 @@ public class TaskHandler {
 	// VALIDATORS
 	// Validate worker's id
 	public static Boolean validateWorkerID(UUID workerID) throws IllegalArgumentException, SQLException {
-		User worker = UserController.getUser(workerID);
+		User worker = UserController.getInstance().getUser(workerID);
 		
 		if(worker != null && worker.getRole().equalsIgnoreCase("WORKER") == true) {
 			return true;
@@ -270,7 +270,7 @@ public class TaskHandler {
 	
 	// Validate supervisor's id
 	public static Boolean validateSupervisorID(UUID supervisorID) throws IllegalArgumentException, SQLException {
-		User supervisor = UserController.getUser(supervisorID);
+		User supervisor = UserController.getInstance().getUser(supervisorID);
 		
 		if(supervisor != null && supervisor.getRole().equalsIgnoreCase("SUPERVISOR") == true) {
 			return true;
