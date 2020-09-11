@@ -45,16 +45,32 @@ import example.view.TaskRequestView;
 import example.view.UpdateTaskView;
 
 public class ViewController {
+	// STATIC ATTRIBUTES
+	// Instance of view controller
+	private static ViewController instance;
+	
 	// STATIC FUNCTIONS
+	// Gets instance of view controller
+	public static ViewController getInstance() {
+		if(instance == null) {
+			instance = new ViewController();
+		}
+		return instance;
+	}
+	
+	// NON-STATIC FUNCTIONS
+	// Constructor
+	public ViewController() {}
+	
 	// Loads start up page
-	public static FirstPage loadFirstPage() {
+	public FirstPage loadFirstPage() {
 		FirstPage fp = new FirstPage();
 		
 		// Logic for login button
 		fp.getLoginButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadLoginPanel();
+				ViewController.getInstance().loadLoginPanel();
 			}
 		});
 		
@@ -64,7 +80,7 @@ public class ViewController {
 	}
 	
 	// Loads login page
-	public static LoginPanel loadLoginPanel() {
+	public LoginPanel loadLoginPanel() {
 		LoginPanel lp = new LoginPanel();
 		
 		// Logic for clicking login button
@@ -77,7 +93,7 @@ public class ViewController {
 				try {
 					UserController.getInstance().login(username, password);
 					
-					ViewController.loadMenuView();
+					ViewController.getInstance().loadMenuView();
 				}
 				catch(Exception e1) {
 					lp.getLbl_Invalid().setVisible(true);
@@ -90,7 +106,7 @@ public class ViewController {
 		lp.getBackButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadFirstPage();
+				ViewController.getInstance().loadFirstPage();
 			}
 		});
 		
@@ -100,18 +116,18 @@ public class ViewController {
 	}
 	
 	// Function to decide which menu to load after login
-	public static void loadMenuView() {
+	public void loadMenuView() {
 		try {
 			String userRole = Session.getInstance().getCurrentUser().getRole();
 			
 			if(userRole.equalsIgnoreCase("admin")) {
-				ViewController.loadMenuAdminView();
+				ViewController.getInstance().loadMenuAdminView();
 			}
 			else if(userRole.equalsIgnoreCase("supervisor")) {
-				ViewController.loadMenuSupervisorView();
+				ViewController.getInstance().loadMenuSupervisorView();
 			}
 			else if(userRole.equalsIgnoreCase("worker")) {
-				ViewController.loadMenuWorkerView();
+				ViewController.getInstance().loadMenuWorkerView();
 			}
 		}
 		catch(NoSuchObjectException e) {
@@ -120,14 +136,14 @@ public class ViewController {
 	}
 	
 	// Loads menu for admin
-	public static MenuAdminView loadMenuAdminView() {
+	public MenuAdminView loadMenuAdminView() {
 		MenuAdminView mav = new MenuAdminView();
 		
 		// Logic for profile button
 		mav.getProfileButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -135,7 +151,7 @@ public class ViewController {
 		mav.getViewButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadAllUserView();
+				ViewController.getInstance().loadAllUserView();
 			}
 		});
 		
@@ -144,7 +160,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserController.getInstance().logout();
-				ViewController.loadFirstPage();
+				ViewController.getInstance().loadFirstPage();
 			}
 		});
 		
@@ -154,7 +170,7 @@ public class ViewController {
 	}
 	
 	// Loads menu for supervisor
-	public static MenuSupervisorView loadMenuSupervisorView() {
+	public MenuSupervisorView loadMenuSupervisorView() {
 		MenuSupervisorView msv = new MenuSupervisorView();
 		
 		// Logic for notification button
@@ -162,7 +178,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
@@ -170,7 +186,7 @@ public class ViewController {
 		msv.getViewAllTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadAllTaskView();
+				ViewController.getInstance().loadAllTaskView();
 			}
 		});
 		
@@ -178,7 +194,7 @@ public class ViewController {
 		msv.getViewTaskRequestButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadTaskRequestView();
+				ViewController.getInstance().loadTaskRequestView();
 			}
 		});
 		
@@ -186,7 +202,7 @@ public class ViewController {
 		msv.getCreateTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadCreateTaskView();
+				ViewController.getInstance().loadCreateTaskView();
 			}
 		});
 		
@@ -195,7 +211,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -206,7 +222,7 @@ public class ViewController {
 				// Logout and ends session
 				UserController.getInstance().logout();
 				// Load first page
-				ViewController.loadFirstPage();
+				ViewController.getInstance().loadFirstPage();
 			}
 		});
 		
@@ -216,7 +232,7 @@ public class ViewController {
 	}
 	
 	// Loads worker's menu view
-	public static MenuWorkerView loadMenuWorkerView() {
+	public MenuWorkerView loadMenuWorkerView() {
 		MenuWorkerView mwv = new MenuWorkerView();
 		
 		// Logic for notification button
@@ -224,7 +240,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
@@ -232,7 +248,7 @@ public class ViewController {
 		mwv.getViewAllTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadAllTaskView();
+				ViewController.getInstance().loadAllTaskView();
 			}
 		});
 		
@@ -240,7 +256,7 @@ public class ViewController {
 		mwv.getCreateTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadCreateTaskView();
+				ViewController.getInstance().loadCreateTaskView();
 			}
 		});
 		
@@ -249,7 +265,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -260,7 +276,7 @@ public class ViewController {
 				// Logout and ends session
 				UserController.getInstance().logout();
 				// Load first page
-				ViewController.loadFirstPage();
+				ViewController.getInstance().loadFirstPage();
 			}
 		});
 		
@@ -270,7 +286,7 @@ public class ViewController {
 	}
 	
 	// Loads create task view
-	public static CreateTaskView loadCreateTaskView() {
+	public CreateTaskView loadCreateTaskView() {
 		CreateTaskView ctv = new CreateTaskView();
 		
 		// Custom combo box cell renderer
@@ -336,7 +352,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -345,7 +361,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
@@ -354,7 +370,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -363,7 +379,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -389,7 +405,7 @@ public class ViewController {
 						// Success message
 						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task was created");
 						// Loads menu view
-						ViewController.loadMenuView();
+						ViewController.getInstance().loadMenuView();
 					}
 				}
 				catch(Exception e1) {
@@ -404,7 +420,7 @@ public class ViewController {
 	}
 	
 	// Loads register user panel
-	public static RegisterUserPanel loadRegisterUserPanel() {
+	public RegisterUserPanel loadRegisterUserPanel() {
 		RegisterUserPanel rp = new RegisterUserPanel();
 		
 		rp.getRegisterButton().addActionListener(new ActionListener() {
@@ -419,7 +435,7 @@ public class ViewController {
 				try {
 					UserController.getInstance().registerUser(username, role, address, DOB, telp);
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), "User registered successfully");
-					ViewController.loadAllUserView();
+					ViewController.getInstance().loadAllUserView();
 				}
 				catch (Exception e1) {
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
@@ -432,7 +448,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -441,7 +457,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads main menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});	
 		
@@ -450,7 +466,7 @@ public class ViewController {
 		return rp;
 	}
 	
-	public static void loadProfileView() {
+	public void loadProfileView() {
 		ProfileView pv = new ProfileView();
 		
 		// Setting profile info
@@ -471,7 +487,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads main menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -480,7 +496,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads change password view
-				ViewController.loadChangePasswordView();
+				ViewController.getInstance().loadChangePasswordView();
 			}
 		});
 		
@@ -488,14 +504,14 @@ public class ViewController {
 		pv.getEditProfileButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 ViewController.loadEditProfileView();
+				 ViewController.getInstance().loadEditProfileView();
 			}
 		});
 		
 		FrameController.getInstance().changePanel(pv);
 	}
 	
-	public static ChangePasswordView loadChangePasswordView() {
+	public ChangePasswordView loadChangePasswordView() {
 		ChangePasswordView cpv = new ChangePasswordView();
 		
 		// Check currently logged in user's role
@@ -525,7 +541,7 @@ public class ViewController {
 					// Success message
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), "Password changed successfully!");
 					// Loads profile view
-					ViewController.loadProfileView();
+					ViewController.getInstance().loadProfileView();
 				}
 				catch(Exception e1) {
 					// Shows error message in a message box
@@ -539,7 +555,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
@@ -548,7 +564,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -557,7 +573,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -566,7 +582,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Load profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -575,7 +591,7 @@ public class ViewController {
 		return cpv;
 	}
 	
-	public static EditProfileView loadEditProfileView() {
+	public EditProfileView loadEditProfileView() {
 		EditProfileView epv = new EditProfileView();
 
 		// Sets default text for text fields
@@ -607,7 +623,7 @@ public class ViewController {
 					// Success message
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), "Profile updated successfully");
 					// Load profile view
-					ViewController.loadProfileView();
+					ViewController.getInstance().loadProfileView();
 				}
 				catch(Exception e1) {
 					// Error message
@@ -621,7 +637,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -630,7 +646,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -639,7 +655,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -649,7 +665,7 @@ public class ViewController {
 	}
 	
 	// Loads all user view
-	public static AllUserView loadAllUserView() {
+	public AllUserView loadAllUserView() {
 		AllUserView alv = new AllUserView();
 		
 		// Filling the table with user data
@@ -693,7 +709,7 @@ public class ViewController {
 		alv.getCreateButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewController.loadRegisterUserPanel();
+				ViewController.getInstance().loadRegisterUserPanel();
 			}
 		});
 		
@@ -770,7 +786,7 @@ public class ViewController {
 								JOptionPane.showMessageDialog(MainFrame.getInstance(), "User was deleted");
 								
 								// Reloads all user view
-								ViewController.loadAllUserView();
+								ViewController.getInstance().loadAllUserView();
 							}
 						}
 					}
@@ -786,7 +802,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads home menu
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -795,7 +811,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Load profile menu
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -805,7 +821,7 @@ public class ViewController {
 	}
 
 	// Loads notification view
-	public static NotificationView loadNotificationView() {
+	public NotificationView loadNotificationView() {
 		NotificationView nv = new NotificationView();
 		
 		// Filling the table with notification data
@@ -856,7 +872,7 @@ public class ViewController {
 					// Mark all notification as read
 					NotificationController.getInstance().readAllNotification(currentUser.getId());
 					// Reloads notification view
-					ViewController.loadNotificationView();
+					ViewController.getInstance().loadNotificationView();
 				}
 				catch(Exception e1) {
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
@@ -869,7 +885,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads home menu
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -878,7 +894,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Load profile menu
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -888,7 +904,7 @@ public class ViewController {
 	}
 	
 	// Load task table model
-	public static TableModel loadTaskTabelModel(String searchTerm, 
+	public TableModel loadTaskTabelModel(String searchTerm, 
 			Task.SortBy sortBy, Task.SortDirection sortDirection) {
 		String[] taskTableHeader = {"id", "Title", "supervisorID", "Supervisor", 
 				"workerID", "Worker", "Note", "Revision Count", "Submitted", "Approved Date", 
@@ -941,10 +957,10 @@ public class ViewController {
 		return taskTableModel;
 	}
 	
-	public static JTable loadTaskListTable(JTable taskTable, String searchTerm, 
+	public JTable loadTaskListTable(JTable taskTable, String searchTerm, 
 			Task.SortBy sortBy, Task.SortDirection sortDirection) {
 		// Creating new table model
-		TableModel taskTableModel = ViewController.loadTaskTabelModel(searchTerm, sortBy, sortDirection);
+		TableModel taskTableModel = ViewController.getInstance().loadTaskTabelModel(searchTerm, sortBy, sortDirection);
 		
 		// Updating model
 		taskTable.setModel(taskTableModel);
@@ -959,7 +975,7 @@ public class ViewController {
 	}
 	
 	// Loads all task view based on role
-	public static void loadAllTaskView() {
+	public void loadAllTaskView() {
 		try {
 			// Getting current user
 			User currentUser = Session.getInstance().getCurrentUser();
@@ -967,11 +983,11 @@ public class ViewController {
 			// Checking current user's role
 			if(currentUser.getRole().equalsIgnoreCase("SUPERVISOR")) {
 				// Loads all task view supervisor
-				ViewController.loadAllTaskViewSupervisor();
+				ViewController.getInstance().loadAllTaskViewSupervisor();
 			}
 			else if(currentUser.getRole().equalsIgnoreCase("WORKER")) {
 				// Loads all task view supervisor
-				ViewController.loadAllTaskViewWorker();
+				ViewController.getInstance().loadAllTaskViewWorker();
 			}
 		}
 		catch(Exception e) {
@@ -980,11 +996,11 @@ public class ViewController {
 	}
 	
 	// Loads all task view supervisor
-	public static AllTaskViewSupervisor loadAllTaskViewSupervisor() {
+	public AllTaskViewSupervisor loadAllTaskViewSupervisor() {
 		AllTaskViewSupervisor atvs = new AllTaskViewSupervisor();
 		
 		// Loading initial task table
-		ViewController.loadTaskListTable(atvs.getTaskListTable(), null, null, null);
+		ViewController.getInstance().loadTaskListTable(atvs.getTaskListTable(), null, null, null);
 		
 		// Logic for update task button
 		atvs.getUpdateTaskButton().addActionListener(new ActionListener() {
@@ -1005,7 +1021,7 @@ public class ViewController {
 						// Getting task to be updated
 						Task taskToBeUpdated = TaskHandler.getInstance().getTask(selectedUUID);
 						// Loads update task view
-						ViewController.loadUpdateTaskView(taskToBeUpdated);
+						ViewController.getInstance().loadUpdateTaskView(taskToBeUpdated);
 					}
 				}
 				catch(Exception e1) {
@@ -1048,7 +1064,7 @@ public class ViewController {
 							Task.SortBy sortBy = (Task.SortBy) atvs.getSortByComboBox().getSelectedItem();
 							Task.SortDirection sortDirection = (Task.SortDirection) atvs.getSortDirectionComboBox().getSelectedItem();
 							// Loading table
-							ViewController.loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
+							ViewController.getInstance().loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
 						}
 					}
 				}
@@ -1085,7 +1101,7 @@ public class ViewController {
 						Task.SortBy sortBy = (Task.SortBy) atvs.getSortByComboBox().getSelectedItem();
 						Task.SortDirection sortDirection = (Task.SortDirection) atvs.getSortDirectionComboBox().getSelectedItem();
 						// Loading table
-						ViewController.loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
+						ViewController.getInstance().loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
 					}
 				}
 				catch(Exception e1) {
@@ -1124,7 +1140,7 @@ public class ViewController {
 						Task.SortBy sortBy = (Task.SortBy) atvs.getSortByComboBox().getSelectedItem();
 						Task.SortDirection sortDirection = (Task.SortDirection) atvs.getSortDirectionComboBox().getSelectedItem();
 						// Loading table
-						ViewController.loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
+						ViewController.getInstance().loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
 					}
 				}
 				catch(Exception e1) {
@@ -1138,7 +1154,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String searchTerm = atvs.getSearchTextField().getText();
-				ViewController.loadTaskListTable(atvs.getTaskListTable(), searchTerm, null, null);
+				ViewController.getInstance().loadTaskListTable(atvs.getTaskListTable(), searchTerm, null, null);
 			}
 		});
 		
@@ -1163,7 +1179,7 @@ public class ViewController {
 				Task.SortBy sortBy = (Task.SortBy) atvs.getSortByComboBox().getSelectedItem();
 				Task.SortDirection sortDirection = (Task.SortDirection) atvs.getSortDirectionComboBox().getSelectedItem();
 				// Loading table
-				ViewController.loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
+				ViewController.getInstance().loadTaskListTable(atvs.getTaskListTable(), null, sortBy, sortDirection);
 			}
 		});
 		
@@ -1173,7 +1189,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
@@ -1182,7 +1198,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -1191,7 +1207,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -1200,7 +1216,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -1210,11 +1226,11 @@ public class ViewController {
 	}
 	
 	// Loads all task view worker
-	public static AllTaskViewWorker loadAllTaskViewWorker() {
+	public AllTaskViewWorker loadAllTaskViewWorker() {
 		AllTaskViewWorker atvw = new AllTaskViewWorker();
 		
 		// Loading initial task table
-		ViewController.loadTaskListTable(atvw.getTaskListTable(), null, null, null);
+		ViewController.getInstance().loadTaskListTable(atvw.getTaskListTable(), null, null, null);
 		
 		// Logic for submit task button
 		atvw.getSubmitTaskButton().addActionListener(new ActionListener() {
@@ -1246,7 +1262,7 @@ public class ViewController {
 							Task.SortBy sortBy = (SortBy) atvw.getSortByComboBox().getSelectedItem();
 							Task.SortDirection sortDirection = (SortDirection) atvw.getSortDirectionComboBox().getSelectedItem();
 							// Reloads table
-							ViewController.loadTaskListTable(atvw.getTaskListTable(), null, sortBy, sortDirection);
+							ViewController.getInstance().loadTaskListTable(atvw.getTaskListTable(), null, sortBy, sortDirection);
 						}
 					}
 				}
@@ -1261,7 +1277,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String searchTerm = atvw.getSearchTextField().getText();
-				ViewController.loadTaskListTable(atvw.getTaskListTable(), searchTerm, null, null);
+				ViewController.getInstance().loadTaskListTable(atvw.getTaskListTable(), searchTerm, null, null);
 			}
 		});
 		
@@ -1286,7 +1302,7 @@ public class ViewController {
 				Task.SortBy sortBy = (Task.SortBy) atvw.getSortByComboBox().getSelectedItem();
 				Task.SortDirection sortDirection = (Task.SortDirection) atvw.getSortDirectionComboBox().getSelectedItem();
 				// Loading table
-				ViewController.loadTaskListTable(atvw.getTaskListTable(), null, sortBy, sortDirection);
+				ViewController.getInstance().loadTaskListTable(atvw.getTaskListTable(), null, sortBy, sortDirection);
 			}
 		});
 		
@@ -1296,7 +1312,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
@@ -1305,7 +1321,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -1314,7 +1330,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -1323,7 +1339,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -1332,7 +1348,7 @@ public class ViewController {
 		return atvw;
 	}
 	
-	public static UpdateTaskView loadUpdateTaskView(Task taskToBeUpdated) {
+	public UpdateTaskView loadUpdateTaskView(Task taskToBeUpdated) {
 		UpdateTaskView utv = new UpdateTaskView();
 	
 		// Sets update task form to use selected task view data
@@ -1432,7 +1448,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads all task view
-				ViewController.loadAllTaskView();
+				ViewController.getInstance().loadAllTaskView();
 			}
 		});
 		
@@ -1441,7 +1457,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
@@ -1450,7 +1466,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -1459,7 +1475,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -1469,7 +1485,7 @@ public class ViewController {
 	}
 	
 	// Load task request table model
-	public static TableModel loadTaskRequestTabelModel() {
+	public TableModel loadTaskRequestTabelModel() {
 		// Making table model
 		String[] taskRequestTableHeader = {"id", "Title", "supervisorID", "Supervisor", 
 				"workerID", "Worker", "Note"};
@@ -1509,9 +1525,9 @@ public class ViewController {
 	}
 	
 	// Loads task request table
-	public static JTable loadTaskRequestTable(JTable taskRequestTable) {
+	public JTable loadTaskRequestTable(JTable taskRequestTable) {
 		// Creating new table model
-		TableModel taskRequestTableModel = ViewController.loadTaskRequestTabelModel();
+		TableModel taskRequestTableModel = ViewController.getInstance().loadTaskRequestTabelModel();
 		
 		// Updating model
 		taskRequestTable.setModel(taskRequestTableModel);
@@ -1526,11 +1542,11 @@ public class ViewController {
 	}
 	
 	// Load task request view
-	public static TaskRequestView loadTaskRequestView() {
+	public TaskRequestView loadTaskRequestView() {
 		TaskRequestView trv = new TaskRequestView();
 		
 		// Loads task request table
-		ViewController.loadTaskRequestTable(trv.getTaskRequestTable());
+		ViewController.getInstance().loadTaskRequestTable(trv.getTaskRequestTable());
 		
 		// Logic for accept button
 		trv.getAcceptButton().addActionListener(new ActionListener() {
@@ -1560,7 +1576,7 @@ public class ViewController {
 							// Success message
 							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task Request Accepted");
 							// Reloads task request table
-							ViewController.loadTaskRequestTable(trv.getTaskRequestTable());
+							ViewController.getInstance().loadTaskRequestTable(trv.getTaskRequestTable());
 						}
 					}
 				}
@@ -1599,7 +1615,7 @@ public class ViewController {
 							// Success message
 							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task Request Rejected");
 							// Reloads task request table
-							ViewController.loadTaskRequestTable(trv.getTaskRequestTable());
+							ViewController.getInstance().loadTaskRequestTable(trv.getTaskRequestTable());
 						}
 					}
 				}
@@ -1614,7 +1630,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -1623,7 +1639,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads menu view
-				ViewController.loadMenuView();
+				ViewController.getInstance().loadMenuView();
 			}
 		});
 		
@@ -1632,7 +1648,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads profile view
-				ViewController.loadProfileView();
+				ViewController.getInstance().loadProfileView();
 			}
 		});
 		
@@ -1640,7 +1656,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Loads notification view
-				ViewController.loadNotificationView();
+				ViewController.getInstance().loadNotificationView();
 			}
 		});
 		
