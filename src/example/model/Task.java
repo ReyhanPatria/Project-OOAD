@@ -181,7 +181,7 @@ public class Task {
 		Task task = null;
 		
 		PreparedStatement getStatement = Connection.getConnection().prepareStatement(
-				"SELECT * FROM `tasks` WHERE `id`=? ORDER BY `is_submitted` ASC");
+				"SELECT * FROM `tasks` WHERE `id`=? ORDER BY `is_submitted` ASC, `title` ASC");
 		
 		getStatement.setString(1, id.toString());
 		
@@ -247,7 +247,7 @@ public class Task {
 						"`supervisor_id` = ? OR " +
 						"`worker_id` = ? " +
 					") " +
-				"ORDER BY `is_submitted` ASC"
+				"ORDER BY `is_submitted` ASC, `title` ASC"
 		);
 		
 		UUID currentUserID = Session.getInstance().getCurrentUser().getId();
