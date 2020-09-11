@@ -58,7 +58,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(fp);
+		FrameController.getInstance().changePanel(fp);
 		
 		return fp;
 	}
@@ -75,7 +75,7 @@ public class ViewController {
 				String password = String.valueOf(lp.getPasswordTextField().getPassword());
 				
 				try {
-					UserController.login(username, password);
+					UserController.getInstance().login(username, password);
 					
 					ViewController.loadMenuView();
 				}
@@ -94,7 +94,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(lp);
+		FrameController.getInstance().changePanel(lp);
 		
 		return lp;
 	}
@@ -143,12 +143,12 @@ public class ViewController {
 		mav.getLogOutButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UserController.logout();
+				UserController.getInstance().logout();
 				ViewController.loadFirstPage();
 			}
 		});
 		
-		FrameController.changePanel(mav);
+		FrameController.getInstance().changePanel(mav);
 		
 		return mav;
 	}
@@ -204,13 +204,13 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Logout and ends session
-				UserController.logout();
+				UserController.getInstance().logout();
 				// Load first page
 				ViewController.loadFirstPage();
 			}
 		});
 		
-		FrameController.changePanel(msv);
+		FrameController.getInstance().changePanel(msv);
 		
 		return msv;
 	}
@@ -258,13 +258,13 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Logout and ends session
-				UserController.logout();
+				UserController.getInstance().logout();
 				// Load first page
 				ViewController.loadFirstPage();
 			}
 		});
 		
-		FrameController.changePanel(mwv);
+		FrameController.getInstance().changePanel(mwv);
 		
 		return mwv;
 	}
@@ -297,7 +297,7 @@ public class ViewController {
 			Object[] workerList = {currentUser};
 			// Change workerList to actual list of workers if current user is supervisor
 			if(currentUser.getRole().equalsIgnoreCase("SUPERVISOR") == true) {
-				workerList = UserController.getUserByRole("WORKER").toArray();
+				workerList = UserController.getInstance().getUserByRole("WORKER").toArray();
 			}
 			
 			// Creating list of user
@@ -318,7 +318,7 @@ public class ViewController {
 			Object[] supervisorList = {currentUser};
 			// Change supervisorList to actual list of supervisors if current user is worker
 			if(currentUser.getRole().equalsIgnoreCase("WORKER") == true) {
-				supervisorList = UserController.getUserByRole("SUPERVISOR").toArray();
+				supervisorList = UserController.getInstance().getUserByRole("SUPERVISOR").toArray();
 			}
 			
 			// Creating list of user
@@ -385,7 +385,7 @@ public class ViewController {
 						String note = ctv.getNoteField().getText();
 						
 						// Create task/task request
-						TaskHandler.createTask(title, workerID, supervisorID, note);
+						TaskHandler.getInstance().createTask(title, workerID, supervisorID, note);
 						// Success message
 						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task was created");
 						// Loads menu view
@@ -398,7 +398,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(ctv);
+		FrameController.getInstance().changePanel(ctv);
 		
 		return ctv;
 	}
@@ -417,7 +417,7 @@ public class ViewController {
 				String 	telp 			= 	rp.getTelpTextField().getText();
 				
 				try {
-					UserController.registerUser(username, role, address, DOB, telp);
+					UserController.getInstance().registerUser(username, role, address, DOB, telp);
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), "User registered successfully");
 					ViewController.loadAllUserView();
 				}
@@ -445,7 +445,7 @@ public class ViewController {
 			}
 		});	
 		
-		FrameController.changePanel(rp);
+		FrameController.getInstance().changePanel(rp);
 		
 		return rp;
 	}
@@ -492,7 +492,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(pv);
+		FrameController.getInstance().changePanel(pv);
 	}
 	
 	public static ChangePasswordView loadChangePasswordView() {
@@ -521,7 +521,7 @@ public class ViewController {
 				
 				try {
 					// Change password
-					UserController.changePassword(oldPassword, newPassword);
+					UserController.getInstance().changePassword(oldPassword, newPassword);
 					// Success message
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), "Password changed successfully!");
 					// Loads profile view
@@ -570,7 +570,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(cpv);
+		FrameController.getInstance().changePanel(cpv);
 		
 		return cpv;
 	}
@@ -603,7 +603,7 @@ public class ViewController {
 					String telp = epv.getPhoneNumberField().getText();
 					
 					// Updates profile
-					UserController.updateProfile(username, DOB, address, telp);
+					UserController.getInstance().updateProfile(username, DOB, address, telp);
 					// Success message
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), "Profile updated successfully");
 					// Load profile view
@@ -643,7 +643,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(epv);
+		FrameController.getInstance().changePanel(epv);
 		
 		return epv;
 	}
@@ -654,7 +654,7 @@ public class ViewController {
 		
 		// Filling the table with user data
 		try {
-			List<User> allUserList = UserController.getAllUser();
+			List<User> allUserList = UserController.getInstance().getAllUser();
 			
 			// Creating table content
 			String[] tableHeader = {"id","Username", "Role", "Address", "DOB", "Telp"};
@@ -722,7 +722,7 @@ public class ViewController {
 							UUID selectedUUID = UUID.fromString(selectedId);
 							
 							// Resetting user's password
-							UserController.resetPassword(selectedUUID);
+							UserController.getInstance().resetPassword(selectedUUID);
 							// Success message
 							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Password was reset");
 						}
@@ -765,7 +765,7 @@ public class ViewController {
 							}
 							else {
 								// Resetting user's password
-								UserController.deleteUser(selectedUUID);
+								UserController.getInstance().deleteUser(selectedUUID);
 								// Success message
 								JOptionPane.showMessageDialog(MainFrame.getInstance(), "User was deleted");
 								
@@ -799,7 +799,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(alv);
+		FrameController.getInstance().changePanel(alv);
 		
 		return alv;
 	}
@@ -811,7 +811,7 @@ public class ViewController {
 		// Filling the table with notification data
 		try {
 			// Getting all notification
-			List<Notification> allNotifList = NotificationController.getAllNotification();
+			List<Notification> allNotifList = NotificationController.getInstance().getAllNotification();
 			
 			// Creating table content
 			String[] tableHeader = {"id","Message", "Status"};
@@ -854,7 +854,7 @@ public class ViewController {
 					// Gets current user
 					User currentUser = Session.getInstance().getCurrentUser();
 					// Mark all notification as read
-					NotificationController.readAllNotification(currentUser.getId());
+					NotificationController.getInstance().readAllNotification(currentUser.getId());
 					// Reloads notification view
 					ViewController.loadNotificationView();
 				}
@@ -882,7 +882,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(nv);
+		FrameController.getInstance().changePanel(nv);
 		
 		return nv;
 	}
@@ -907,13 +907,13 @@ public class ViewController {
 			// Getting task list based on sort categories
 			List<Task> taskList = null;
 			if((sortBy == null || sortDirection == null) && searchTerm == null) {
-				taskList = TaskHandler.getAllTask();
+				taskList = TaskHandler.getInstance().getAllTask();
 			}
 			else if(searchTerm != null) {
-				taskList = TaskHandler.searchTask(searchTerm);
+				taskList = TaskHandler.getInstance().searchTask(searchTerm);
 			}
 			else {
-				taskList = TaskHandler.sortTask(sortBy, sortDirection);
+				taskList = TaskHandler.getInstance().sortTask(sortBy, sortDirection);
 			}
 			
 			// Inserting task data rows
@@ -921,9 +921,9 @@ public class ViewController {
 				UUID 	id				=	t.getId();
 				String	title			=	t.getTitle();
 				UUID	supervisorID	=	t.getSupervisorID();
-				String	supervisorName	=	UserController.getUser(supervisorID).getUsername();
+				String	supervisorName	=	UserController.getInstance().getUser(supervisorID).getUsername();
 				UUID	workerID		=	t.getWorkerID();
-				String	workerName		=	UserController.getUser(workerID).getUsername();
+				String	workerName		=	UserController.getInstance().getUser(workerID).getUsername();
 				String	note			=	t.getNote();
 				Integer	revisionCount	=	t.getRevisionCount();
 				String	isSubmitted		=	(t.getIsSubmitted()) ? "Yes" : "No";
@@ -1003,7 +1003,7 @@ public class ViewController {
 						// Getting task's id for delete
 						UUID selectedUUID = (UUID) atvs.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
 						// Getting task to be updated
-						Task taskToBeUpdated = TaskHandler.getTask(selectedUUID);
+						Task taskToBeUpdated = TaskHandler.getInstance().getTask(selectedUUID);
 						// Loads update task view
 						ViewController.loadUpdateTaskView(taskToBeUpdated);
 					}
@@ -1039,7 +1039,7 @@ public class ViewController {
 							UUID selectedUUID = (UUID) atvs.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
 							
 							// Deleting task
-							TaskHandler.deleteTask(selectedUUID);
+							TaskHandler.getInstance().deleteTask(selectedUUID);
 							// Success message
 							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task was deleted");
 							
@@ -1076,7 +1076,7 @@ public class ViewController {
 						// Getting task's score from user
 						Integer score = Integer.valueOf(JOptionPane.showInputDialog("Input Task Score"));
 						// Approve task
-						TaskHandler.approveTask(selectedID, score);
+						TaskHandler.getInstance().approveTask(selectedID, score);
 						// Success message
 						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task approved");
 						
@@ -1115,7 +1115,7 @@ public class ViewController {
 						// Getting selected task's id
 						UUID selectedID = (UUID) atvs.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
 						// Request task revision
-						TaskHandler.requestTaskRevision(selectedID);
+						TaskHandler.getInstance().requestTaskRevision(selectedID);
 						// Success message
 						JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task revision requested");
 						
@@ -1204,7 +1204,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(atvs);
+		FrameController.getInstance().changePanel(atvs);
 		
 		return atvs;
 	}
@@ -1239,7 +1239,7 @@ public class ViewController {
 							UUID selectedUUID = (UUID) atvw.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
 							
 							// Submit task
-							TaskHandler.submitTask(selectedUUID);
+							TaskHandler.getInstance().submitTask(selectedUUID);
 							// Success message
 							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task Submitted");
 							// Getting sort categories
@@ -1327,7 +1327,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(atvw);
+		FrameController.getInstance().changePanel(atvw);
 		
 		return atvw;
 	}
@@ -1365,13 +1365,13 @@ public class ViewController {
 			Object[] workerList = {currentUser};
 			// Change workerList to actual list of workers if current user is supervisor
 			if(currentUser.getRole().equalsIgnoreCase("SUPERVISOR") == true) {
-				workerList = UserController.getUserByRole("WORKER").toArray();
+				workerList = UserController.getInstance().getUserByRole("WORKER").toArray();
 			}
 			
 			// Creating list of user
 			ComboBoxModel<Object> workerComboBoxModel = new DefaultComboBoxModel<Object>(workerList);
 			// Selecting worker
-			workerComboBoxModel.setSelectedItem(UserController.getUser(taskToBeUpdated.getWorkerID()));
+			workerComboBoxModel.setSelectedItem(UserController.getInstance().getUser(taskToBeUpdated.getWorkerID()));
 			// Adding list of user to combo box
 			utv.getWorkerComboBox().setModel(workerComboBoxModel);
 			utv.getWorkerComboBox().setRenderer(comboBoxCellRenderer);
@@ -1388,13 +1388,13 @@ public class ViewController {
 			Object[] supervisorList = {currentUser};
 			// Change supervisorList to actual list of supervisors if current user is worker
 			if(currentUser.getRole().equalsIgnoreCase("WORKER") == true) {
-				supervisorList = UserController.getUserByRole("SUPERVISOR").toArray();
+				supervisorList = UserController.getInstance().getUserByRole("SUPERVISOR").toArray();
 			}
 			
 			// Creating list of user
 			ComboBoxModel<Object> supervisorComboBoxModel = new DefaultComboBoxModel<Object>(supervisorList);
 			// Selecting supervisor
-			supervisorComboBoxModel.setSelectedItem(UserController.getUser(taskToBeUpdated.getSupervisorID()));
+			supervisorComboBoxModel.setSelectedItem(UserController.getInstance().getUser(taskToBeUpdated.getSupervisorID()));
 			// Adding list of user to combo box
 			utv.getSupervisorComboBox().setModel(supervisorComboBoxModel);
 			utv.getSupervisorComboBox().setRenderer(comboBoxCellRenderer);
@@ -1417,7 +1417,7 @@ public class ViewController {
 					String note			=	utv.getNoteField().getText();
 					
 					// Update task
-					TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
+					TaskHandler.getInstance().updateTask(taskID, title, workerID, supervisorID, score, note);
 				}
 				catch(Exception e1) {
 					// Error message
@@ -1463,7 +1463,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(utv);
+		FrameController.getInstance().changePanel(utv);
 		
 		return utv;
 	}
@@ -1485,16 +1485,16 @@ public class ViewController {
 		// Adding data to table model
 		try {
 			// Getting task list based on sort categories
-			List<TaskRequest> taskRequestList = TaskRequestHandler.getAllTaskRequest();
+			List<TaskRequest> taskRequestList = TaskRequestHandler.getInstance().getAllTaskRequest();
 			
 			// Inserting task data rows
 			for(TaskRequest tr: taskRequestList) {
 				UUID 	id				=	tr.getId();
 				String	title			=	tr.getTitle();
 				UUID	supervisorID	=	tr.getSupervisorID();
-				String	supervisorName	=	UserController.getUser(supervisorID).getUsername();
+				String	supervisorName	=	UserController.getInstance().getUser(supervisorID).getUsername();
 				UUID	workerID		=	tr.getWorkerID();
-				String	workerName		=	UserController.getUser(workerID).getUsername();
+				String	workerName		=	UserController.getInstance().getUser(workerID).getUsername();
 				String	note			=	tr.getNote();
 				
 				Object[] rowData = {id, title, supervisorID, supervisorName, workerID, workerName, note};
@@ -1556,7 +1556,7 @@ public class ViewController {
 							UUID taskRequestID = (UUID) trv.getTaskRequestTable().getModel().getValueAt(selectedRow, idColumn);
 							
 							// Accept task request
-							TaskRequestHandler.acceptTaskRequest(taskRequestID);
+							TaskRequestHandler.getInstance().acceptTaskRequest(taskRequestID);
 							// Success message
 							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task Request Accepted");
 							// Reloads task request table
@@ -1595,7 +1595,7 @@ public class ViewController {
 							UUID taskRequestID = (UUID) trv.getTaskRequestTable().getModel().getValueAt(selectedRow, idColumn);
 							
 							// Accept task request
-							TaskRequestHandler.rejectTaskRequest(taskRequestID);
+							TaskRequestHandler.getInstance().rejectTaskRequest(taskRequestID);
 							// Success message
 							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task Request Rejected");
 							// Reloads task request table
@@ -1644,7 +1644,7 @@ public class ViewController {
 			}
 		});
 		
-		FrameController.changePanel(trv);
+		FrameController.getInstance().changePanel(trv);
 		
 		return trv;
 	}

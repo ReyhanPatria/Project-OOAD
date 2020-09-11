@@ -100,7 +100,7 @@ public class UserController {
 		return currentUser;
 	}
 	
-	// Instantiate UserController instance
+	// Instantiate session instance
 	public void login(String username, String password) throws IllegalArgumentException, SQLException {
 		String securedPassword = PasswordUtils.generateSecurePassword(password, username);
 		
