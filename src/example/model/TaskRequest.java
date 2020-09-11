@@ -110,7 +110,7 @@ public class TaskRequest {
 		TaskRequest taskRequest = null;
 		
 		PreparedStatement getStatement = Connection.getConnection().prepareStatement(
-				"SELECT * FROM `task_requests WHERE `id`=?");
+				"SELECT * FROM `task_requests` WHERE `id`=?");
 		
 		getStatement.setString(1, id.toString());
 		
