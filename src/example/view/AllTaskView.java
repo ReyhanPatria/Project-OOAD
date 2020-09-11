@@ -2,6 +2,8 @@ package example.view;
 
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,7 +35,7 @@ public class AllTaskView extends JPanel implements ViewPanel {
 	private JButton updateTaskButton;
 	
 	
-	private JTextField txtSearch;
+	private JTextField searchTextField;
 	private JButton searchButton;
 	
 	private JTable taskListTable;
@@ -69,12 +71,25 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		this.add(sortDirectionComboBox);
 		
 		// search field
-		txtSearch = new JTextField();
-		txtSearch.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		txtSearch.setText("Search...");
-		txtSearch.setBounds(405, 15, 400, 50);
-		txtSearch.setColumns(10);
-		this.add(txtSearch);
+		searchTextField = new JTextField();
+		searchTextField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		searchTextField.setText("Search...");
+		searchTextField.setBounds(405, 15, 400, 50);
+		searchTextField.setColumns(10);
+		searchTextField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(searchTextField.getText().equals("Search...")) {
+					searchTextField.setText("");
+				}
+			}
+		});
+		this.add(searchTextField);
 		
 		// Button for view notification
 		notifButton = new JButton("");
@@ -237,8 +252,8 @@ public class AllTaskView extends JPanel implements ViewPanel {
 		return updateTaskButton;
 	}
 
-	public JTextField getTxtSearch() {
-		return txtSearch;
+	public JTextField getSearchTextField() {
+		return searchTextField;
 	}
 
 	public JButton getSearchButton() {
