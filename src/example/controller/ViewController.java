@@ -1125,11 +1125,13 @@ public class ViewController {
 	
 	public static UpdateTaskView loadUpdateTaskView(Task taskToBeUpdated) {
 		UpdateTaskView utv = new UpdateTaskView();
-		
-		// TODO: Create logic for update task view
+	
 		// Sets update task form to use selected task view data
+		// Sets title text field
 		utv.getTitleTextField().setText(taskToBeUpdated.getTitle());
+		// Sets note text field
 		utv.getNoteField().setText(taskToBeUpdated.getNote());
+		
 		// Custom combo box cell renderer
 		DefaultListCellRenderer comboBoxCellRenderer = new DefaultListCellRenderer() {
 			private static final long serialVersionUID = 1L;
@@ -1159,10 +1161,11 @@ public class ViewController {
 			
 			// Creating list of user
 			ComboBoxModel<Object> workerComboBoxModel = new DefaultComboBoxModel<Object>(workerList);
+			// Selecting worker
+			workerComboBoxModel.setSelectedItem(UserController.getUser(taskToBeUpdated.getWorkerID()));
 			// Adding list of user to combo box
 			utv.getWorkerComboBox().setModel(workerComboBoxModel);
 			utv.getWorkerComboBox().setRenderer(comboBoxCellRenderer);
-			utv.getWorkerComboBox().setSelectedItem(UserController.getUser(taskToBeUpdated.getWorkerID()));
 		}
 		catch(Exception e1) {
 			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
@@ -1181,10 +1184,11 @@ public class ViewController {
 			
 			// Creating list of user
 			ComboBoxModel<Object> supervisorComboBoxModel = new DefaultComboBoxModel<Object>(supervisorList);
+			// Selecting supervisor
+			supervisorComboBoxModel.setSelectedItem(UserController.getUser(taskToBeUpdated.getSupervisorID()));
 			// Adding list of user to combo box
 			utv.getSupervisorComboBox().setModel(supervisorComboBoxModel);
 			utv.getSupervisorComboBox().setRenderer(comboBoxCellRenderer);
-			utv.getSupervisorComboBox().setSelectedItem(UserController.getUser(taskToBeUpdated.getSupervisorID()));
 		}
 		catch(Exception e1) {
 			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
@@ -1194,8 +1198,15 @@ public class ViewController {
 		utv.getUpdateButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UUID taskID = taskToBeUpdated.getId();
-				TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
+				UUID taskID			=	taskToBeUpdated.getId();
+				String title		=	utv.getTitleTextField().getText();
+				UUID workerID		=	((User) utv.getWorkerComboBox().getSelectedItem()).getId();
+				UUID supervisorID	=	((User) utv.getSupervisorComboBox().getSelectedItem()).getId();
+				Integer score;
+				String note			=	utv.getNoteField().getText();
+				
+				// TODO: Update task
+//				TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
 			}
 		});
 		
