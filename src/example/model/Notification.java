@@ -74,7 +74,7 @@ public class Notification {
 		ArrayList<Notification> allNotificationList = new ArrayList<Notification>();
 		
 		PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
-				"SELECT * FROM `notifications` WHERE `user_id`=?");
+				"SELECT * FROM `notifications` WHERE `user_id`=? ORDER BY `read_at` ASC");
 		
 		getAllStatement.setString(1, userID.toString());
 		
