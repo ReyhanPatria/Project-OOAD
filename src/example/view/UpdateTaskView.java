@@ -30,7 +30,7 @@ public class UpdateTaskView extends JPanel implements ViewPanel {
 	private JComboBox<Object> workerComboBox;
 	private JComboBox<Object> supervisorComboBox;
 	
-	private JButton createButton;
+	private JButton updateButton;
 	private JButton menuButton;
 	private JButton profileButton;
 	private JButton backButton;
@@ -74,16 +74,16 @@ public class UpdateTaskView extends JPanel implements ViewPanel {
 		this.add(noteField);
 		noteField.setColumns(10);
 		
-		// create button
-		createButton = new JButton("");
-		createButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Update.png"));
-		createButton.setBounds(565, 590, 208, 55);
-		createButton.setBorderPainted(false);
-		createButton.setOpaque(false);
-		createButton.setContentAreaFilled(false);
-		createButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		createButton.setFocusable(false);
-		this.add(createButton);
+		// update button
+		updateButton = new JButton("");
+		updateButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Update.png"));
+		updateButton.setBounds(565, 590, 208, 55);
+		updateButton.setBorderPainted(false);
+		updateButton.setOpaque(false);
+		updateButton.setContentAreaFilled(false);
+		updateButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		updateButton.setFocusable(false);
+		this.add(updateButton);
 		
 		// Back to profile button
 		profileButton = new JButton("");
@@ -162,8 +162,8 @@ public class UpdateTaskView extends JPanel implements ViewPanel {
 		return supervisorComboBox;
 	}
 
-	public JButton getCreateButton() {
-		return createButton;
+	public JButton getUpdateButton() {
+		return updateButton;
 	}
 
 	public JButton getMenuButton() {
