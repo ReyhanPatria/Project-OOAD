@@ -12,23 +12,47 @@ import example.model.User;
 import example.session.Session;
 
 public class TaskHandler {
-	// STATIC FUNCTIONS
+	// STATIC ATTRIBUTES
+	// Instance of task handler
+	private static TaskHandler instance;
+	
+	
+	
+	
+	
+	// STATIC FUNCTION
+	// Gets instance of task handler
+	public static TaskHandler getInstance() {
+		if(instance == null) {
+			instance = new TaskHandler();
+		}
+		return instance;
+	}
+	
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
+	// Constructor
+	public TaskHandler() {}
+	
 	// Get all task that current user have
-	public static List<Task> getAllTask() throws NoSuchObjectException, SQLException {
+	public List<Task> getAllTask() throws NoSuchObjectException, SQLException {
 		User currentUser = Session.getInstance().getCurrentUser();
 		List<Task> taskList = Task.getAll(currentUser.getId());
 		return taskList;
 	}
 	
 	// Get a specific Task from database based on its id
-	public static Task getTask(UUID taskID) throws SQLException {
+	public Task getTask(UUID taskID) throws SQLException {
 		Task task = Task.get(taskID);
 		
 		return task;
 	}
 	
 	// Creates a new Task object then inserts it into database
-	public static Task createTask(String title, UUID workerID, UUID supervisorID, String note) 
+	public Task createTask(String title, UUID workerID, UUID supervisorID, String note) 
 			throws NoSuchObjectException, IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(validateTitleLength(title) == false) {
@@ -59,21 +83,21 @@ public class TaskHandler {
 			
 			String supervisorName = UserController.getUser(supervisorID).getUsername();
 			String notificationMessage = String.format("%s has assigned you a new task \"%s\"", supervisorName, title);
-			NotificationController.createNotification(workerID, notificationMessage);
+			NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		}
 		else if(currentUser.getRole().equalsIgnoreCase("WORKER")) {
 			TaskRequestHandler.createTaskRequest(title, supervisorID, workerID, note);
 			
 			String workerName = UserController.getUser(workerID).getUsername();
 			String notificationMessage = String.format("%s has requested you to supervise a new task \"%s\"", workerName, title);
-			NotificationController.createNotification(supervisorID, notificationMessage);
+			NotificationController.getInstance().createNotification(supervisorID, notificationMessage);
 		}
 		
 		return newTask;
 	}
 	
 	// Update an existing Task object in database
-	public static Task updateTask(UUID taskID, String title, UUID workerID, UUID supervisorID, Integer score, String note) 
+	public Task updateTask(UUID taskID, String title, UUID workerID, UUID supervisorID, Integer score, String note) 
 			throws IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(validateTitleLength(title) == false) {
@@ -92,29 +116,54 @@ public class TaskHandler {
 			throw new IllegalArgumentException("Note's length must be 0-50 characters");
 		}
 		
+		// Get task
 		Task task = Task.get(taskID);
 		
+		// Update task data
 		task.setTitle(title);
 		task.setWorkerID(workerID);
 		task.setSupervisorID(supervisorID);
 		task.setScore(score);
 		task.setNote(note);
 		
+		// Update task in database
 		task.update();
+		
+		// Sends notification for supervisor and worker
+		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		NotificationController.getInstance().createNotification(
+				supervisorID, String.format("%s has updated information on task \"%s\"", supervisorName, title));
+		NotificationController.getInstance().createNotification(
+				workerID, String.format("%s has updated information on task \"%s\"", supervisorName, title));
 		
 		return task;
 	}
 	
 	// Delete a specific Task from database
-	public static void deleteTask(UUID taskID) throws SQLException {
+	public void deleteTask(UUID taskID) throws SQLException {
+		// Gets task
 		Task task = Task.get(taskID);
-		
+		// Delete task from database
 		task.delete();
+		
+		// Sends notification for supervisor and worker
+		// Gets task title
+		String title = task.getTitle();
+		// Gets worker and supervisor id
+		UUID supervisorID = task.getSupervisorID();
+		UUID workerID = task.getWorkerID();
+		// Gets supervisor name
+		String supervisorName = UserController.getUser(supervisorID).getUsername();
+		// Sends notification for supervisor and worker
+		NotificationController.getInstance().createNotification(
+				supervisorID, String.format("%s has deleted on task \"%s\"", supervisorName, title));
+		NotificationController.getInstance().createNotification(
+				workerID, String.format("%s has deleted task \"%s\"", supervisorName, title));
 	}
 	
 	// Approve of a Task
 	// Sets Task's score and approved timestamp then updates the database, gives a notification
-	public static Task approveTask(UUID taskID, Integer score) throws IllegalArgumentException, SQLException {
+	public Task approveTask(UUID taskID, Integer score) throws IllegalArgumentException, SQLException {
 		// Validate parameters
 		if(validateScore(score) == false) {
 			throw new IllegalArgumentException("Score must be between 0-100");
@@ -138,14 +187,14 @@ public class TaskHandler {
 		
 		String supervisorName = UserController.getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has approved your task \"%s\"", supervisorName, title);
-		NotificationController.createNotification(workerID, notificationMessage);
+		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		
 		return task;
 	}
 	
 	// Request a Task revision
 	// Adds 1 to Task's revision count and set submitted status to false, gives a notification
-	public static Task requestTaskRevision(UUID taskID) throws SQLException {
+	public Task requestTaskRevision(UUID taskID) throws SQLException {
 		Task task = getTask(taskID);
 		String title = task.getTitle();
 		UUID supervisorID = task.getSupervisorID();
@@ -165,14 +214,14 @@ public class TaskHandler {
 		
 		String supervisorName = UserController.getUser(supervisorID).getUsername();
 		String notificationMessage = String.format("%s has requested you a revision on task \"%s\"", supervisorName, title);
-		NotificationController.createNotification(workerID, notificationMessage);
+		NotificationController.getInstance().createNotification(workerID, notificationMessage);
 		
 		return task;
 	}
 	
 	// Submit a Task
 	// Sets Task's submitted status to true then updates the database, and gives a notification
-	public static Task submitTask(UUID taskID) throws SQLException {
+	public Task submitTask(UUID taskID) throws SQLException {
 		Task task = getTask(taskID);
 		String title = task.getTitle();
 		UUID supervisorID = task.getSupervisorID();
@@ -184,21 +233,21 @@ public class TaskHandler {
 		
 		String workerName = UserController.getUser(workerID).getUsername();
 		String notificationMessage = String.format("%s has submitted \"%s\"", workerName, title);
-		NotificationController.createNotification(supervisorID, notificationMessage);
+		NotificationController.getInstance().createNotification(supervisorID, notificationMessage);
 		
 		return task;
 	}
 	
 	// Search for a task based on title name or supervisor/worker username
 	// Returns a list of task that best fits the query
-	public static List<Task> searchTask(String query) throws NoSuchObjectException, SQLException {
+	public List<Task> searchTask(String query) throws NoSuchObjectException, SQLException {
 		List<Task> taskList = Task.search(query);
 		
 		return taskList;
 	}
 	
 	// Sort the task list based on a column and direction
-	public static List<Task> sortTask(Task.SortBy sortBy, Task.SortDirection direction) throws NoSuchObjectException, SQLException {
+	public List<Task> sortTask(Task.SortBy sortBy, Task.SortDirection direction) throws NoSuchObjectException, SQLException {
 		List<Task> taskList = Task.sort(sortBy, direction);
 		
 		return taskList;
