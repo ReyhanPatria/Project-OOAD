@@ -41,7 +41,6 @@ import example.view.TaskRequestView;
 import example.view.UpdateTaskView;
 
 public class ViewController {
-	
 	// STATIC FUNCTIONS
 	// Loads start up page
 	public static FirstPage loadFirstPage() {
@@ -833,7 +832,8 @@ public class ViewController {
 	}
 	
 	// Load task table model
-	public static TableModel loadTaskTabelModel(Task.SortBy sortBy, Task.SortDirection sortDirection) {
+	public static TableModel loadTaskTabelModel(String searchTerm, 
+			Task.SortBy sortBy, Task.SortDirection sortDirection) {
 		String[] taskTableHeader = {"id", "Title", "supervisorID", "Supervisor", 
 				"workerID", "Worker", "Note", "Revision Count", "Submitted", "Approved Date", 
 				"Score"};
@@ -850,8 +850,11 @@ public class ViewController {
 		try {
 			// Getting task list based on sort categories
 			List<Task> taskList = null;
-			if(sortBy == null || sortDirection == null) {
+			if((sortBy == null || sortDirection == null) && searchTerm == null) {
 				taskList = TaskHandler.getAllTask();
+			}
+			else if(searchTerm != null) {
+				taskList = TaskHandler.searchTask(searchTerm);
 			}
 			else {
 				taskList = TaskHandler.sortTask(sortBy, sortDirection);
@@ -882,9 +885,10 @@ public class ViewController {
 		return taskTableModel;
 	}
 	
-	public static JTable loadTaskListTable(JTable taskTable, Task.SortBy sortBy, Task.SortDirection sortDirection) {
+	public static JTable loadTaskListTable(JTable taskTable, String searchTerm, 
+			Task.SortBy sortBy, Task.SortDirection sortDirection) {
 		// Creating new table model
-		TableModel taskTableModel = ViewController.loadTaskTabelModel(sortBy, sortDirection);
+		TableModel taskTableModel = ViewController.loadTaskTabelModel(searchTerm, sortBy, sortDirection);
 		
 		// Updating model
 		taskTable.setModel(taskTableModel);
@@ -903,7 +907,7 @@ public class ViewController {
 		AllTaskView atv = new AllTaskView();
 		
 		// Loading initial task table
-		ViewController.loadTaskListTable(atv.getTaskListTable(), null, null);
+		ViewController.loadTaskListTable(atv.getTaskListTable(), null, null, null);
 		
 		// Logic for update task button
 		atv.getUpdateTaskButton().addActionListener(new ActionListener() {
@@ -968,7 +972,7 @@ public class ViewController {
 							Task.SortBy sortBy = (Task.SortBy) atv.getSortByComboBox().getSelectedItem();
 							Task.SortDirection sortDirection = (Task.SortDirection) atv.getSortDirectionComboBox().getSelectedItem();
 							// Loading table
-							ViewController.loadTaskListTable(atv.getTaskListTable(), sortBy, sortDirection);
+							ViewController.loadTaskListTable(atv.getTaskListTable(), null, sortBy, sortDirection);
 						}
 					}
 				}
@@ -1005,7 +1009,7 @@ public class ViewController {
 						Task.SortBy sortBy = (Task.SortBy) atv.getSortByComboBox().getSelectedItem();
 						Task.SortDirection sortDirection = (Task.SortDirection) atv.getSortDirectionComboBox().getSelectedItem();
 						// Loading table
-						ViewController.loadTaskListTable(atv.getTaskListTable(), sortBy, sortDirection);
+						ViewController.loadTaskListTable(atv.getTaskListTable(), null, sortBy, sortDirection);
 					}
 				}
 				catch(Exception e1) {
@@ -1044,12 +1048,21 @@ public class ViewController {
 						Task.SortBy sortBy = (Task.SortBy) atv.getSortByComboBox().getSelectedItem();
 						Task.SortDirection sortDirection = (Task.SortDirection) atv.getSortDirectionComboBox().getSelectedItem();
 						// Loading table
-						ViewController.loadTaskListTable(atv.getTaskListTable(), sortBy, sortDirection);
+						ViewController.loadTaskListTable(atv.getTaskListTable(), null, sortBy, sortDirection);
 					}
 				}
 				catch(Exception e1) {
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
+			}
+		});
+		
+		// Logic for search button
+		atv.getSearchButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String searchTerm = atv.getSearchTextField().getText();
+				ViewController.loadTaskListTable(atv.getTaskListTable(), searchTerm, null, null);
 			}
 		});
 		
@@ -1073,9 +1086,8 @@ public class ViewController {
 				// Getting sort categories
 				Task.SortBy sortBy = (Task.SortBy) atv.getSortByComboBox().getSelectedItem();
 				Task.SortDirection sortDirection = (Task.SortDirection) atv.getSortDirectionComboBox().getSelectedItem();
-				
 				// Loading table
-				ViewController.loadTaskListTable(atv.getTaskListTable(), sortBy, sortDirection);
+				ViewController.loadTaskListTable(atv.getTaskListTable(), null, sortBy, sortDirection);
 			}
 		});
 		
