@@ -19,6 +19,7 @@ public class TaskRequestHandler {
 	
 	
 	// STATIC FUNCTIONS
+	// Gets instance of task request handler
 	public static TaskRequestHandler getInstance() {
 		if(instance == null) {
 			instance = new TaskRequestHandler();
