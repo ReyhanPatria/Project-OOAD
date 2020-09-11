@@ -1420,6 +1420,7 @@ public class ViewController {
 					}
 				}
 				catch(Exception e1) {
+					e1.printStackTrace();
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
 			}
