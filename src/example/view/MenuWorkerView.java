@@ -12,6 +12,10 @@ public class MenuWorkerView extends JPanel implements ViewPanel {
 	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	
+	
 	// NON-STATIC ATTRIBUTES
 	private JLabel backgroundImage;
 	private JButton logOutButton;
@@ -21,7 +25,11 @@ public class MenuWorkerView extends JPanel implements ViewPanel {
 	private JButton notifButton;
 	
 	
+	
+	
+	
 	// NON-STATIC FUNCTIONS
+	// Constructor
 	public MenuWorkerView() {
 		this.setSize(new Dimension(1440,1024));
 		this.setLayout(null);
@@ -82,6 +90,9 @@ public class MenuWorkerView extends JPanel implements ViewPanel {
 		this.add(backgroundImage);
 	}
 
+	
+	
+	
 	
 	// GETTERS
 	public static long getSerialversionuid() {
