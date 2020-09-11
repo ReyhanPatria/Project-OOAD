@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class MenuWorkersView extends JPanel implements ViewPanel {
+public class MenuWorkerView extends JPanel implements ViewPanel {
 	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
@@ -22,7 +22,7 @@ public class MenuWorkersView extends JPanel implements ViewPanel {
 	
 	
 	// NON-STATIC FUNCTIONS
-	public MenuWorkersView() {
+	public MenuWorkerView() {
 		this.setSize(new Dimension(1440,1024));
 		this.setLayout(null);
 		
