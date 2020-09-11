@@ -1,21 +1,23 @@
 package example.view;
 
 import java.awt.Cursor;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
-public class ViewTaskRequest extends JPanel implements ViewPanel {
-
+public class TaskRequestView extends JPanel implements ViewPanel {
+	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	
+	
+	// NON-STATIC ATTRIBUTES
 	private JLabel bg;
 	
 	private JButton menuButton;
@@ -27,7 +29,13 @@ public class ViewTaskRequest extends JPanel implements ViewPanel {
 	
 	private JTable taskRequestTable;
 	
-	public ViewTaskRequest() {
+	
+	
+	
+	
+	// NON-STATIC FUNCTIONS
+	// Constructor
+	public TaskRequestView() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		this.setLayout(null);
@@ -113,7 +121,11 @@ public class ViewTaskRequest extends JPanel implements ViewPanel {
 		this.add(bg);
 	}
 
-	//GETTERS
+	
+	
+	
+	
+	// GETTERS
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -149,8 +161,4 @@ public class ViewTaskRequest extends JPanel implements ViewPanel {
 	public JTable getTaskRequestTable() {
 		return taskRequestTable;
 	}
-
-	
-	
-
 }
