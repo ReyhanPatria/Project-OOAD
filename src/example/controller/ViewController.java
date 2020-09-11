@@ -21,6 +21,7 @@ import javax.swing.table.TableModel;
 
 import example.model.Notification;
 import example.model.Task;
+import example.model.TaskRequest;
 import example.model.User;
 import example.session.Session;
 import example.view.AllTaskView;
@@ -36,6 +37,7 @@ import example.view.MenuSupervisorView;
 import example.view.NotificationView;
 import example.view.ProfileView;
 import example.view.RegisterUserPanel;
+import example.view.TaskRequestView;
 import example.view.UpdateTaskView;
 
 public class ViewController {
@@ -175,11 +177,7 @@ public class ViewController {
 		msv.getViewTaskRequestButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * 
-				 * TODO: Create loadTaskRequestView()
-				 * 
-				 */
+				ViewController.loadTaskRequestView();
 			}
 		});
 		
@@ -1198,15 +1196,24 @@ public class ViewController {
 		utv.getUpdateButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UUID taskID			=	taskToBeUpdated.getId();
-				String title		=	utv.getTitleTextField().getText();
-				UUID workerID		=	((User) utv.getWorkerComboBox().getSelectedItem()).getId();
-				UUID supervisorID	=	((User) utv.getSupervisorComboBox().getSelectedItem()).getId();
-				Integer score;
-				String note			=	utv.getNoteField().getText();
-				
 				// TODO: Update task
-//				TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
+				try {
+					UUID taskID			=	taskToBeUpdated.getId();
+					String title		=	utv.getTitleTextField().getText();
+					UUID workerID		=	((User) utv.getWorkerComboBox().getSelectedItem()).getId();
+					UUID supervisorID	=	((User) utv.getSupervisorComboBox().getSelectedItem()).getId();
+					Integer score;
+					String note			=	utv.getNoteField().getText();
+					
+//					TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
+				}
+				catch(Exception e1) {
+					// Error message
+					String errorMessage = (e1 instanceof NumberFormatException) ? "Score must be numeric" : e1.getMessage();
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), errorMessage);
+				}
+				
+				ViewController.loadAllTaskView();
 			}
 		});
 		
@@ -1249,5 +1256,185 @@ public class ViewController {
 		FrameController.changePanel(utv);
 		
 		return utv;
+	}
+	
+	// Load task request table model
+	public static TableModel loadTaskRequestTabelModel() {
+		// Making table model
+		String[] taskRequestTableHeader = {"id", "Title", "supervisorID", "Supervisor", 
+				"workerID", "Worker", "Note"};
+		DefaultTableModel taskTableModel = new DefaultTableModel(taskRequestTableHeader, 0) {
+			private static final long serialVersionUID = 1L;
+			// Making the cells not editable
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
+		// Adding data to table model
+		try {
+			// Getting task list based on sort categories
+			List<TaskRequest> taskRequestList = TaskRequestHandler.getAllTaskRequest();
+			
+			// Inserting task data rows
+			for(TaskRequest tr: taskRequestList) {
+				UUID 	id				=	tr.getId();
+				String	title			=	tr.getTitle();
+				UUID	supervisorID	=	tr.getSupervisorID();
+				String	supervisorName	=	UserController.getUser(supervisorID).getUsername();
+				UUID	workerID		=	tr.getWorkerID();
+				String	workerName		=	UserController.getUser(workerID).getUsername();
+				String	note			=	tr.getNote();
+				
+				Object[] rowData = {id, title, supervisorID, supervisorName, workerID, workerName, note};
+				taskTableModel.addRow(rowData);
+			}
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e.getMessage());
+		}
+		
+		return taskTableModel;
+	}
+	
+	// Loads task request table
+	public static JTable loadTaskRequestTable(JTable taskRequestTable) {
+		// Creating new table model
+		TableModel taskRequestTableModel = ViewController.loadTaskRequestTabelModel();
+		
+		// Updating model
+		taskRequestTable.setModel(taskRequestTableModel);
+		
+		// Hiding id, supervisorId, workerId column
+		TableColumnModel tcm = taskRequestTable.getColumnModel();
+		tcm.removeColumn(tcm.getColumn(0));
+		tcm.removeColumn(tcm.getColumn(1));
+		tcm.removeColumn(tcm.getColumn(2));
+		
+		return taskRequestTable;
+	}
+	
+	// Load task request view
+	public static TaskRequestView loadTaskRequestView() {
+		TaskRequestView trv = new TaskRequestView();
+		
+		// Loads task request table
+		ViewController.loadTaskRequestTable(trv.getTaskRequestTable());
+		
+		// Logic for accept button
+		trv.getAcceptButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Getting selected task request
+					Integer selectedRow = trv.getTaskRequestTable().getSelectedRow();
+					Integer idColumn = 0;
+					
+					// Checks if a row is selected
+					if(selectedRow < 0 || selectedRow >= trv.getTaskRequestTable().getRowCount()) {
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "No task request selected");
+					}
+					else {
+						// Get confirming input
+						Integer confirmResult = JOptionPane.showConfirmDialog(
+								MainFrame.getInstance(), "Are you sure?", "Accept Task Request", JOptionPane.YES_NO_OPTION);
+						
+						// Accept task request confirmed
+						if(confirmResult == JOptionPane.YES_OPTION) {
+							// Getting selected task request id
+							UUID taskRequestID = (UUID) trv.getTaskRequestTable().getModel().getValueAt(selectedRow, idColumn);
+							
+							// Accept task request
+							TaskRequestHandler.acceptTaskRequest(taskRequestID);
+							// Success message
+							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task Request Accepted");
+							// Reloads task request table
+							ViewController.loadTaskRequestTable(trv.getTaskRequestTable());
+						}
+					}
+				}
+				catch(Exception e1) {
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
+			}
+		});
+		
+		// Logic for accept button
+		trv.getRejectButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Getting selected task request
+					Integer selectedRow = trv.getTaskRequestTable().getSelectedRow();
+					Integer idColumn = 0;
+					
+					// Checks if a row is selected
+					if(selectedRow < 0 || selectedRow >= trv.getTaskRequestTable().getRowCount()) {
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "No task request selected");
+					}
+					else {
+						// Get confirming input
+						Integer confirmResult = JOptionPane.showConfirmDialog(
+								MainFrame.getInstance(), "Are you sure?", "Reject Task Request", JOptionPane.YES_NO_OPTION);
+						
+						// Reject task request confirmed
+						if(confirmResult == JOptionPane.YES_OPTION) {
+							// Getting selected task request id
+							UUID taskRequestID = (UUID) trv.getTaskRequestTable().getModel().getValueAt(selectedRow, idColumn);
+							
+							// Accept task request
+							TaskRequestHandler.rejectTaskRequest(taskRequestID);
+							// Success message
+							JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task Request Rejected");
+							// Reloads task request table
+							ViewController.loadTaskRequestTable(trv.getTaskRequestTable());
+						}
+					}
+				}
+				catch(Exception e1) {
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+				}
+			}
+		});
+		
+		// Logic for menu button
+		trv.getMenuButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for back button
+		trv.getBackButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for profile button
+		trv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
+		
+		trv.getNotifButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads notification view
+				ViewController.loadNotificationView();
+			}
+		});
+		
+		FrameController.changePanel(trv);
+		
+		return trv;
 	}
 }
