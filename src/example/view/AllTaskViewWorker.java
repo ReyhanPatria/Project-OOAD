@@ -2,6 +2,8 @@ package example.view;
 
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class AllTaskViewWorkers extends JPanel implements ViewPanel {
+public class AllTaskViewWorker extends JPanel implements ViewPanel {
 	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
@@ -23,14 +25,13 @@ public class AllTaskViewWorkers extends JPanel implements ViewPanel {
 	// NON-STATIC ATTRIBUTES
 	private JLabel bg;
 	
-	private JButton menuButton;
 	private JButton submitTaskButton;
+	private JButton menuButton;
 	private JButton profileButton;
 	private JButton notifButton;
 	private JButton backButton;
 	
-	
-	private JTextField txtSearch;
+	private JTextField searchTextField;
 	private JButton searchButton;
 	
 	private JTable taskListTable;
@@ -43,11 +44,12 @@ public class AllTaskViewWorkers extends JPanel implements ViewPanel {
 	
 	
 	// NON-STATIC FUNCTIONS
-	public AllTaskViewWorkers() {
+	public AllTaskViewWorker() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		this.setLayout(null);
 		
+
 		//All Task Table
 		taskListTable = new JTable();
 		JScrollPane tableScrollPane = new JScrollPane(taskListTable);
@@ -66,12 +68,25 @@ public class AllTaskViewWorkers extends JPanel implements ViewPanel {
 		this.add(sortDirectionComboBox);
 		
 		// search field
-		txtSearch = new JTextField();
-		txtSearch.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		txtSearch.setText("Search...");
-		txtSearch.setBounds(405, 15, 400, 50);
-		txtSearch.setColumns(10);
-		this.add(txtSearch);
+		searchTextField = new JTextField();
+		searchTextField.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+		searchTextField.setText("Search...");
+		searchTextField.setBounds(405, 15, 400, 50);
+		searchTextField.setColumns(10);
+		searchTextField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(searchTextField.getText().equals("Search...")) {
+					searchTextField.setText("");
+				}
+			}
+		});
+		this.add(searchTextField);
 		
 		// Button for view notification
 		notifButton = new JButton("");
@@ -168,15 +183,15 @@ public class AllTaskViewWorkers extends JPanel implements ViewPanel {
 	public JLabel getBg() {
 		return bg;
 	}
+	
+	public JButton getSubmitTaskButton() {
+		return submitTaskButton;
+	}
 
 	public JButton getMenuButton() {
 		return menuButton;
 	}
-
-	public JButton getApproveTaskButton() {
-		return submitTaskButton;
-	}
-
+	
 	public JButton getProfileButton() {
 		return profileButton;
 	}
@@ -189,11 +204,10 @@ public class AllTaskViewWorkers extends JPanel implements ViewPanel {
 		return backButton;
 	}
 
-
-	public JTextField getTxtSearch() {
-		return txtSearch;
+	public JTextField getSearchTextField() {
+		return searchTextField;
 	}
-
+	
 	public JButton getSearchButton() {
 		return searchButton;
 	}
@@ -213,11 +227,4 @@ public class AllTaskViewWorkers extends JPanel implements ViewPanel {
 	public JButton getSortButton() {
 		return sortButton;
 	}
-
-
-	public JButton getSubmitTaskButton() {
-		return submitTaskButton;
-	}
-	
-	
 }

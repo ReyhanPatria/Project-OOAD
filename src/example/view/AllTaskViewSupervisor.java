@@ -2,6 +2,8 @@ package example.view;
 
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,14 +26,13 @@ public class AllTaskViewSupervisor extends JPanel implements ViewPanel {
 	private JLabel bg;
 	
 	private JButton menuButton;
-	private JButton approveTaskButton;
 	private JButton profileButton;
 	private JButton notifButton;
 	private JButton backButton;
+	private JButton approveTaskButton;
 	private JButton deleteTaskButton;
 	private JButton requestRevisionButton;
 	private JButton updateTaskButton;
-	
 	
 	private JTextField searchTextField;
 	private JButton searchButton;
@@ -46,11 +47,12 @@ public class AllTaskViewSupervisor extends JPanel implements ViewPanel {
 	
 	
 	// NON-STATIC FUNCTIONS
-	public AllTaskViewSupervisor() {
+	public AllTaskViewSupervisor() {		
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		this.setLayout(null);
 		
+
 		//All Task Table
 		taskListTable = new JTable();
 		JScrollPane tableScrollPane = new JScrollPane(taskListTable);
@@ -74,6 +76,19 @@ public class AllTaskViewSupervisor extends JPanel implements ViewPanel {
 		searchTextField.setText("Search...");
 		searchTextField.setBounds(405, 15, 400, 50);
 		searchTextField.setColumns(10);
+		searchTextField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(searchTextField.getText().equals("Search...")) {
+					searchTextField.setText("");
+				}
+			}
+		});
 		this.add(searchTextField);
 		
 		// Button for view notification
@@ -205,24 +220,8 @@ public class AllTaskViewSupervisor extends JPanel implements ViewPanel {
 		return bg;
 	}
 
-	public JButton getMenuButton() {
-		return menuButton;
-	}
-
 	public JButton getApproveTaskButton() {
 		return approveTaskButton;
-	}
-
-	public JButton getProfileButton() {
-		return profileButton;
-	}
-
-	public JButton getNotifButton() {
-		return notifButton;
-	}
-
-	public JButton getBackButton() {
-		return backButton;
 	}
 
 	public JButton getDeleteTaskButton() {
@@ -235,6 +234,22 @@ public class AllTaskViewSupervisor extends JPanel implements ViewPanel {
 
 	public JButton getUpdateTaskButton() {
 		return updateTaskButton;
+	}
+
+	public JButton getMenuButton() {
+		return menuButton;
+	}
+
+	public JButton getProfileButton() {
+		return profileButton;
+	}
+
+	public JButton getNotifButton() {
+		return notifButton;
+	}
+	
+	public JButton getBackButton() {
+		return backButton;
 	}
 
 	public JTextField getSearchTextField() {
