@@ -23,7 +23,7 @@ import example.model.Notification;
 import example.model.Task;
 import example.model.User;
 import example.session.Session;
-import example.view.AllTaskView;
+import example.view.AllTaskViewSupervisor;
 import example.view.AllUserView;
 import example.view.ChangePasswordView;
 import example.view.CreateTaskView;
@@ -901,8 +901,8 @@ public class ViewController {
 	}
 	
 	// Loads all task view
-	public static AllTaskView loadAllTaskView() {
-		AllTaskView atv = new AllTaskView();
+	public static AllTaskViewSupervisor loadAllTaskView() {
+		AllTaskViewSupervisor atv = new AllTaskViewSupervisor();
 		
 		// Loading initial task table
 		ViewController.loadTaskListTable(atv.getTaskListTable(), null, null);
@@ -1195,7 +1195,7 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				UUID taskID = taskToBeUpdated.getId();
-				TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
+//				TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
 			}
 		});
 		

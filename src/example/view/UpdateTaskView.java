@@ -35,6 +35,7 @@ public class UpdateTaskView extends JPanel implements ViewPanel {
 	private JButton profileButton;
 	private JButton backButton;
 	private JButton notifButton;
+	private JTextField scoreTextField;
 	
 	
 	
@@ -48,28 +49,35 @@ public class UpdateTaskView extends JPanel implements ViewPanel {
 		
 		// Text Field untuk isi title
 		titleTextField = new JTextField("");
-		titleTextField.setBounds(565, 240, 565, 50);
+		titleTextField.setBounds(566, 194, 565, 45);
 		titleTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		titleTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(titleTextField);
 		titleTextField.setColumns(10);
+		
+		scoreTextField = new JTextField("");
+		scoreTextField.setHorizontalAlignment(SwingConstants.LEFT);
+		scoreTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
+		scoreTextField.setColumns(10);
+		scoreTextField.setBounds(566, 400, 565, 45);
+		add(scoreTextField);
 
 
 		// Choose role combo box
 		workerComboBox = new JComboBox<Object>();
-		workerComboBox.setBounds(565, 379, 565, 50);
+		workerComboBox.setBounds(566, 332, 565, 45);
 		workerComboBox.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(workerComboBox);
 		
 		
 		supervisorComboBox = new JComboBox<Object>();
 		supervisorComboBox.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		supervisorComboBox.setBounds(565, 310, 565, 50);
+		supervisorComboBox.setBounds(566, 264, 565, 45);
 		this.add(supervisorComboBox);
 
 		// note text field
 		noteField = new JTextArea();
-		noteField.setBounds(565, 453, 565, 85);
+		noteField.setBounds(566, 466, 565, 88);
 		noteField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(noteField);
 		noteField.setColumns(10);
@@ -128,7 +136,7 @@ public class UpdateTaskView extends JPanel implements ViewPanel {
 		// Label gambar background 
 		bground = new JLabel("");
 		bground.setBounds(0, -10, 1366, 756);
-		bground.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\CreateTaskPageSupervisor2.png"));
+		bground.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\UpdateTaskPage2.png"));
 		bground.setToolTipText("");
 		this.add(bground);
 	}
@@ -181,4 +189,10 @@ public class UpdateTaskView extends JPanel implements ViewPanel {
 	public JButton getNotifButton() {
 		return notifButton;
 	}
+
+	public JTextField getScoreTextField() {
+		return scoreTextField;
+	}
+	
+	
 }

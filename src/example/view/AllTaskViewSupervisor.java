@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class AllTaskView extends JPanel implements ViewPanel {
+public class AllTaskViewSupervisor extends JPanel implements ViewPanel {
 	// STATIC ATTRIBUTES
 	private static final long serialVersionUID = 1L;
 	
@@ -46,7 +46,7 @@ public class AllTaskView extends JPanel implements ViewPanel {
 	
 	
 	// NON-STATIC FUNCTIONS
-	public AllTaskView() {
+	public AllTaskViewSupervisor() {
 		// Set panel's preferred size
 		this.setPreferredSize(MainFrame.SCREEN_SIZE);
 		this.setLayout(null);
