@@ -912,26 +912,28 @@ public class ViewController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-				// Getting selected row
-				Integer selectedRow = atv.getTaskListTable().getSelectedRow();
-				Integer idColumn = 0;
-				
-				// Checking if a row is selected
-				if(selectedRow < 0 || selectedRow >= atv.getTaskListTable().getRowCount()) {
-					JOptionPane.showMessageDialog(MainFrame.getInstance(), "No task selected");
-				}
-				
-				// Getting task's id for delete
-				UUID selectedUUID = (UUID) atv.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
-				// Getting task to be updated
-				Task taskToBeUpdated = TaskHandler.getTask(selectedUUID);
-				// Loads update task view
-				ViewController.loadUpdateTaskView(taskToBeUpdated);
+					// Getting selected row
+					Integer selectedRow = atv.getTaskListTable().getSelectedRow();
+					Integer idColumn = 0;
+					
+					// Checking if a row is selected
+					if(selectedRow < 0 || selectedRow >= atv.getTaskListTable().getRowCount()) {
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), "No task selected");
+					}
+					else {
+						// Getting task's id for delete
+						UUID selectedUUID = (UUID) atv.getTaskListTable().getModel().getValueAt(selectedRow, idColumn);
+						// Getting task to be updated
+						Task taskToBeUpdated = TaskHandler.getTask(selectedUUID);
+						// Loads update task view
+						ViewController.loadUpdateTaskView(taskToBeUpdated);
+					}
 				}
 				catch(Exception e1) {
 					// Error message
 					JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
 				}
+				
 			}
 		});
 		
@@ -1125,6 +1127,113 @@ public class ViewController {
 		UpdateTaskView utv = new UpdateTaskView();
 		
 		// TODO: Create logic for update task view
+		// Sets update task form to use selected task view data
+		utv.getTitleTextField().setText(taskToBeUpdated.getTitle());
+		utv.getNoteField().setText(taskToBeUpdated.getNote());
+		// Custom combo box cell renderer
+		DefaultListCellRenderer comboBoxCellRenderer = new DefaultListCellRenderer() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				// Make combo box show user's username
+				if(value instanceof User) {
+					User u = (User) value;
+	                setText(u.getUsername());
+				}
+				return this;
+			}
+		};
+		
+		// Creating worker combo box
+		try {
+			// Getting current user
+			User currentUser = Session.getInstance().getCurrentUser();
+			// Initial workerList as an array of currentUser
+			Object[] workerList = {currentUser};
+			// Change workerList to actual list of workers if current user is supervisor
+			if(currentUser.getRole().equalsIgnoreCase("SUPERVISOR") == true) {
+				workerList = UserController.getUserByRole("WORKER").toArray();
+			}
+			
+			// Creating list of user
+			ComboBoxModel<Object> workerComboBoxModel = new DefaultComboBoxModel<Object>(workerList);
+			// Adding list of user to combo box
+			utv.getWorkerComboBox().setModel(workerComboBoxModel);
+			utv.getWorkerComboBox().setRenderer(comboBoxCellRenderer);
+			utv.getWorkerComboBox().setSelectedItem(UserController.getUser(taskToBeUpdated.getWorkerID()));
+		}
+		catch(Exception e1) {
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+		}
+		
+		// Creating supervisor combo box
+		try {
+			// Getting current user
+			User currentUser = Session.getInstance().getCurrentUser();
+			// Initial supervisorList as an array of currentUser
+			Object[] supervisorList = {currentUser};
+			// Change supervisorList to actual list of supervisors if current user is worker
+			if(currentUser.getRole().equalsIgnoreCase("WORKER") == true) {
+				supervisorList = UserController.getUserByRole("SUPERVISOR").toArray();
+			}
+			
+			// Creating list of user
+			ComboBoxModel<Object> supervisorComboBoxModel = new DefaultComboBoxModel<Object>(supervisorList);
+			// Adding list of user to combo box
+			utv.getSupervisorComboBox().setModel(supervisorComboBoxModel);
+			utv.getSupervisorComboBox().setRenderer(comboBoxCellRenderer);
+			utv.getSupervisorComboBox().setSelectedItem(UserController.getUser(taskToBeUpdated.getSupervisorID()));
+		}
+		catch(Exception e1) {
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), e1.getMessage());
+		}
+		
+		// Logic for update button
+		utv.getUpdateButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UUID taskID = taskToBeUpdated.getId();
+				TaskHandler.updateTask(taskID, title, workerID, supervisorID, score, note);
+			}
+		});
+		
+		// Logic for back button
+		utv.getBackButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads all task view
+				ViewController.loadAllTaskView();
+			}
+		});
+		
+		// Logic for notification button
+		utv.getNotifButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads notification view
+				ViewController.loadNotificationView();
+			}
+		});
+		
+		// Logic for menu button
+		utv.getMenuButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads menu view
+				ViewController.loadMenuView();
+			}
+		});
+		
+		// Logic for profile button
+		utv.getProfileButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
+				ViewController.loadProfileView();
+			}
+		});
 		
 		FrameController.changePanel(utv);
 		
