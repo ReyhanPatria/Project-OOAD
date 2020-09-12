@@ -27,7 +27,7 @@ public class TaskSearchResultDisplay extends JFrame {
 		// Frame configuration
 		this.setTitle("Task Search Result");
 		this.setSize(700, 300);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
