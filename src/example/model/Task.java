@@ -150,7 +150,7 @@ public class Task {
 		
 		PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
 				"SELECT * FROM `tasks` WHERE `worker_id`=? OR `supervisor_id`=? " + 
-				"ORDER BY `is_submitted` ASC");
+				"ORDER BY `is_submitted` ASC, `title` ASC");
 		
 		getAllStatement.setString(1, userID.toString());
 		getAllStatement.setString(2, userID.toString());
