@@ -85,7 +85,7 @@ public class TaskRequest {
 		ArrayList<TaskRequest> allTaskRequestList = new ArrayList<TaskRequest>();
 		
 		PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
-				"SELECT * FROM `task_requests` WHERE `worker_id`=? OR `supervior_id`=?");
+				"SELECT * FROM `task_requests` WHERE `worker_id`=? OR `supervisor_id`=?");
 		
 		getAllStatement.setString(1, userID.toString());
 		getAllStatement.setString(2, userID.toString());
@@ -110,7 +110,7 @@ public class TaskRequest {
 		TaskRequest taskRequest = null;
 		
 		PreparedStatement getStatement = Connection.getConnection().prepareStatement(
-				"SELECT * FROM `task_requests WHERE `id`=?");
+				"SELECT * FROM `task_requests` WHERE `id`=?");
 		
 		getStatement.setString(1, id.toString());
 		

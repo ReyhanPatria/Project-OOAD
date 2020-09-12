@@ -150,7 +150,7 @@ public class Task {
 		
 		PreparedStatement getAllStatement = Connection.getConnection().prepareStatement(
 				"SELECT * FROM `tasks` WHERE `worker_id`=? OR `supervisor_id`=? " + 
-				"ORDER BY `is_submitted` ASC");
+				"ORDER BY `is_submitted` ASC, `title` ASC");
 		
 		getAllStatement.setString(1, userID.toString());
 		getAllStatement.setString(2, userID.toString());
@@ -181,7 +181,7 @@ public class Task {
 		Task task = null;
 		
 		PreparedStatement getStatement = Connection.getConnection().prepareStatement(
-				"SELECT * FROM `tasks` WHERE `id`=? ORDER BY `is_submitted` ASC");
+				"SELECT * FROM `tasks` WHERE `id`=? ORDER BY `is_submitted` ASC, `title` ASC");
 		
 		getStatement.setString(1, id.toString());
 		
@@ -247,7 +247,7 @@ public class Task {
 						"`supervisor_id` = ? OR " +
 						"`worker_id` = ? " +
 					") " +
-				"ORDER BY `is_submitted` ASC"
+				"ORDER BY `is_submitted` ASC, `title` ASC"
 		);
 		
 		UUID currentUserID = Session.getInstance().getCurrentUser().getId();
@@ -257,8 +257,6 @@ public class Task {
 		searchStatement.setString(3, query);
 		searchStatement.setString(4, currentUserID.toString());
 		searchStatement.setString(5, currentUserID.toString());
-		
-		System.out.println(searchStatement.toString());
 		
 		ResultSet searchTable = searchStatement.executeQuery();
 		
@@ -314,8 +312,6 @@ public class Task {
 		
 		sortStatement.setString(1, Session.getInstance().getCurrentUser().getId().toString());
 		sortStatement.setString(2, Session.getInstance().getCurrentUser().getId().toString());
-		
-		System.out.println(sortStatement.toString());
 		
 		ResultSet sortTable = sortStatement.executeQuery();
 		

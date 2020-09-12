@@ -2,8 +2,6 @@ package example.view;
 
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,7 +27,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 	private JDateChooser		dobDateChooser;
 	
 	private JButton registerButton;
-	private JButton cancelButton;
+	private JButton homeButton;
 	private JButton profileButton;
 	
 	public RegisterUserPanel() {
@@ -38,54 +36,44 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		setLayout(null);
 		
 		// Text Field untuk isi username
-		usernameTextField = new JTextField("Username");
-		usernameTextField.setBounds(440, 172, 488, 30);
+		usernameTextField = new JTextField("");
+		usernameTextField.setBounds(440, 206, 488, 43);
 		usernameTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		usernameTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(usernameTextField);
 		usernameTextField.setColumns(10);
-		usernameTextField.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				usernameTextField.setText("");
-			}
-		});
+
 
 		// Choose role combo box
 		roleComboBox = new JComboBox<Object>(UserController.selectableRoleList);
-		roleComboBox.setBounds(440, 245, 488, 30);
+		roleComboBox.setBounds(440, 298, 488, 43);
 		roleComboBox.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(roleComboBox);
 		
 		
 		// Address text field
 		addressTextField = new JTextField();
-		addressTextField.setBounds(440, 387, 488, 30);
+		addressTextField.setBounds(440, 476, 488, 36);
 		addressTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(addressTextField);
 
 		// DOB chooser
 		dobDateChooser = new JDateChooser(new java.util.Date());
-		dobDateChooser.setBounds(440, 316, 488, 30);
+		dobDateChooser.setBounds(440, 386, 488, 43);
 		dobDateChooser.getCalendarButton().setFont(new Font("Book Antiqua", Font.PLAIN, 24));
 		this.add(dobDateChooser);
 
 		// Telp text field
 		telpTextField = new JTextField();
-		telpTextField.setBounds(440, 461, 488, 30);
-		telpTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 24));
+		telpTextField.setBounds(440, 568, 488, 36);
+		telpTextField.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.add(telpTextField);
 		telpTextField.setColumns(10);
 		
 		// Register button
 		registerButton = new JButton("");
 		registerButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Register.png"));
-		registerButton.setBounds(555, 502, 257, 38);
+		registerButton.setBounds(552, 615, 276, 62);
 		registerButton.setBorderPainted(false);
 		registerButton.setOpaque(false);
 		registerButton.setContentAreaFilled(false);
@@ -100,7 +88,7 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		// Back to profile button
 		profileButton = new JButton("");
 		profileButton.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\Profile.png"));
-		profileButton.setBounds(1201, 11, 136, 30);
+		profileButton.setBounds(1200, 0, 134, 48);
 		profileButton.setBorderPainted(false);
 		profileButton.setOpaque(false);
 		profileButton.setContentAreaFilled(false);
@@ -108,17 +96,22 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		profileButton.setFocusable(false);
 		this.add(profileButton);
 
-		// Cancel button
-		cancelButton = new JButton("Cancel");
-		cancelButton.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		cancelButton.setBounds(1267, 549, 89, 23);	
-		this.add(cancelButton);
+		// Home button
+		homeButton = new JButton("");
+		homeButton.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\Home.png"));
+		homeButton.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
+		homeButton.setBounds(1027, 0, 134, 48);	
+		homeButton.setBorderPainted(false);
+		homeButton.setOpaque(false);
+		homeButton.setContentAreaFilled(false);
+		homeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.add(homeButton);
 		
 		// Label gambar background 
 		bground = new JLabel("");
-		bground.setBounds(0, 0, 1367, 587);
+		bground.setBounds(0, -20, 1366, 756);
 		bground.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
-		bground.setIcon(new ImageIcon(srcFilePath + "\\example\\IMAGE\\RegisterUserAdmin2.png"));
+		bground.setIcon(new ImageIcon(srcFilePath+"\\example\\IMAGE\\RegisterUserAdmin2.png"));
 		bground.setToolTipText("");
 		this.add(bground);
 	}
@@ -160,8 +153,8 @@ public class RegisterUserPanel extends JPanel implements ViewPanel {
 		return registerButton;
 	}
 
-	public JButton getCancelButton() {
-		return cancelButton;
+	public JButton getHomeButton() {
+		return homeButton;
 	}
 
 	public JButton getProfileButton() {
