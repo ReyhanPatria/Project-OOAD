@@ -791,7 +791,8 @@ public class ViewController {
 					else {
 						// Confirming delete choice
 						Integer confirmResult = JOptionPane.showConfirmDialog(MainFrame.getInstance(), 
-								"Are you sure?", "Delete User", JOptionPane.YES_NO_OPTION);
+								"Are you sure? This will delete all other user's data as well", 
+								"Delete User", JOptionPane.YES_NO_OPTION);
 						
 						// If reset was confirmed
 						if(confirmResult == JOptionPane.YES_OPTION) {
@@ -1209,7 +1210,7 @@ public class ViewController {
 			public void actionPerformed(ActionEvent e) {
 				String searchTerm = atvs.getSearchTextField().getText();
 				
-				// TODO: create TaskSearchResultDisplay
+				// Loads create TaskSearchResultDisplay
 				ViewController.getInstance().loadTaskSearchResultDisplay(searchTerm);
 			}
 		});
@@ -1358,9 +1359,8 @@ public class ViewController {
 				try {
 					// Get search term
 					String searchTerm = atvw.getSearchTextField().getText();
-					// Load searched task table
+					// Loads searched task table
 					ViewController.getInstance().loadTaskSearchResultDisplay(searchTerm);
-					// TODO
 				}
 				catch(Exception e1) {
 					// Error message
@@ -1780,7 +1780,6 @@ public class ViewController {
 	
 	// Loads task search result frame
 	public TaskSearchResultDisplay loadTaskSearchResultDisplay(String searchTerm) {
-		// TODO:
 		TaskSearchResultDisplay tsrd = new TaskSearchResultDisplay();
 		
 		try {
