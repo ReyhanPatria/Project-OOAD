@@ -16,6 +16,7 @@ public class PasswordUtils {
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
     
+    // Create new random salt
     public static String getSalt(int length) {
         StringBuilder returnValue = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
@@ -25,33 +26,40 @@ public class PasswordUtils {
         return new String(returnValue);
     }
     
+    // Hash password with salth based on PBE Encryption algorithm
     public static byte[] hash(char[] password, byte[] salt) {
         PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         
+        // Clear password's array
         Arrays.fill(password, Character.MIN_VALUE);
         
         try {
+        	// Get encryption model
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            // Generate encrypted password
             return skf.generateSecret(spec).getEncoded();
         } 
         catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new AssertionError("Error while hashing a password: " + e.getMessage(), e);
         } 
         finally {
+        	// Clear PBE object
             spec.clearPassword();
         }
     }
     
+    // Generate secured password with salt
     public static String generateSecurePassword(String password, String salt) {
-        String returnValue = null;
-        
+        // Encrypt password
         byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
         
-        returnValue = Base64.getEncoder().encodeToString(securePassword);
+        // Convert password into string
+        String returnValue = Base64.getEncoder().encodeToString(securePassword);
  
         return returnValue;
     }
     
+    // Verify password
     public static boolean verifyUserPassword(String providedPassword,
             String securedPassword, String salt) {
         Boolean returnValue = false;

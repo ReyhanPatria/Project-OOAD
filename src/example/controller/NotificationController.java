@@ -39,15 +39,19 @@ public class NotificationController {
 	
 	// Gets all notification of currently logged in user
 	public List<Notification> getAllNotification() throws NoSuchObjectException, SQLException {
+		// Gets current user
 		User currentUser = Session.getInstance().getCurrentUser();
+		// Gets list of notification of current user
 		List<Notification> allNotificationList = Notification.getAll(currentUser.getId());
 		
 		return allNotificationList;
 	}
 	
-	// Creates a new notification for a user based on userID
+	// Creates a new notification for a user based on userID and save it into database
 	public Notification createNotification(UUID userID, String message) throws SQLException {
+		// Create new notification object
 		Notification newNotification = new Notification(UUID.randomUUID(), userID, message, null);
+		// Save notification object into database
 		newNotification.save();
 		
 		return newNotification;
@@ -55,9 +59,13 @@ public class NotificationController {
 	
 	// Updates readAt timestamp for all unread notification for a user based in userID 
 	public void readAllNotification(UUID userID) throws SQLException {
+		// Get all unread notification
 		List<Notification> allNotificationList = Notification.getAllUnread(userID);
+		// Loops throuth all unread notification
 		for(Notification n: allNotificationList) {
+			// Set read at timestamp to now
 			n.setReadAt(Timestamp.from(Instant.now()));
+			// Save notification updates to database
 			n.update();
 		}
 	}
