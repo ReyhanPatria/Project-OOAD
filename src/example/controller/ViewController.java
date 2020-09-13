@@ -65,16 +65,19 @@ public class ViewController {
 	
 	// Loads start up page
 	public FirstPage loadFirstPage() {
+		// Create first page object
 		FirstPage fp = new FirstPage();
 		
 		// Logic for login button
 		fp.getLoginButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads login panel
 				ViewController.getInstance().loadLoginPanel();
 			}
 		});
 		
+		// Changed panel to first page
 		FrameController.getInstance().changePanel(fp);
 		
 		return fp;
@@ -82,18 +85,22 @@ public class ViewController {
 	
 	// Loads login page
 	public LoginPanel loadLoginPanel() {
+		// Create login panel object
 		LoginPanel lp = new LoginPanel();
 		
 		// Logic for clicking login button
 		lp.getLoginButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Get username from text field
 				String username = lp.getUsernameTextField().getText();
+				// Get password from password field
 				String password = String.valueOf(lp.getPasswordTextField().getPassword());
 				
 				try {
+					// Try to login
 					UserController.getInstance().login(username, password);
-					
+					// If login is successfull, loads menu view
 					ViewController.getInstance().loadMenuView();
 				}
 				catch(Exception e1) {
@@ -109,10 +116,12 @@ public class ViewController {
 		lp.getBackButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads first page
 				ViewController.getInstance().loadFirstPage();
 			}
 		});
 		
+		// Change panel to login panel
 		FrameController.getInstance().changePanel(lp);
 		
 		return lp;
@@ -121,15 +130,20 @@ public class ViewController {
 	// Function to decide which menu to load after login
 	public void loadMenuView() {
 		try {
+			// Gets current user role
 			String userRole = Session.getInstance().getCurrentUser().getRole();
 			
-			if(userRole.equalsIgnoreCase("admin")) {
+			// Check user role, and loads menu based on role
+			if(userRole.equalsIgnoreCase("ADMIN")) {
+				// Loads admin menu view
 				ViewController.getInstance().loadMenuAdminView();
 			}
-			else if(userRole.equalsIgnoreCase("supervisor")) {
+			else if(userRole.equalsIgnoreCase("SUPERVISOR")) {
+				// Loads supervisor menu view
 				ViewController.getInstance().loadMenuSupervisorView();
 			}
-			else if(userRole.equalsIgnoreCase("worker")) {
+			else if(userRole.equalsIgnoreCase("WORKER")) {
+				// Loads worker menu view
 				ViewController.getInstance().loadMenuWorkerView();
 			}
 		}
@@ -142,12 +156,14 @@ public class ViewController {
 	
 	// Loads menu for admin
 	public MenuAdminView loadMenuAdminView() {
+		// Create menu admin view object
 		MenuAdminView mav = new MenuAdminView();
 		
 		// Logic for profile button
 		mav.getProfileButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads profile view
 				ViewController.getInstance().loadProfileView();
 			}
 		});
@@ -156,6 +172,7 @@ public class ViewController {
 		mav.getViewButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads all user view
 				ViewController.getInstance().loadAllUserView();
 			}
 		});
@@ -164,11 +181,14 @@ public class ViewController {
 		mav.getLogOutButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Logout user, and end session
 				UserController.getInstance().logout();
+				// Go back to app's first page/landing page
 				ViewController.getInstance().loadFirstPage();
 			}
 		});
 		
+		// Change panel to menu admin view
 		FrameController.getInstance().changePanel(mav);
 		
 		return mav;
@@ -176,6 +196,7 @@ public class ViewController {
 	
 	// Loads menu for supervisor
 	public MenuSupervisorView loadMenuSupervisorView() {
+		// Create menu supervisor object
 		MenuSupervisorView msv = new MenuSupervisorView();
 		
 		// Logic for notification button
@@ -191,6 +212,7 @@ public class ViewController {
 		msv.getViewAllTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Load all task view
 				ViewController.getInstance().loadAllTaskView();
 			}
 		});
@@ -199,6 +221,7 @@ public class ViewController {
 		msv.getViewTaskRequestButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads task request view
 				ViewController.getInstance().loadTaskRequestView();
 			}
 		});
@@ -207,6 +230,7 @@ public class ViewController {
 		msv.getCreateTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads create task view
 				ViewController.getInstance().loadCreateTaskView();
 			}
 		});
@@ -253,6 +277,7 @@ public class ViewController {
 		mwv.getViewAllTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Load all task view
 				ViewController.getInstance().loadAllTaskView();
 			}
 		});
@@ -261,6 +286,7 @@ public class ViewController {
 		mwv.getCreateTaskButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Loads create task view
 				ViewController.getInstance().loadCreateTaskView();
 			}
 		});
@@ -285,6 +311,7 @@ public class ViewController {
 			}
 		});
 		
+		// Change panel to menu worker view
 		FrameController.getInstance().changePanel(mwv);
 		
 		return mwv;
@@ -292,6 +319,7 @@ public class ViewController {
 	
 	// Loads create task view
 	public CreateTaskView loadCreateTaskView() {
+		// Create create task view
 		CreateTaskView ctv = new CreateTaskView();
 		
 		// Custom combo box cell renderer
