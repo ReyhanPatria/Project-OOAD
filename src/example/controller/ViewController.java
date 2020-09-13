@@ -962,9 +962,10 @@ public class ViewController {
 				Integer	revisionCount	=	t.getRevisionCount();
 				String	isSubmitted		=	(t.getIsSubmitted()) ? "Yes" : "No";
 				String	approvedDate	=	(t.getApprovedAt() == null) ? "Not approved" : t.getApprovedAt().toString();
+				Integer score			=	t.getScore();
 				
 				Object[] rowData = {id, title, supervisorID, supervisorName, workerID, workerName, note, 
-						revisionCount, isSubmitted, approvedDate};
+						revisionCount, isSubmitted, approvedDate, score};
 				taskTableModel.addRow(rowData);
 			}
 		}
@@ -1452,6 +1453,7 @@ public class ViewController {
 		utv.getTitleTextField().setText(taskToBeUpdated.getTitle());
 		// Sets note text field
 		utv.getNoteField().setText(taskToBeUpdated.getNote());
+		utv.getScoreTextField().setText(Integer.toString(taskToBeUpdated.getScore()));
 		
 		// Custom combo box cell renderer
 		DefaultListCellRenderer comboBoxCellRenderer = new DefaultListCellRenderer() {
@@ -1534,6 +1536,10 @@ public class ViewController {
 					
 					// Update task
 					TaskHandler.getInstance().updateTask(taskID, title, workerID, supervisorID, score, note);
+					// Success message
+					JOptionPane.showMessageDialog(MainFrame.getInstance(), "Task updated");
+					// Loads all task view
+					ViewController.getInstance().loadAllTaskView();
 				}
 				catch(Exception e1) {
 					// Error message
