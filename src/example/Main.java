@@ -4,6 +4,7 @@ import example.controller.ViewController;
 
 public class Main {
 	public Main() {
+		// Loads app's landing page
 		ViewController.getInstance().loadFirstPage();
 	}
 	
