@@ -29,6 +29,7 @@ public class Connection {
 	// Constructor
 	public Connection() {
 		try {
+			// Try to connect to database
 			con = DriverManager.getConnection(String.format("jdbc:%s://localhost/%s", Environment.db_product, Environment.db_name), 
 					Environment.auth_username, Environment.auth_password);
 		}
