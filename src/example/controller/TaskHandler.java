@@ -209,6 +209,7 @@ public class TaskHandler {
 		
 		task.setRevisionCount(revisionCount + 1);
 		task.setIsSubmitted(false);
+		task.setApprovedAt(null);
 		
 		task.update();
 		
