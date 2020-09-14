@@ -230,7 +230,7 @@ public class Task {
 					"`tasks`.`note` " +
 				"FROM `tasks` " +
 				"WHERE 	( " +
-						"`title` = ? OR " +
+						"`tasks`.`title` LIKE ? OR " +
 						"( " +
 							"SELECT `username` " +
 							"FROM `users` " +

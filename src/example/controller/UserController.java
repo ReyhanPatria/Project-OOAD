@@ -90,9 +90,9 @@ public class UserController {
 		// Gets current user
 		User currentUser = Session.getInstance().getCurrentUser();
 		
-		// Encrypt passwords, with username as salt
-		String securedOldPassword = PasswordUtils.generateSecurePassword(oldPassword, currentUser.getUsername());
-		String securedNewPassword = PasswordUtils.generateSecurePassword(newPassword, currentUser.getUsername());
+		// Encrypt passwords, with empty string as salt
+		String securedOldPassword = PasswordUtils.generateSecurePassword(oldPassword, "");
+		String securedNewPassword = PasswordUtils.generateSecurePassword(newPassword, "");
 		
 		// Check if old password is correct, if not throw error
 		if(securedOldPassword.equals(currentUser.getPassword()) == false) {
@@ -117,8 +117,8 @@ public class UserController {
 	
 	// Instantiate session instance
 	public void login(String username, String password) throws IllegalArgumentException, SQLException {
-		// Encrypt password, with username as salt
-		String securedPassword = PasswordUtils.generateSecurePassword(password, username);
+		// Encrypt password, with empty string as salt
+		String securedPassword = PasswordUtils.generateSecurePassword(password, "");
 		
 		// Validate login
 		User returnedUser = User.validateLogin(username, securedPassword);
@@ -141,8 +141,8 @@ public class UserController {
 		
 		// Create default password as DOB
 		String password = DOB.toString();
-		// Encrypt password, with username as salt
-		String securedPassword = PasswordUtils.generateSecurePassword(password, username);
+		// Encrypt password, with empty string as salt
+		String securedPassword = PasswordUtils.generateSecurePassword(password, "");
 		// Create new user and saves it into database
 		User newUser = createUser(username, securedPassword, role, DOB, address, telp); 
 		
@@ -229,12 +229,10 @@ public class UserController {
 		// Gets user
 		User u = getUser(userID);
 		
-		// Gets user's username
-		String username = u.getUsername();
 		// Create new password from DOB
 		String newPassword = u.getDOB().toString();
-		// Encrypt password, with username as salt
-		String securedPassword = PasswordUtils.generateSecurePassword(newPassword, username);
+		// Encrypt password, with empty as salt
+		String securedPassword = PasswordUtils.generateSecurePassword(newPassword, "");
 		
 		// Set new password
 		u.setPassword(securedPassword);
